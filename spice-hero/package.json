@@ -1,0 +1,25 @@
+{
+  "name": "spice-hero",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "スパイスの勇者と日蝕の魔王 — 子ども向け30分RPG（Phaser 4 + Vite + TypeScript）",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "build:web": "tsc -p tsconfig.web.json && cp src/ui/style.css web/build/src/ui/style.css",
+    "serve:web": "npm run build:web && python3 -m http.server 8765 --directory web"
+  },
+  "dependencies": {
+    "phaser": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "@types/node": "latest"
+  }
+}

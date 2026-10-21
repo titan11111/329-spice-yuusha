@@ -1,0 +1,262 @@
+{
+ "version": 1,
+ "elements": [
+  "fire",
+  "thunder",
+  "water",
+  "light",
+  "none"
+ ],
+ "list": [
+  {
+   "id": "pepari",
+   "name": "ペパリ",
+   "spice": "こしょう",
+   "sp": 2,
+   "type": "damage",
+   "target": "enemy_one",
+   "element": "fire",
+   "power": [
+    10,
+    14
+   ],
+   "color": "#E2452B",
+   "desc": "てき1たいを ほのおで こうげき"
+  },
+  {
+   "id": "peparis",
+   "name": "ペパリス",
+   "spice": "こしょう",
+   "sp": 5,
+   "type": "damage",
+   "target": "enemy_all",
+   "element": "fire",
+   "power": [
+    9,
+    12
+   ],
+   "color": "#E2452B",
+   "desc": "てき ぜんぶを ほのおで こうげき"
+  },
+  {
+   "id": "paparion",
+   "name": "ペパリオン",
+   "spice": "こしょう",
+   "sp": 9,
+   "type": "damage",
+   "target": "enemy_one",
+   "element": "fire",
+   "power": [
+    40,
+    50
+   ],
+   "color": "#E2452B",
+   "desc": "てき1たいに おおきな ほのお"
+  },
+  {
+   "id": "cinnamo",
+   "name": "シナモ",
+   "spice": "シナモン",
+   "sp": 3,
+   "type": "heal",
+   "target": "ally_one",
+   "power": [
+    25,
+    30
+   ],
+   "color": "#B5763A",
+   "field": true,
+   "desc": "なかま1にんの HPを かいふく"
+  },
+  {
+   "id": "cinnamoris",
+   "name": "シナモリス",
+   "spice": "シナモン",
+   "sp": 8,
+   "type": "heal",
+   "target": "ally_all",
+   "power": [
+    40,
+    50
+   ],
+   "color": "#B5763A",
+   "field": true,
+   "desc": "なかま みんなの HPを かいふく"
+  },
+  {
+   "id": "turmel",
+   "name": "ターメル",
+   "spice": "ターメリック",
+   "sp": 4,
+   "type": "buff",
+   "target": "ally_all",
+   "stat": "def",
+   "rate": 1.5,
+   "turns": 5,
+   "color": "#F2C230",
+   "desc": "なかま みんなの しゅびが あがる"
+  },
+  {
+   "id": "carda",
+   "name": "カルダ",
+   "spice": "カルダモン",
+   "sp": 3,
+   "type": "status",
+   "target": "enemy_all",
+   "status": "sleep",
+   "rate": 0.6,
+   "color": "#6FBF5A",
+   "desc": "あまい かおりで てきを ねむらせる"
+  },
+  {
+   "id": "clove",
+   "name": "クロブ",
+   "spice": "クローブ",
+   "sp": 2,
+   "type": "cure",
+   "target": "ally_one",
+   "status": "poison",
+   "color": "#8A4FA8",
+   "field": true,
+   "desc": "どくを なおす"
+  },
+  {
+   "id": "leafle",
+   "name": "リーフル",
+   "spice": "カレーリーフ",
+   "sp": 3,
+   "type": "buff",
+   "target": "ally_one",
+   "stat": "agi",
+   "rate": 1.5,
+   "turns": 5,
+   "color": "#6FBF5A",
+   "desc": "なかま1にんの すばやさが あがる"
+  },
+  {
+   "id": "jinga",
+   "name": "ジンガ",
+   "spice": "ジンジャー",
+   "sp": 6,
+   "type": "damage",
+   "target": "enemy_all",
+   "element": "thunder",
+   "power": [
+    20,
+    26
+   ],
+   "color": "#F5E04A",
+   "desc": "てき ぜんぶに カミナリ"
+  },
+  {
+   "id": "nutme",
+   "name": "ナツメ",
+   "spice": "ナツメグ",
+   "sp": 4,
+   "type": "escape_dungeon",
+   "target": "none",
+   "field": true,
+   "battle": false,
+   "color": "#9C6B3E",
+   "desc": "{洞窟|どうくつ}から いっしゅんで そとへ でる"
+  },
+  {
+   "id": "safra",
+   "name": "サフラ",
+   "spice": "サフラン",
+   "sp": 6,
+   "type": "damage",
+   "target": "enemy_one",
+   "element": "light",
+   "power": [
+    25,
+    30
+   ],
+   "bonusTag": "shadow",
+   "bonusRate": 1.5,
+   "color": "#F2C230",
+   "desc": "{太陽|たいよう}の ひかりで こうげき"
+  },
+  {
+   "id": "safraon",
+   "name": "サフラオン",
+   "spice": "サフラン",
+   "sp": 12,
+   "type": "damage",
+   "target": "enemy_one",
+   "element": "light",
+   "power": [
+    70,
+    90
+   ],
+   "bonusTag": "shadow",
+   "bonusRate": 1.5,
+   "color": "#FFE27A",
+   "desc": "{勇者|ゆうしゃ}だけの さいきょうの ひかり"
+  },
+  {
+   "id": "tackle",
+   "name": "たいあたり",
+   "sp": 0,
+   "type": "physical",
+   "target": "enemy_one",
+   "rate": 1.2,
+   "accuracy": 0.85,
+   "desc": "ちからいっぱい ぶつかる"
+  },
+  {
+   "id": "cover",
+   "name": "かばう",
+   "sp": 2,
+   "type": "cover",
+   "target": "ally_one",
+   "turns": 1,
+   "desc": "なかまの かわりに こうげきを うける"
+  },
+  {
+   "id": "trunk_shower",
+   "name": "はなシャワー",
+   "sp": 3,
+   "type": "damage",
+   "target": "enemy_all",
+   "element": "water",
+   "power": [
+    12,
+    16
+   ],
+   "color": "#4FA8E0",
+   "desc": "てき ぜんぶに みずを かける"
+  },
+  {
+   "id": "stomp",
+   "name": "ふみならし",
+   "sp": 4,
+   "type": "status",
+   "target": "enemy_all",
+   "status": "flinch",
+   "rate": 0.5,
+   "desc": "てきが 1かい やすむ ことがある"
+  },
+  {
+   "id": "elephant_roar",
+   "name": "ゾウのおたけび",
+   "sp": 5,
+   "type": "buff",
+   "target": "ally_all",
+   "stat": "str",
+   "rate": 1.3,
+   "turns": 5,
+   "desc": "なかま みんなの こうげきが あがる"
+  },
+  {
+   "id": "pepper_powder",
+   "name": "こしょうパウダー",
+   "sp": 0,
+   "type": "status",
+   "target": "enemy_one",
+   "status": "sneeze",
+   "rate": 0.5,
+   "desc": "てきが くしゃみで 1かい やすむ ことがある"
+  }
+ ]
+}

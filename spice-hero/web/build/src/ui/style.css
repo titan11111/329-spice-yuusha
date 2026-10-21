@@ -1,0 +1,214 @@
+/* docs/02_UI.md に対応。サイズはすべて「ゲームのドット数 × --px」で決める。 */
+:root {
+  --px: 4;
+  --bg-top: #45291a;
+  --bg-bottom: #2e1a0e;
+  --gold: #d4a437;
+  --gold-dark: #8c6a1f;
+  --gold-bright: #f2d16b;
+  --chili: #e2452b;
+  --chili-green: #4e9a3a;
+  --text: #fff3d6;
+  --text-disabled: #9c8460;
+  --hp-high: #5dbb4c;
+  --hp-mid: #e8c440;
+  --hp-low: #e2452b;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+::selection { background: transparent; color: inherit; }
+html, body {
+  margin: 0; width: 100%; height: 100%; overflow: hidden; position: fixed;
+  background: #0d0805;
+  overscroll-behavior: none;
+  font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', monospace;
+}
+
+#game-shell {
+  position: fixed; inset: 0; height: 100dvh; width: 100%;
+  display: flex; flex-direction: column; background: #0d0805;
+}
+#game-stage {
+  flex: 0 0 75dvh; height: 75dvh; min-height: 0;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+#screen-wrap { position: relative; flex: none; }
+#game-root {
+  position: relative;
+  width: calc(var(--px) * 320px); height: calc(var(--px) * 180px);
+  background: #000; overflow: hidden;
+}
+#pause-layer {
+  position: absolute; inset: 0; z-index: 30; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(13,8,5,.62); color: #fff3d6;
+  font-size: 28px; letter-spacing: .12em; pointer-events: none;
+}
+body.is-paused #pause-layer { display: flex; }
+
+#game-canvas, #game-canvas canvas {
+  position: absolute; inset: 0; width: 100% !important; height: 100% !important;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+}
+
+#ui-overlay { position: absolute; inset: 0; pointer-events: none; color: var(--text); font-size: calc(var(--px) * 12px); line-height: calc(var(--px) * 18px); }
+#ui-overlay.interactive { pointer-events: auto; }
+
+/* ───── ウィンドウ（こげ茶＋金の枠＋唐辛子の角飾り） ───── */
+.window {
+  position: absolute; pointer-events: auto;
+  padding: calc(var(--px) * 6px) calc(var(--px) * 8px) calc(var(--px) * 4px);
+  background: linear-gradient(to bottom, rgba(69,41,26,.94), rgba(46,26,14,.94));
+  border: calc(var(--px) * 2px) solid var(--gold);
+  box-shadow:
+    inset 0 0 0 calc(var(--px) * 1px) var(--gold-dark),
+    0 0 0 calc(var(--px) * 1px) #1a0f08;
+  color: var(--text);
+  overflow: hidden;
+}
+.window::before, .window::after {
+  content: ''; position: absolute; width: calc(var(--px) * 8px); height: calc(var(--px) * 8px);
+  pointer-events: none; z-index: 2;
+  background:
+    radial-gradient(circle at 70% 70%, var(--gold) 0 18%, transparent 20%),
+    linear-gradient(135deg, var(--chili) 0 38%, transparent 40%);
+}
+.window::before { left: calc(var(--px) * -1px); top: calc(var(--px) * -1px); }
+.window::after { right: calc(var(--px) * -1px); bottom: calc(var(--px) * -1px); transform: rotate(180deg); }
+.window .corner-tr, .window .corner-bl {
+  position: absolute; width: calc(var(--px) * 8px); height: calc(var(--px) * 8px); pointer-events: none; z-index: 2;
+  background:
+    radial-gradient(circle at 70% 70%, var(--gold) 0 18%, transparent 20%),
+    linear-gradient(135deg, var(--chili) 0 38%, transparent 40%);
+}
+.window .corner-tr { right: calc(var(--px) * -1px); top: calc(var(--px) * -1px); transform: rotate(90deg); }
+.window .corner-bl { left: calc(var(--px) * -1px); bottom: calc(var(--px) * -1px); transform: rotate(270deg); }
+
+/* 豪華版（ボス戦・魔王城）: 金のつぶつぶ */
+.window.deluxe {
+  border-color: var(--gold-bright);
+  box-shadow:
+    inset 0 0 0 calc(var(--px) * 1px) var(--gold),
+    inset 0 0 calc(var(--px) * 3px) rgba(242,209,107,.35),
+    0 0 0 calc(var(--px) * 1px) #1a0f08;
+  border-style: double; border-width: calc(var(--px) * 3px);
+}
+
+/* ───── 文字・ふりがな ───── */
+.window ruby { ruby-position: over; }
+.window rt { font-size: calc(var(--px) * 6px); line-height: 1; color: var(--text); }
+body.no-ruby .window rt { visibility: hidden; } /* 行の高さは変えない */
+.text-line { white-space: pre-wrap; }
+.msg-text { height: 100%; }
+.more {
+  position: absolute; right: calc(var(--px) * 8px); bottom: calc(var(--px) * 3px);
+  color: var(--gold-bright); animation: blink 0.8s steps(2) infinite; font-size: calc(var(--px) * 10px);
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ───── メニュー（カーソルは赤唐辛子の▶） ───── */
+.list { display: grid; gap: 0; }
+.list.cols-2 { grid-template-columns: 1fr 1fr; }
+.item {
+  position: relative; padding-left: calc(var(--px) * 10px); height: calc(var(--px) * 14px);
+  line-height: calc(var(--px) * 14px); white-space: nowrap; cursor: pointer;
+}
+.item.disabled { color: var(--text-disabled); }
+.item.sel::before {
+  content: '▶'; position: absolute; left: 0; color: var(--chili);
+  animation: wiggle 0.5s steps(2) infinite;
+}
+@keyframes wiggle { 50% { transform: translateX(calc(var(--px) * 1px)); } }
+.item .right { position: absolute; right: calc(var(--px) * 2px); }
+.item .up { color: var(--hp-high); } .item .down { color: var(--hp-low); }
+
+/* ───── ステータス ───── */
+.stat-row { display: flex; align-items: center; gap: calc(var(--px) * 3px); height: calc(var(--px) * 13px); line-height: calc(var(--px) * 13px); font-size: calc(var(--px) * 9px); white-space: nowrap; }
+.stat-row .nm { width: calc(var(--px) * 30px); overflow: hidden; }
+.stat-row.low .nm { color: var(--hp-low); }
+.stat-row .bar { width: calc(var(--px) * 18px); height: calc(var(--px) * 4px); background: #1a0f08; border: calc(var(--px) * 1px) solid var(--gold-dark); }
+.stat-row .bar > i { display: block; height: 100%; background: var(--hp-high); }
+.stat-row .bar.mid > i { background: var(--hp-mid); }
+.stat-row .bar.low > i { background: var(--hp-low); }
+.stat-row .num { width: calc(var(--px) * 16px); text-align: right; }
+
+/* ───── ダメージ・演出 ───── */
+.big-pop {
+  position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%) scale(1);
+  font-size: calc(var(--px) * 24px); color: var(--gold-bright); text-shadow: calc(var(--px) * 1px) calc(var(--px) * 1px) #1a0f08, 0 0 calc(var(--px) * 6px) var(--chili);
+  pointer-events: none; animation: pop 0.6s ease-out forwards; white-space: nowrap;
+}
+@keyframes pop { 0% { transform: translate(-50%, -30%) scale(.4); opacity: 0; } 25% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } 100% { transform: translate(-50%, -60%) scale(1); opacity: 0; } }
+.area-name { position: absolute; left: 50%; top: calc(var(--px) * 8px); transform: translateX(-50%); padding: calc(var(--px) * 2px) calc(var(--px) * 12px); min-width: calc(var(--px) * 80px); text-align: center; }
+.mark-bang { position: absolute; color: var(--gold-bright); pointer-events: none; font-size: calc(var(--px) * 10px); text-shadow: calc(var(--px) * 1px) calc(var(--px) * 1px) #1a0f08; animation: bounce .5s steps(2) infinite; }
+@keyframes bounce { 50% { transform: translateY(calc(var(--px) * -1px)); } }
+
+.fade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity .4s; }
+.fade.on { opacity: 1; }
+.fade.white { background: #fff; }
+
+.title-box { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; pointer-events: none; }
+.title-box h1 { margin: 0; font-weight: normal; font-size: calc(var(--px) * 22px); line-height: calc(var(--px) * 28px); color: var(--gold-bright); text-shadow: calc(var(--px) * 1px) calc(var(--px) * 1px) #1a0f08, 0 0 calc(var(--px) * 8px) var(--chili); }
+.title-box h2 { margin: calc(var(--px) * 2px) 0 0; font-weight: normal; font-size: calc(var(--px) * 11px); color: var(--text); }
+.title-note { position: absolute; left: 0; right: 0; bottom: calc(var(--px) * 3px); text-align: center; font-size: calc(var(--px) * 6px); line-height: calc(var(--px) * 8px); color: var(--text-disabled); }
+
+/* 名前入力 */
+.kana { display: grid; grid-template-columns: repeat(11, 1fr); font-size: calc(var(--px) * 9px); }
+.kana span { text-align: center; height: calc(var(--px) * 11px); line-height: calc(var(--px) * 11px); cursor: pointer; }
+.kana span.sel { background: var(--chili); color: #fff; }
+
+/* ボタン設定 */
+.pad-learn .row { display: flex; justify-content: space-between; height: calc(var(--px) * 14px); }
+.pad-learn .row.now { color: var(--gold-bright); }
+.pad-learn .row.done { color: var(--hp-high); }
+
+/* ───── 操作帯（画面の下25%。ゲーム画面には重ねない） ───── */
+#control-deck {
+  --bs: clamp(48px, calc((100vw - 40px) / 6), 58px);
+  flex: 0 0 25dvh; height: 25dvh; min-height: 0;
+  position: relative; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 4px;
+  padding: 6px calc(4px + env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) calc(4px + env(safe-area-inset-left));
+  background: linear-gradient(#3a2416, #1a0f08);
+  border-top: 2px solid var(--gold);
+  overflow: hidden;
+}
+.pad-cluster { display: flex; align-items: center; gap: 4px; height: 100%; }
+.act-cluster {
+  display: grid; grid-template-columns: repeat(3, var(--bs)); grid-auto-rows: var(--bs);
+  gap: 4px; height: auto; align-content: center;
+}
+.ud { display: flex; flex-direction: column; gap: 4px; }
+#control-deck button {
+  width: var(--bs); height: var(--bs); min-width: 48px; min-height: 48px;
+  margin: 0; padding: 0; border-radius: 12px;
+  background: rgba(60,36,20,.9); border: 2px solid rgba(212,164,55,.9);
+  color: #fff3d6; font: inherit; font-size: 20px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.08s ease, opacity 0.08s ease, background 0.08s ease;
+}
+#control-deck button.on,
+#control-deck button:active {
+  transform: scale(0.92); opacity: 0.88; background: rgba(226,69,43,.85);
+}
+#btn-a, #btn-b { font-size: 22px; }
+body.battle .pad-cluster { visibility: hidden; }
+
+/* ───── 戦闘 ───── */
+.dmg {
+  position: absolute; transform: translateX(-50%); pointer-events: none; white-space: nowrap;
+  font-size: calc(var(--px) * 12px); color: #fff; text-shadow: calc(var(--px) * 1px) calc(var(--px) * 1px) #1a0f08, 0 0 calc(var(--px) * 3px) #1a0f08;
+  animation: dmgup 0.8s ease-out forwards;
+}
+.dmg.heal { color: #7ee07e; } .dmg.weak { color: var(--gold-bright); font-size: calc(var(--px) * 15px); } .dmg.hurt { color: #ff8a7a; }
+@keyframes dmgup { 0% { margin-top: 0; opacity: 1; } 70% { opacity: 1; } 100% { margin-top: calc(var(--px) * -14px); opacity: 0; } }
+.batt-name { font-size: calc(var(--px) * 9px); }

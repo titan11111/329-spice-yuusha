@@ -1,0 +1,290 @@
+{
+    "version": 1,
+    "tileSize": 16,
+    "characterSize": {
+        "w": 16,
+        "h": 24,
+        "dirs": 4,
+        "walkFrames": 2
+    },
+    "layers": [
+        "ground",
+        "decor",
+        "height",
+        "front",
+        "collision",
+        "events"
+    ],
+    "lightingScenes": [
+        "cave_croc_b2",
+        "cave_croc_b3",
+        "castle_stairs",
+        "castle_top",
+        "sea_storm"
+    ],
+    "list": [
+        {
+            "id": "world",
+            "name": "セレンディとう",
+            "size": [
+                80,
+                60
+            ],
+            "bgm": "bgm_field",
+            "encounterZones": [
+                "z_beach",
+                "z_plains_west",
+                "z_jungle",
+                "z_highland",
+                "z_sea"
+            ],
+            "note": "北にいつも獅子岩が見える"
+        },
+        {
+            "id": "town_beach",
+            "name": "ココナッツの はまむら",
+            "size": [
+                24,
+                18
+            ],
+            "bgm": "bgm_village",
+            "inn": "inn_beach",
+            "spots": [
+                "ゆうしゃの いえ",
+                "ヤシの なみき",
+                "りょうしの こや",
+                "たけうまりょうの あさせ"
+            ],
+            "secrets": [
+                "ヤシのきを しらべる×3",
+                "いえの ゆかした chest_r03"
+            ]
+        },
+        {
+            "id": "town_capital",
+            "name": "みなとの おうと",
+            "size": [
+                48,
+                40
+            ],
+            "bgm": "bgm_town",
+            "inn": "inn_capital",
+            "districts": [
+                "いちば（めいろ）",
+                "うみべの ひろば（たこあげ）",
+                "はすの とう",
+                "おうじょう",
+                "みなと"
+            ],
+            "npcs": [
+                "トゥクトゥク×2（ぶつかってもOK）",
+                "コットゥ やたい（トントンの おと）"
+            ],
+            "events": [
+                "ev_mina_join",
+                "ev_monkey_chase",
+                "ev_lotus_tower_view"
+            ]
+        },
+        {
+            "id": "castle_capital",
+            "name": "おうじょう",
+            "floors": [
+                "1f_throne",
+                "2f_treasury",
+                "b1_jail"
+            ],
+            "bgm": "bgm_castle",
+            "events": [
+                "ev_king"
+            ],
+            "chests": [
+                "chest_r01"
+            ]
+        },
+        {
+            "id": "town_port",
+            "name": "みなとまち",
+            "size": [
+                28,
+                20
+            ],
+            "bgm": "bgm_town",
+            "inn": "inn_port",
+            "events": [
+                "ev_get_ship"
+            ]
+        },
+        {
+            "id": "cave_croc_b1",
+            "name": "ワニの がんくつ B1",
+            "size": [
+                30,
+                24
+            ],
+            "bgm": "bgm_cave",
+            "symbolEncounter": true,
+            "events": [
+                "ev_pearl_join"
+            ],
+            "gimmicks": [
+                "おせない いわ（パールの あとで おせる）"
+            ]
+        },
+        {
+            "id": "cave_croc_b2",
+            "name": "ワニの がんくつ B2",
+            "size": [
+                36,
+                30
+            ],
+            "bgm": "bgm_cave",
+            "symbolEncounter": true,
+            "dark": {
+                "untilFlag": "f_god_sun",
+                "torchRadius": 3
+            },
+            "gimmicks": [
+                "ひかると みえる ゆか",
+                "いわおし×2"
+            ]
+        },
+        {
+            "id": "cave_croc_b3",
+            "name": "ワニの がんくつ B3",
+            "size": [
+                24,
+                24
+            ],
+            "bgm": "bgm_cave",
+            "symbolEncounter": true,
+            "boss": "boss_croc",
+            "note": "ちていこ"
+        },
+        {
+            "id": "sea_storm",
+            "name": "あらしの かいいき",
+            "bgm": "bgm_sea_storm",
+            "blockedUntilFlag": "f_god_sea",
+            "boss": "boss_kraken",
+            "bossTrigger": "海域の中央に入る"
+        },
+        {
+            "id": "island_turtle",
+            "name": "ウミガメの しま",
+            "size": [
+                20,
+                16
+            ],
+            "bgm": "bgm_village",
+            "inn": "inn_turtle",
+            "events": [
+                "ev_baby_turtle"
+            ]
+        },
+        {
+            "id": "town_highland",
+            "name": "ちゃばたけの こうげんむら",
+            "size": [
+                32,
+                28
+            ],
+            "bgm": "bgm_highland",
+            "inn": "inn_highland",
+            "spots": [
+                "だんだんの ちゃばたけ",
+                "ちゃこうじょう",
+                "えき"
+            ],
+            "chests": [
+                "chest_r02",
+                "chest_highland_01"
+            ],
+            "symbolEncounterUntil": "f_highland_saved"
+        },
+        {
+            "id": "palace_1f",
+            "name": "しろだいりせきの きゅうでん 1F",
+            "size": [
+                32,
+                26
+            ],
+            "bgm": "bgm_palace",
+            "symbolEncounter": true,
+            "gimmicks": [
+                "かがみの むきを かえて ひかりを とびらへ"
+            ],
+            "chests": [
+                "chest_palace_01"
+            ]
+        },
+        {
+            "id": "palace_2f",
+            "name": "しろだいりせきの きゅうでん 2F",
+            "size": [
+                24,
+                20
+            ],
+            "bgm": "bgm_palace",
+            "symbolEncounter": true,
+            "boss": "boss_marble",
+            "chests": [
+                "chest_palace_02"
+            ],
+            "note": "水に うつる きゅうでん（はんしゃ）"
+        },
+        {
+            "id": "sky_railway",
+            "name": "そらの てつどう",
+            "type": "cutscene",
+            "durationSec": 18,
+            "requiresFlag": "f_god_wind",
+            "skippableAfterFirst": true
+        },
+        {
+            "id": "castle_garden",
+            "name": "ししいわの にわ",
+            "size": [
+                28,
+                20
+            ],
+            "bgm": "bgm_castle_dark",
+            "gates": [
+                "gate_r01"
+            ]
+        },
+        {
+            "id": "castle_stairs",
+            "name": "がんぺきの かいだん",
+            "size": [
+                20,
+                48
+            ],
+            "bgm": "bgm_castle_dark",
+            "symbolEncounter": true,
+            "cameraZoomOutPerFloor": 0.05
+        },
+        {
+            "id": "castle_gate",
+            "name": "ししの もん",
+            "size": [
+                16,
+                12
+            ],
+            "bgm": "bgm_rest",
+            "inn": "inn_castle"
+        },
+        {
+            "id": "castle_top",
+            "name": "ちょうじょうの ぎょくざ",
+            "size": [
+                20,
+                16
+            ],
+            "bgm": "bgm_last",
+            "symbolEncounter": true,
+            "boss": "boss_eclipse_1",
+            "deluxeUi": true
+        }
+    ]
+}

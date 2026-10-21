@@ -1,0 +1,699 @@
+{
+ "version": 1,
+ "note": "exp と gold は1体ぶん。tag:shadow は光に弱い",
+ "list": [
+  {
+   "id": "rolling_coconut",
+   "name": "ころころヤシのみ",
+   "area": "beach",
+   "hp": 6,
+   "atk": 7,
+   "def": 2,
+   "agi": 3,
+   "exp": 2,
+   "gold": 3,
+   "size": 32,
+   "weak": [
+    "fire"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 100
+    }
+   ]
+  },
+  {
+   "id": "beach_crab",
+   "name": "ハマベガニ",
+   "area": "beach",
+   "hp": 9,
+   "atk": 9,
+   "def": 8,
+   "agi": 2,
+   "exp": 3,
+   "gold": 4,
+   "size": 32,
+   "weak": [
+    "thunder"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 80
+    },
+    {
+     "act": "guard",
+     "w": 20
+    }
+   ]
+  },
+  {
+   "id": "prank_monkey",
+   "name": "いたずらモンキー",
+   "area": "beach",
+   "hp": 8,
+   "atk": 8,
+   "def": 3,
+   "agi": 12,
+   "exp": 3,
+   "gold": 6,
+   "size": 32,
+   "evasive": true,
+   "actions": [
+    {
+     "act": "attack",
+     "w": 70
+    },
+    {
+     "act": "flee",
+     "w": 30
+    }
+   ]
+  },
+  {
+   "id": "floaty_jelly",
+   "name": "ぷかぷかクラゲ",
+   "area": "beach",
+   "hp": 10,
+   "atk": 10,
+   "def": 4,
+   "agi": 5,
+   "exp": 4,
+   "gold": 4,
+   "size": 32,
+   "weak": [
+    "thunder"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 70
+    },
+    {
+     "act": "status",
+     "status": "sleep",
+     "rate": 0.3,
+     "w": 30
+    }
+   ]
+  },
+  {
+   "id": "spice_bat",
+   "name": "スパイスこうもり",
+   "area": "jungle",
+   "hp": 14,
+   "atk": 16,
+   "def": 6,
+   "agi": 14,
+   "exp": 6,
+   "gold": 7,
+   "size": 32,
+   "evasive": true,
+   "weak": [
+    "light"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 100
+    }
+   ]
+  },
+  {
+   "id": "pepper_monk",
+   "name": "こしょうぼうず",
+   "area": "jungle",
+   "hp": 18,
+   "atk": 15,
+   "def": 8,
+   "agi": 6,
+   "exp": 7,
+   "gold": 9,
+   "size": 32,
+   "weak": [
+    "water"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 60
+    },
+    {
+     "act": "status",
+     "status": "sneeze",
+     "rate": 0.5,
+     "target": "one",
+     "w": 40
+    }
+   ]
+  },
+  {
+   "id": "cobran",
+   "name": "コブラン",
+   "area": "jungle",
+   "hp": 20,
+   "atk": 19,
+   "def": 9,
+   "agi": 9,
+   "exp": 9,
+   "gold": 10,
+   "size": 32,
+   "weak": [
+    "fire"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 65
+    },
+    {
+     "act": "attack_status",
+     "status": "poison",
+     "rate": 0.4,
+     "w": 35
+    }
+   ]
+  },
+  {
+   "id": "spotted_mongoose",
+   "name": "まだらマングース",
+   "area": "jungle",
+   "hp": 22,
+   "atk": 20,
+   "def": 10,
+   "agi": 15,
+   "exp": 10,
+   "gold": 11,
+   "size": 32,
+   "actions": [
+    {
+     "act": "attack",
+     "w": 75
+    },
+    {
+     "act": "double_attack",
+     "w": 25
+    }
+   ]
+  },
+  {
+   "id": "sea_eel",
+   "name": "うみウツボ",
+   "area": "sea",
+   "hp": 30,
+   "atk": 26,
+   "def": 12,
+   "agi": 12,
+   "exp": 14,
+   "gold": 16,
+   "size": 48,
+   "weak": [
+    "thunder"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 100
+    }
+   ]
+  },
+  {
+   "id": "pirate_skeleton",
+   "name": "かいぞくガイコツ",
+   "area": "sea",
+   "hp": 34,
+   "atk": 28,
+   "def": 14,
+   "agi": 10,
+   "exp": 16,
+   "gold": 24,
+   "size": 32,
+   "tag": "shadow",
+   "weak": [
+    "light"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 80
+    },
+    {
+     "act": "guard",
+     "w": 20
+    }
+   ]
+  },
+  {
+   "id": "ink_octopus",
+   "name": "スミだこ",
+   "area": "sea",
+   "hp": 28,
+   "atk": 24,
+   "def": 10,
+   "agi": 8,
+   "exp": 15,
+   "gold": 14,
+   "size": 32,
+   "weak": [
+    "fire"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 60
+    },
+    {
+     "act": "debuff",
+     "stat": "accuracy",
+     "rate": 0.7,
+     "turns": 3,
+     "w": 40
+    }
+   ]
+  },
+  {
+   "id": "coral_armor",
+   "name": "サンゴのよろい",
+   "area": "sea",
+   "hp": 40,
+   "atk": 25,
+   "def": 24,
+   "agi": 4,
+   "exp": 18,
+   "gold": 18,
+   "size": 48,
+   "weak": [
+    "thunder"
+   ],
+   "resist": [
+    "water"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 100
+    }
+   ]
+  },
+  {
+   "id": "tea_golem",
+   "name": "ちゃつみゴーレム",
+   "area": "highland",
+   "hp": 50,
+   "atk": 32,
+   "def": 22,
+   "agi": 5,
+   "exp": 22,
+   "gold": 22,
+   "size": 48,
+   "weak": [
+    "water"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 80
+    },
+    {
+     "act": "heavy_attack",
+     "rate": 1.5,
+     "w": 20
+    }
+   ]
+  },
+  {
+   "id": "coffee_beetle",
+   "name": "コーヒーまめむし",
+   "area": "highland",
+   "hp": 26,
+   "atk": 30,
+   "def": 14,
+   "agi": 18,
+   "exp": 18,
+   "gold": 18,
+   "size": 32,
+   "group": true,
+   "weak": [
+    "fire"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 100
+    }
+   ]
+  },
+  {
+   "id": "tusk_boar",
+   "name": "きばイノシシ",
+   "area": "highland",
+   "hp": 44,
+   "atk": 36,
+   "def": 16,
+   "agi": 12,
+   "exp": 24,
+   "gold": 20,
+   "size": 48,
+   "actions": [
+    {
+     "act": "attack",
+     "w": 70
+    },
+    {
+     "act": "charge",
+     "rate": 1.4,
+     "w": 30
+    }
+   ]
+  },
+  {
+   "id": "sleepy_bear",
+   "name": "ねぼすけグマ",
+   "area": "highland",
+   "hp": 60,
+   "atk": 40,
+   "def": 18,
+   "agi": 6,
+   "exp": 28,
+   "gold": 24,
+   "size": 48,
+   "actions": [
+    {
+     "act": "attack",
+     "w": 70
+    },
+    {
+     "act": "sleep_self",
+     "w": 30
+    }
+   ]
+  },
+  {
+   "id": "marble_knight",
+   "name": "だいりせきナイト",
+   "area": "palace",
+   "hp": 70,
+   "atk": 44,
+   "def": 30,
+   "agi": 10,
+   "exp": 34,
+   "gold": 34,
+   "size": 48,
+   "weak": [
+    "thunder"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 80
+    },
+    {
+     "act": "guard",
+     "w": 20
+    }
+   ]
+  },
+  {
+   "id": "lamp_shadow",
+   "name": "ランプのかげ",
+   "area": "palace",
+   "hp": 45,
+   "atk": 40,
+   "def": 18,
+   "agi": 20,
+   "exp": 30,
+   "gold": 30,
+   "size": 32,
+   "tag": "shadow",
+   "weak": [
+    "light"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 60
+    },
+    {
+     "act": "spell",
+     "spell": "pepari",
+     "w": 40
+    }
+   ]
+  },
+  {
+   "id": "shadow_leopard",
+   "name": "かげヒョウ",
+   "area": "castle",
+   "hp": 60,
+   "atk": 48,
+   "def": 20,
+   "agi": 26,
+   "exp": 38,
+   "gold": 36,
+   "size": 48,
+   "tag": "shadow",
+   "evasive": true,
+   "weak": [
+    "light"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 75
+    },
+    {
+     "act": "double_attack",
+     "w": 25
+    }
+   ]
+  },
+  {
+   "id": "eclipse_knight",
+   "name": "にっしょくのきし",
+   "area": "castle",
+   "hp": 90,
+   "atk": 52,
+   "def": 32,
+   "agi": 14,
+   "exp": 50,
+   "gold": 48,
+   "size": 48,
+   "tag": "shadow",
+   "weak": [
+    "light"
+   ],
+   "actions": [
+    {
+     "act": "attack",
+     "w": 70
+    },
+    {
+     "act": "heavy_attack",
+     "rate": 1.5,
+     "w": 30
+    }
+   ]
+  }
+ ],
+ "bosses": [
+  {
+   "id": "boss_croc",
+   "name": "かげワニおう",
+   "map": "cave_croc_b3",
+   "hp": 240,
+   "atk": 28,
+   "def": 14,
+   "agi": 8,
+   "exp": 80,
+   "gold": 100,
+   "size": 96,
+   "tag": "shadow",
+   "weak": [
+    "water"
+   ],
+   "normalMap": true,
+   "actions": [
+    {
+     "act": "attack",
+     "w": 60
+    },
+    {
+     "act": "bite",
+     "rate": 1.4,
+     "w": 25
+    },
+    {
+     "act": "roar",
+     "debuff": "agi",
+     "w": 15
+    }
+   ],
+   "afterDefeat": "せいきに もどった ワニが {太陽|たいよう}の ほうせきを わたす",
+   "flags": [
+    "f_god_sun"
+   ]
+  },
+  {
+   "id": "boss_kraken",
+   "name": "あらしのおおダコ",
+   "map": "sea_storm",
+   "hp": 280,
+   "atk": 34,
+   "def": 18,
+   "agi": 10,
+   "exp": 150,
+   "gold": 150,
+   "size": 96,
+   "actionsPerTurn": 2,
+   "weak": [
+    "fire"
+   ],
+   "normalMap": true,
+   "battleBg": "bg_ship_storm",
+   "actions": [
+    {
+     "act": "attack",
+     "w": 55
+    },
+    {
+     "act": "tentacle_all",
+     "power": [
+      8,
+      12
+     ],
+     "w": 30
+    },
+    {
+     "act": "ink",
+     "debuff": "accuracy",
+     "w": 15
+    }
+   ],
+   "flags": [
+    "f_god_sea"
+   ]
+  },
+  {
+   "id": "boss_marble",
+   "name": "だいりせきのばんにん",
+   "map": "palace_2f",
+   "hp": 460,
+   "atk": 46,
+   "def": 30,
+   "agi": 12,
+   "exp": 250,
+   "gold": 200,
+   "size": 96,
+   "weak": [
+    "thunder"
+   ],
+   "resist": [
+    "fire"
+   ],
+   "normalMap": true,
+   "actions": [
+    {
+     "act": "attack",
+     "w": 50
+    },
+    {
+     "act": "quake_all",
+     "power": [
+      14,
+      18
+     ],
+     "w": 30
+    },
+    {
+     "act": "guard",
+     "w": 20
+    }
+   ],
+   "flags": [
+    "f_god_wind",
+    "f_last_key"
+   ]
+  },
+  {
+   "id": "boss_eclipse_1",
+   "name": "にっしょくのまおう",
+   "map": "castle_top",
+   "hp": 320,
+   "atk": 54,
+   "def": 32,
+   "agi": 18,
+   "exp": 0,
+   "gold": 0,
+   "size": 128,
+   "tag": "shadow",
+   "weak": [
+    "light"
+   ],
+   "normalMap": true,
+   "actions": [
+    {
+     "act": "attack",
+     "w": 45
+    },
+    {
+     "act": "eclipse_fire_all",
+     "power": [
+      14,
+      18
+     ],
+     "w": 35
+    },
+    {
+     "act": "dispel_buffs",
+     "w": 20
+    }
+   ],
+   "nextPhase": "boss_eclipse_2"
+  },
+  {
+   "id": "boss_eclipse_2",
+   "name": "まおう しんのすがた",
+   "map": "castle_top",
+   "hp": 450,
+   "atk": 60,
+   "def": 34,
+   "agi": 20,
+   "exp": 0,
+   "gold": 0,
+   "size": 160,
+   "overflowScreen": true,
+   "tag": "shadow",
+   "weak": [
+    "light"
+   ],
+   "actionsPerTurn": 2,
+   "normalMap": true,
+   "actions": [
+    {
+     "act": "attack",
+     "w": 45
+    },
+    {
+     "act": "eclipse_fire_all",
+     "power": [
+      14,
+      18
+     ],
+     "w": 30
+    },
+    {
+     "act": "dark_wave_all",
+     "power": [
+      11,
+      15
+     ],
+     "w": 25
+    }
+   ],
+   "flags": [
+    "f_clear"
+   ]
+  }
+ ]
+}

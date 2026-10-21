@@ -1,0 +1,172 @@
+{
+    "version": 1,
+    "flagRule": "宝箱は id と同じ名前のフラグ（例：chest_r01）で開けたかどうかを管理する",
+    "redChestMessageLocked": "カギが かかっている……",
+    "onGetLastKey": {
+        "speaker": "mina",
+        "text": "そういえば、あかない {宝箱|たからばこ}が あったよね！"
+    },
+    "list": [
+        {
+            "id": "chest_beach_01",
+            "map": "town_beach",
+            "color": "normal",
+            "content": {
+                "item": "hopper",
+                "count": 2
+            }
+        },
+        {
+            "id": "chest_capital_01",
+            "map": "town_capital",
+            "color": "normal",
+            "content": {
+                "gold": 30
+            },
+            "hint": "いちばの うらみち"
+        },
+        {
+            "id": "chest_capital_02",
+            "map": "castle_capital",
+            "color": "normal",
+            "content": {
+                "item": "return_kite",
+                "count": 1
+            }
+        },
+        {
+            "id": "chest_cave_01",
+            "map": "cave_croc_b1",
+            "color": "normal",
+            "content": {
+                "gold": 20
+            }
+        },
+        {
+            "id": "chest_cave_02",
+            "map": "cave_croc_b2",
+            "color": "normal",
+            "content": {
+                "item": "king_coconut",
+                "count": 1
+            }
+        },
+        {
+            "id": "chest_port_01",
+            "map": "town_port",
+            "color": "normal",
+            "content": {
+                "gold": 40
+            }
+        },
+        {
+            "id": "chest_turtle_01",
+            "map": "island_turtle",
+            "color": "normal",
+            "content": {
+                "gold": 40
+            },
+            "requiresFlag": "ev_baby_turtle_done"
+        },
+        {
+            "id": "chest_highland_01",
+            "map": "town_highland",
+            "color": "normal",
+            "content": {
+                "equip": "chain_cloth"
+            }
+        },
+        {
+            "id": "chest_highland_02",
+            "map": "world",
+            "color": "normal",
+            "content": {
+                "gold": 60
+            },
+            "hint": "アーチばしの した"
+        },
+        {
+            "id": "chest_palace_01",
+            "map": "palace_1f",
+            "color": "normal",
+            "content": {
+                "equip": "lotus_staff"
+            }
+        },
+        {
+            "id": "chest_palace_02",
+            "map": "palace_2f",
+            "color": "normal",
+            "content": {
+                "equip": "marble_shield"
+            }
+        },
+        {
+            "id": "chest_palace_03",
+            "map": "palace_1f",
+            "color": "normal",
+            "content": {
+                "gold": 100
+            }
+        },
+        {
+            "id": "chest_r01",
+            "map": "castle_capital",
+            "floor": "2f_treasury",
+            "color": "red",
+            "requiresFlag": "f_last_key",
+            "content": {
+                "equip": "elephant_shield"
+            },
+            "hintNpc": "えいへい：「おうさましか あけられない ふるい カギが いるんだ」"
+        },
+        {
+            "id": "chest_r02",
+            "map": "town_highland",
+            "spot": "ちゃこうじょう",
+            "color": "red",
+            "requiresFlag": "f_last_key",
+            "content": {
+                "equip": "pepper_sword"
+            },
+            "hintNpc": "おじいさん：「きゅうでんの ひとなら あけかたを しってるかもな」"
+        },
+        {
+            "id": "chest_r03",
+            "map": "town_beach",
+            "spot": "ゆうしゃの いえの ゆかした",
+            "color": "red",
+            "requiresFlag": "f_last_key",
+            "content": {
+                "item": "panacea",
+                "count": 1,
+                "keyItem": "mother_letter"
+            },
+            "note": "さいしょに みつけて『なんで あかないの？』と おもわせる"
+        }
+    ],
+    "gates": [
+        {
+            "id": "gate_r01",
+            "map": "castle_garden",
+            "requiresFlag": "f_last_key",
+            "effect": "がんぺきの かいだんの はんぶんを ショートカット"
+        }
+    ],
+    "flags": [
+        "f_departed",
+        "f_met_king",
+        "f_mina",
+        "f_pearl",
+        "f_god_sun",
+        "f_ship",
+        "f_god_sea",
+        "f_highland_saved",
+        "f_god_wind",
+        "f_last_key",
+        "f_clear",
+        "ev_baby_turtle_done",
+        "ev_monkey_chase_done",
+        "ev_lotus_tower_view_done"
+    ]
+}
