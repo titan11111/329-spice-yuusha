@@ -11,7 +11,7 @@ function initFcIosController(opts = {}) {
   const buttonMap = {
     "fc-btn-a": ["KeyZ", "Space"],
     "fc-btn-b": ["KeyX"],
-    "fc-btn-select": ["KeyShift"],
+    "fc-btn-select": ["ShiftLeft"],
     "fc-btn-start": ["Enter"],
     ...opts.buttons,
   };
@@ -64,6 +64,8 @@ function initFcIosController(opts = {}) {
   let dpadPid = null;
 
   function setDpad(up, down, left, right) {
+    const changed = !K.ArrowUp !== !up || !K.ArrowDown !== !down ||
+                    !K.ArrowLeft !== !left || !K.ArrowRight !== !right;
     K.ArrowUp = up;
     K.ArrowDown = down;
     K.ArrowLeft = left;
@@ -76,6 +78,7 @@ function initFcIosController(opts = {}) {
       dpadEl.classList.toggle("pressed", up || down || left || right);
     }
     if (!up && !down && !left && !right) { K.AxisX = 0; K.AxisY = 0; }
+    if (changed && (up || down || left || right) && navigator.vibrate) navigator.vibrate(8);
     emit();
   }
 
@@ -95,9 +98,6 @@ function initFcIosController(opts = {}) {
     const length = Math.hypot(nx, ny), gain = Math.min(1, Math.max(0, length - .1) / .65) / (length || 1);
     K.AxisX = nx * gain; K.AxisY = ny * gain;
     setDpad(dy < -thr, dy > thr, dx < -thr, dx > thr);
-    if (navigator.vibrate && (K.ArrowUp || K.ArrowDown || K.ArrowLeft || K.ArrowRight)) {
-      navigator.vibrate(8);
-    }
   }
 
   if (dpadWrap) {
