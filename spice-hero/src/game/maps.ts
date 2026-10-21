@@ -55,6 +55,7 @@ export const LEGEND: Record<string, TileInfo> = {
   m: { ground: 'marble', terrain: 'road' },
   S: { ground: 'castle_rock', solid: true, terrain: 'road' },
   q: { ground: 'tea', terrain: 'grass' },
+  C: { ground: 'grass', obj: 'rock', solid: true, terrain: 'grass' },
 };
 
 export type Script = string | string[] | ((gs: GameState) => string | string[]);
@@ -146,10 +147,18 @@ function buildWorld(): string[] {
   // 村の入口（左）から、まっすぐな道を東へ
   for (let x = 4; x < W - 4; x++) rows[9][x] = 'r';
   for (let x = 4; x < 8; x++) { rows[8][x] = '.'; rows[10][x] = '.'; }
-  // 東は岩山。道の高さだけ開けて「ひがしの かいどう」へ抜けられるようにする
-  for (let y = 3; y < H - 2; y++) { rows[y][W - 3] = 'R'; rows[y][W - 2] = 'R'; rows[y][W - 1] = 'R'; }
-  for (let x = W - 6; x < W; x++) rows[9][x] = 'r';
-  rows[8][W - 4] = 'f'; rows[10][W - 4] = 'f';
+  // 東は岩山の関所。道から離れるほど崖がせり出し、門のところだけ3マス空ける。
+  // いちばん外は草の上の岩（C）にして、草原と岩肌のあいだをつなぐ
+  for (let y = 3; y < H - 2; y++) {
+    const far = Math.abs(y - 9);                  // 道からの距離
+    const edge = W - 3 - Math.min(3, Math.max(0, far - 2));
+    for (let x = edge; x < W; x++) rows[y][x] = x === edge ? 'C' : 'R';
+  }
+  for (let x = W - 8; x < W; x++) rows[9][x] = 'r';   // 門をくぐる道
+  rows[8][W - 4] = 'r'; rows[8][W - 3] = 'r';         // 門の肩（高さ3マスぶん開ける）
+  rows[10][W - 4] = 'r'; rows[10][W - 3] = 'r';
+  rows[7][W - 5] = 'C'; rows[11][W - 5] = 'C';        // 門の両わきの岩
+  rows[8][W - 7] = 'f'; rows[10][W - 7] = 'f';
   return rows.map((r) => r.join(''));
 }
 
@@ -173,8 +182,15 @@ function buildWorldEast(): string[] {
       rows[y][x] = ch;
     }
   }
+  // 西の端は関所の反対がわ。セレンディとう側と同じ岩山でふちどる
+  for (let y = 2; y < H - 3; y++) {
+    const far = Math.abs(y - 9);
+    const edge = Math.min(3, Math.max(0, far - 2));
+    for (let x = 0; x <= edge; x++) rows[y][x] = x === edge ? 'C' : 'R';
+  }
   for (let x = 0; x < W; x++) rows[9][x] = 'r';                    // 村から王都まで一本道
-  for (let x = 0; x < W; x++) {
+  rows[8][0] = 'r'; rows[8][1] = 'r'; rows[10][0] = 'r'; rows[10][1] = 'r';
+  for (let x = 3; x < W; x++) {
     if (rng() < 0.35) rows[8][x] = 'f';
     if (rng() < 0.35) rows[10][x] = 'f';
   }
@@ -281,6 +297,16 @@ const L = {
   girl: ['あっちの すなはまで カニを みたの。\nちかづくと はさまれちゃうかも！'],
   old: ['むかし むかし、この しまには\nさんにんの かみさまが いたそうな。\nたいよう、うみ、そして かぜの かみさまじゃ。'],
 
+  // ───── いわやまの せきしょ ─────
+  passGuard: (gs: GameState): string[] =>
+    gs.flags.f_royal_order
+      ? ['おう、ゆうしゃ！\n{王|おう}さまの おふれは しまじゅうに\nつたわったぞ。きを つけて いけ。']
+      : [
+          'ここは いわやまの {関所|せきしょ}。\nここを ぬけると「ひがしの かいどう」、\nその さきが みなとの {王都|おうと}だ。',
+          '{道|みち}は いっぽんだ。まよいはしない。\nただ まものが でる。\nHPが へったら むらへ もどれよ。',
+        ],
+  passRock: ['ごつごつした いわはだ。\nのぼるのは むりそうだ。\n{道|みち}を ぬけるしか ないな。'],
+
   // ───── みなとの おうと ─────
   guardGate: (gs: GameState): string[] =>
     gs.flags.f_royal_order
@@ -352,10 +378,13 @@ export const MAPS: Record<string, MapDef> = {
   world: {
     id: 'world', name: 'セレンディとう', bgm: 'field', rows: worldRows, area: 'beach', battleBg: 'beach', showName: true,
     encounters: { beach: 'z_beach', grass: 'z_plains_west', road: 'z_plains_west', shallow: 'z_beach' },
-    npcs: [],
+    npcs: [
+      { id: 'n_pass_guard', x: 28, y: 10, look: 'guard', dir: 'up', talk: L.passGuard },
+    ],
     chests: [],
     searches: [
-      { id: 'sign_end', x: 28, y: 9, text: ['{立|た}て{札|ふだ}：\nここから ひがしは「ひがしの かいどう」。\nぬけると みなとの {王都|おうと}。'] },
+      { id: 'sign_end', x: 26, y: 8, text: ['{立|た}て{札|ふだ}：\nここから ひがしは「ひがしの かいどう」。\nぬけると みなとの {王都|おうと}。'] },
+      { id: 'pass_rock', x: 30, y: 8, text: L.passRock },
     ],
     exits: [
       { x: 4, y: 9, to: 'town_beach', tx: 22, ty: 9, dir: 'left' },
@@ -371,7 +400,8 @@ export const MAPS: Record<string, MapDef> = {
     ],
     chests: [],
     searches: [
-      { id: 'sign_east', x: 2, y: 10, text: ['{立|た}て{札|ふだ}：\nひがし → みなとの {王都|おうと}\nにし → ココナッツの はまむら'] },
+      { id: 'sign_east', x: 3, y: 8, text: ['{立|た}て{札|ふだ}：\nひがし → みなとの {王都|おうと}\nにし → いわやまの {関所|せきしょ}、ココナッツの はまむら'] },
+      { id: 'pass_rock_east', x: 1, y: 11, text: L.passRock },
       { id: 'tea_field', x: 10, y: 14, text: '{茶畑|ちゃばたけ}だ。\nつみとられた あとが ある。\nここの ひとは どこへ いったのだろう。' },
       { id: 'east_palm', x: 24, y: 12, once: 'east_palm', give: { item: 'king_coconut' }, text: 'ヤシの きを ゆらしてみた。\nコトン！ ココナッツが おちてきた！' },
     ],
