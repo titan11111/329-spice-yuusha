@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#2E1A0E">
 <title>スパイスの勇者と日蝕の魔王</title>
 <link rel="stylesheet" href="./build/src/ui/style.css">
+<link rel="stylesheet" href="./fc-ios-controller.css">
 <script type="importmap">{"imports":{"phaser":"./vendor/phaser.esm.min.js"}}</script>
 <script src="./ios.js"></script>
 </head>
@@ -20,8 +21,30 @@
       <div id="pause-layer">ポーズ</div>
     </div>
   </div>
-  <div id="control-deck"></div>
+  <div id="control-deck" class="fc-control-deck" aria-label="操作盤">
+    <div class="fc-deck-left">
+      <div class="fc-dpad-wrap" id="fc-dpad-wrap" aria-label="十字キー">
+        <div class="fc-dpad" id="fc-dpad" data-up="0" data-down="0" data-left="0" data-right="0">
+          <div class="fc-dpad-v"></div>
+          <div class="fc-dpad-h"></div>
+          <div class="fc-dpad-c"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-deck-center">
+      <button type="button" class="fc-sysbtn" id="fc-btn-select" aria-label="メニュー">メニュー</button>
+      <button type="button" class="fc-sysbtn" id="fc-btn-mute" aria-label="ミュート">🔊</button>
+      <button type="button" class="fc-sysbtn" id="fc-btn-start" aria-label="ポーズ">ポーズ</button>
+    </div>
+    <div class="fc-deck-right">
+      <div class="fc-ab" aria-label="A B ボタン">
+        <button type="button" class="fc-abbtn fc-abbtn-b" id="fc-btn-b" aria-label="もどる"><i>B</i><span class="fc-cap">もどる</span></button>
+        <button type="button" class="fc-abbtn fc-abbtn-a" id="fc-btn-a" aria-label="けってい"><i>A</i><span class="fc-cap">けってい</span></button>
+      </div>
+    </div>
+  </div>
 </div>
+<script src="./fc-ios-controller.js"></script>
 <script type="module" src="./build/src/main.js"></script>
 </body>
 </html>

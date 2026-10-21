@@ -1,0 +1,268 @@
+/* FC iOS Controller — 画面下25%専用・コピペ可（Press Start 2P 前提） */
+:root {
+  --fc-shell: #c8c8c8;
+  --fc-shell-lo: #a8a8a8;
+  --fc-shell-line: #707070;
+  --fc-dpad: #2a2a2a;
+  --fc-dpad-hi: #454545;
+  --fc-dpad-lo: #181818;
+  --fc-a: #e83800;
+  --fc-a-lo: #a82800;
+  --fc-b: #f8b800;
+  --fc-b-lo: #c89000;
+  --fc-sys: #505050;
+  --fc-sys-lo: #303030;
+  --fc-label: #1a1a1a;
+}
+
+.fc-control-deck {
+  position: relative;
+  flex: 0 0 25%;
+  height: 25%;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: clamp(4px, 1.5vw, 10px);
+  padding:
+    6px
+    max(8px, env(safe-area-inset-right, 8px))
+    max(6px, env(safe-area-inset-bottom, 6px))
+    max(8px, env(safe-area-inset-left, 8px));
+  background: linear-gradient(180deg, var(--fc-shell) 0%, var(--fc-shell-lo) 100%);
+  border-top: 3px solid var(--fc-shell-line);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.fc-control-deck::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.025) 3px,
+    rgba(0, 0, 0, 0.025) 4px
+  );
+}
+
+.fc-deck-left,
+.fc-deck-center,
+.fc-deck-right {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 100%;
+}
+
+.fc-deck-left {
+  flex: 1 1 38%;
+  justify-content: flex-start;
+}
+
+.fc-deck-center {
+  flex: 0 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 2px;
+}
+
+.fc-deck-right {
+  flex: 1 1 38%;
+  justify-content: flex-end;
+}
+
+/* ---- 十字キー（ファミコン十字型） ---- */
+.fc-dpad-wrap {
+  width: min(42vw, calc(25dvh - 18px), 168px);
+  height: min(42vw, calc(25dvh - 18px), 168px);
+  min-width: 120px;
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  touch-action: none;
+}
+
+.fc-dpad {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.45));
+}
+
+.fc-dpad-v,
+.fc-dpad-h {
+  position: absolute;
+  border: 2px solid var(--fc-dpad-lo);
+  background: linear-gradient(180deg, var(--fc-dpad-hi), var(--fc-dpad));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.fc-dpad-v {
+  width: 36%;
+  height: 100%;
+  left: 32%;
+  top: 0;
+}
+
+.fc-dpad-h {
+  width: 100%;
+  height: 36%;
+  left: 0;
+  top: 32%;
+}
+
+.fc-dpad-c {
+  position: absolute;
+  left: 30%;
+  top: 30%;
+  width: 40%;
+  height: 40%;
+  border: 2px solid var(--fc-dpad-lo);
+  background: radial-gradient(circle at 35% 28%, #555, var(--fc-dpad-lo));
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+.fc-dpad[data-up="1"] .fc-dpad-v {
+  background: linear-gradient(0deg, #666, var(--fc-dpad-hi));
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.45);
+}
+
+.fc-dpad[data-down="1"] .fc-dpad-v {
+  background: linear-gradient(180deg, #666, var(--fc-dpad-hi));
+  box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.45);
+}
+
+.fc-dpad[data-left="1"] .fc-dpad-h {
+  background: linear-gradient(90deg, #666, var(--fc-dpad-hi));
+  box-shadow: inset 4px 0 8px rgba(0, 0, 0, 0.45);
+}
+
+.fc-dpad[data-right="1"] .fc-dpad-h {
+  background: linear-gradient(270deg, #666, var(--fc-dpad-hi));
+  box-shadow: inset -4px 0 8px rgba(0, 0, 0, 0.45);
+}
+
+.fc-dpad.pressed {
+  transform: scale(0.98);
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.45)) brightness(1.05);
+}
+
+/* ---- SELECT / START ---- */
+.fc-sysbtn {
+  position: relative;
+  width: clamp(52px, 14vw, 68px);
+  height: clamp(22px, 6.5vw, 28px);
+  min-width: 48px;
+  min-height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--fc-sys), var(--fc-sys-lo));
+  box-shadow: 0 2px 0 #111, inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  color: #ddd;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(5px, 1.8vw, 7px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  touch-action: none;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.fc-sysbtn:active,
+.fc-sysbtn.pressed {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #111, inset 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+/* ---- A / B（ファミコン配色・斜め配置） ---- */
+.fc-ab {
+  position: relative;
+  width: min(46vw, calc(25dvh - 10px), 188px);
+  height: min(46vw, calc(25dvh - 10px), 188px);
+  min-width: 128px;
+  min-height: 128px;
+}
+
+.fc-abbtn {
+  position: absolute;
+  width: clamp(56px, 16vw, 72px);
+  height: clamp(56px, 16vw, 72px);
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: 3px solid rgba(0, 0, 0, 0.35);
+  border-radius: 50%;
+  touch-action: none;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.fc-abbtn i {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(11px, 3.4vw, 14px);
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+.fc-abbtn-a {
+  right: 0;
+  top: 8%;
+  background: radial-gradient(circle at 35% 28%, #ff6a40, var(--fc-a) 55%, var(--fc-a-lo));
+  box-shadow: 0 5px 0 #5a1800, inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.fc-abbtn-b {
+  left: 0;
+  bottom: 8%;
+  background: radial-gradient(circle at 35% 28%, #ffe060, var(--fc-b) 55%, var(--fc-b-lo));
+  box-shadow: 0 5px 0 #6a4a00, inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.fc-abbtn:active,
+.fc-abbtn.pressed {
+  transform: translateY(4px) scale(0.96);
+}
+
+.fc-abbtn-a:active,
+.fc-abbtn-a.pressed {
+  box-shadow: 0 1px 0 #5a1800, inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.fc-abbtn-b:active,
+.fc-abbtn-b.pressed {
+  box-shadow: 0 1px 0 #6a4a00, inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 360px) {
+  .fc-deck-center {
+    gap: 6px;
+  }
+
+  .fc-sysbtn {
+    width: 48px;
+    height: 20px;
+    font-size: 5px;
+  }
+}
+
+@media (max-height: 620px) {
+  .fc-dpad-wrap,
+  .fc-ab {
+    min-width: 108px;
+    min-height: 108px;
+  }
+}

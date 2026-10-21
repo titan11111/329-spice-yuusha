@@ -170,38 +170,37 @@ body.no-ruby .window rt { visibility: hidden; } /* 行の高さは変えない *
 .pad-learn .row.now { color: var(--gold-bright); }
 .pad-learn .row.done { color: var(--hp-high); }
 
-/* ───── 操作帯（画面の下25%。ゲーム画面には重ねない） ───── */
-#control-deck {
-  --bs: clamp(48px, calc((100vw - 40px) / 6), 58px);
-  flex: 0 0 25dvh; height: 25dvh; min-height: 0;
-  position: relative; z-index: 20;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 4px;
-  padding: 6px calc(4px + env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) calc(4px + env(safe-area-inset-left));
-  background: linear-gradient(#3a2416, #1a0f08);
-  border-top: 2px solid var(--gold);
-  overflow: hidden;
+/* 操作帯は 250 と同じ FC コントローラ。寸法だけ iPhone 幅に合わせる */
+#control-deck.fc-control-deck {
+  flex: 0 0 25dvh; height: 25dvh; min-height: 0; z-index: 20;
+  padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+  font-family: inherit;
 }
-.pad-cluster { display: flex; align-items: center; gap: 4px; height: 100%; }
-.act-cluster {
-  display: grid; grid-template-columns: repeat(3, var(--bs)); grid-auto-rows: var(--bs);
-  gap: 4px; height: auto; align-content: center;
+#control-deck .fc-dpad-wrap {
+  min-width: 96px; min-height: 96px;
+  width: min(31vw, calc(25dvh - 24px), 132px);
+  height: min(31vw, calc(25dvh - 24px), 132px);
 }
-.ud { display: flex; flex-direction: column; gap: 4px; }
-#control-deck button {
-  width: var(--bs); height: var(--bs); min-width: 48px; min-height: 48px;
-  margin: 0; padding: 0; border-radius: 12px;
-  background: rgba(60,36,20,.9); border: 2px solid rgba(212,164,55,.9);
-  color: #fff3d6; font: inherit; font-size: 20px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.08s ease, opacity 0.08s ease, background 0.08s ease;
+#control-deck .fc-deck-center { gap: 6px; }
+#control-deck .fc-sysbtn {
+  width: clamp(54px, 15vw, 70px); height: 48px; min-width: 48px; min-height: 48px;
+  font-family: inherit; font-size: 11px; letter-spacing: 0;
 }
-#control-deck button.on,
-#control-deck button:active {
-  transform: scale(0.92); opacity: 0.88; background: rgba(226,69,43,.85);
+#control-deck .fc-ab {
+  width: min(34vw, 140px); height: min(34vw, 140px);
+  min-width: 112px; min-height: 112px;
 }
-#btn-a, #btn-b { font-size: 22px; }
-body.battle .pad-cluster { visibility: hidden; }
+#control-deck .fc-abbtn {
+  width: min(16vw, 64px); height: min(16vw, 64px);
+  min-width: 48px; min-height: 48px;
+  font-family: inherit;
+}
+#control-deck .fc-abbtn i { font-family: inherit; transform: translateY(-7px); }
+#control-deck .fc-cap {
+  position: absolute; left: 0; right: 0; bottom: 7px; text-align: center;
+  font-size: 9px; font-style: normal; font-family: inherit;
+  color: rgba(0,0,0,.62); pointer-events: none; white-space: nowrap;
+}
 
 /* ───── 戦闘 ───── */
 .dmg {

@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { InputManager } from './core/input.ts';
 import { loadGame, saveGame, hasSave } from './core/save.ts';
 import { newGame } from './core/state.ts';
-import { Overlay, mountTouchControls } from './ui/overlay.ts';
+import { Overlay } from './ui/overlay.ts';
 import { GameAudio } from './game/audio.ts';
 import { setCtx, type GameCtx } from './game/ctx.ts';
 import { BootScene } from './game/scenes/BootScene.ts';
@@ -64,7 +64,7 @@ function applyPause(): void {
 }
 
 function paintMute(): void {
-  const btn = document.getElementById('btn-mute');
+  const btn = document.getElementById('fc-btn-mute');
   if (btn) btn.textContent = gs.settings.bgm === 0 && gs.settings.se === 0 ? '🔇' : '🔊';
 }
 
@@ -90,8 +90,6 @@ function togglePause(): void {
     for (const a of ['up', 'down', 'left', 'right', 'confirm', 'cancel', 'menu', 'fast'] as const) input.setTouch(a, false);
   }
   applyPause();
-  const btn = document.getElementById('btn-pause');
-  if (btn) btn.textContent = userPaused ? '▶' : '‖';
 }
 
 game = new Phaser.Game({
@@ -105,12 +103,41 @@ game = new Phaser.Game({
   scene: [BootScene, TitleScene, FieldScene, BattleScene],
 });
 
-mountTouchControls(input, document.getElementById('control-deck'), {
-  onMute: toggleMute,
-  onPause: togglePause,
-  muted: () => gs.settings.bgm === 0 && gs.settings.se === 0,
-  vibrate: () => { if (gs.settings.vibration && navigator.vibrate) navigator.vibrate(15); },
-  tap: () => audio.se('cursor'),
+let startHeld = false;
+const DIRS = ['up', 'down', 'left', 'right'] as const;
+const fc = (window as unknown as {
+  initFcIosController?: (opts: object) => void;
+}).initFcIosController;
+fc?.({
+  keyboard: false,
+  buttons: {
+    'fc-btn-a': ['KeyZ'],
+    'fc-btn-b': ['KeyX'],
+    'fc-btn-select': ['KeyC'],
+    'fc-btn-start': ['KeyP'],
+  },
+  onInteract() { audio.se('cursor'); },
+  onChange(keys: Record<string, boolean>) {
+    const vx = (keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0);
+    const vy = (keys.ArrowDown ? 1 : 0) - (keys.ArrowUp ? 1 : 0);
+    let dir: typeof DIRS[number] | null = null;
+    if (vx || vy) dir = Math.abs(vx) >= Math.abs(vy) ? (vx < 0 ? 'left' : 'right') : (vy < 0 ? 'up' : 'down');
+    for (const d of DIRS) input.setTouch(d, d === dir);
+    input.setTouch('confirm', !!keys.KeyZ);
+    input.setTouch('cancel', !!keys.KeyX);
+    input.setTouch('menu', !!keys.KeyC);
+    const start = !!keys.KeyP;
+    if (start && !startHeld) togglePause();
+    startHeld = start;
+  },
+});
+const muteBtn = document.getElementById('fc-btn-mute');
+if (readStore(MUTE_KEY) === '1' && muteBtn) muteBtn.textContent = '🔇';
+muteBtn?.addEventListener('pointerdown', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  try { muteBtn.setPointerCapture(e.pointerId); } catch { /* 離れていれば無視 */ }
+  toggleMute();
 });
 
 game.events.on('step', (time: number) => {

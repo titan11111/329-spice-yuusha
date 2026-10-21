@@ -14,8 +14,10 @@ iPhone Safari（縦持ち 390×844 を基準）。GitHub Pages の静的配信�
 
 ## 操作
 
-- 左: ◀ ▲▼ ▶（Pointer Events、`setPointerCapture`、指のスライドで方向が切り替わる）
-- 右: ≡ メニュー、≫ 早送り、B キャンセル、🔊 ミュート、‖ ポーズ、A 決定
+- 左: ファミコン型の十字キー（`titans-ui` の `fc-ios-controller`。250 と同じ部品。指の位置で上下左右が切り替わる）
+- 中央: メニュー / ミュート / ポーズ
+- 右: B もどる、A けってい
+- キーボードの Shift は文字の早送り。タッチの早送りボタンは置かない（A でページは進む）
 - キーボード: 矢印 / WASD、Z・Enter 決定、X・Esc キャンセル、C メニュー、Shift 早送り
 - ミュートは `tg.329.mute` と `tg.329.vol`、セーブは `tg.329.save`、パッド割当は `tg.329.pad.`
 - ポーズは ‖ で自分で止められる。タブを隠すと自動で止まる
@@ -46,7 +48,7 @@ Web Audio で BGM と効果音を生成する。最初のタップで解錠。�
 - `spice-hero/` — ゲーム本体（TypeScript と、ページが読む `web/build`）
 - Phaser は `spice-hero/web/vendor/phaser.esm.min.js`（CDN を使わない）
 
-操作の十字と A/B は、この作品の `InputManager` に既につながっていたタッチ操作を、327 の下 25% 帯に合わせて置き直した。`titans-ui` の FC コントローラーは SELECT/START 前提のため、そのままは載せていない。
+操作部品は `titans-ui/src/components/Controls/fc-ios-controller.js`。ボタンの大きさは `250-hoshimeguri-kokai-nisshi` の iPhone 向け上書きに合わせた。A は決定、B はもどる、中央はメニュー・ミュート・ポーズ。
 
 ## 実装制約
 
