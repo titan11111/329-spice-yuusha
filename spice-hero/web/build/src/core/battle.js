@@ -2,7 +2,7 @@
  * 戦闘ロジック（描画に依存しない純粋な計算）。仕様: docs/03_BALANCE.md
  * rng は 0以上1未満の乱数関数。テストでは固定値を渡す。
  */
-import { enemyById, equipById, expTable, memberById, must, spellById, } from "./data.js";
+import { enemyById, equipById, expTable, memberById, must, spellById, } from './data.js';
 export const randRange = (rng, min, max) => min + rng() * (max - min);
 export const randInt = (rng, min, max) => Math.floor(randRange(rng, min, max + 1));
 // ───────── 能力値 ─────────

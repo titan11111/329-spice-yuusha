@@ -14,6 +14,12 @@ export interface GameCtx {
   persist(): boolean;
   /** 遊んだ時間を数えるための起動時刻 */
   startedAt: number;
+  /** ミュートの切り替え（操作盤ではなく せってい から呼ぶ） */
+  toggleMute(): void;
+  /** いま消音か */
+  isMuted(): boolean;
+  /** ポーズに入る。解除は ポーズ画面のタップ / Esc / P */
+  pause(): void;
 }
 
 let ctx: GameCtx | null = null;

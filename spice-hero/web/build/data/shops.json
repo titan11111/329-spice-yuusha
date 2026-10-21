@@ -1,106 +1,106 @@
 {
-    "version": 1,
-    "inns": [
-        {
-            "id": "inn_beach",
-            "map": "town_beach",
-            "price": 6,
-            "keeper": "やどやの おかみさん"
-        },
-        {
-            "id": "inn_capital",
-            "map": "town_capital",
-            "price": 10,
-            "keeper": "やどやの おじさん"
-        },
-        {
-            "id": "inn_port",
-            "map": "town_port",
-            "price": 12,
-            "keeper": "みなとの やどや"
-        },
-        {
-            "id": "inn_turtle",
-            "map": "island_turtle",
-            "price": 0,
-            "keeper": "ウミガメを まもる おばあさん"
-        },
-        {
-            "id": "inn_highland",
-            "map": "town_highland",
-            "price": 15,
-            "keeper": "ちゃつみの おばさん",
-            "openFlag": "f_highland_saved"
-        },
-        {
-            "id": "inn_castle",
-            "map": "castle_gate",
-            "price": 0,
-            "keeper": "たびの しょうにん"
-        }
-    ],
-    "shops": [
-        {
-            "id": "shop_beach",
-            "map": "town_beach",
-            "items": [
-                "hopper",
-                "clove_fruit",
-                "coconut_shield"
-            ]
-        },
-        {
-            "id": "shop_capital_arms",
-            "map": "town_capital",
-            "items": [
-                "copper_sword",
-                "leather_armor",
-                "cinnamon_staff"
-            ]
-        },
-        {
-            "id": "shop_capital_food",
-            "map": "town_capital",
-            "items": [
-                "hopper",
-                "kottu",
-                "clove_fruit",
-                "cinnamon_pouch",
-                "return_kite"
-            ]
-        },
-        {
-            "id": "shop_port",
-            "map": "town_port",
-            "items": [
-                "croc_sword",
-                "scale_armor",
-                "silk_shawl",
-                "tusk_cap",
-                "hopper",
-                "kottu"
-            ]
-        },
-        {
-            "id": "shop_highland",
-            "map": "town_highland",
-            "openFlag": "f_highland_saved",
-            "items": [
-                "steel_sword",
-                "iron_tusk",
-                "kottu",
-                "cinnamon_pouch"
-            ]
-        },
-        {
-            "id": "shop_castle",
-            "map": "castle_gate",
-            "items": [
-                "hopper",
-                "kottu",
-                "clove_fruit",
-                "king_coconut"
-            ]
-        }
-    ]
+ "version": 1,
+ "inns": [
+  {
+   "id": "inn_beach",
+   "map": "town_beach",
+   "price": 6,
+   "keeper": "やどやの おかみさん"
+  },
+  {
+   "id": "inn_capital",
+   "map": "town_capital",
+   "price": 10,
+   "keeper": "やどやの おじさん"
+  },
+  {
+   "id": "inn_port",
+   "map": "town_port",
+   "price": 12,
+   "keeper": "みなとの やどや"
+  },
+  {
+   "id": "inn_turtle",
+   "map": "island_turtle",
+   "price": 0,
+   "keeper": "ウミガメを まもる おばあさん"
+  },
+  {
+   "id": "inn_highland",
+   "map": "town_highland",
+   "price": 15,
+   "keeper": "ちゃつみの おばさん",
+   "openFlag": "f_highland_saved"
+  },
+  {
+   "id": "inn_castle",
+   "map": "castle_gate",
+   "price": 0,
+   "keeper": "たびの しょうにん"
+  }
+ ],
+ "shops": [
+  {
+   "id": "shop_beach",
+   "map": "town_beach",
+   "items": [
+    "hopper",
+    "clove_fruit",
+    "coconut_shield"
+   ]
+  },
+  {
+   "id": "shop_capital_arms",
+   "map": "town_capital",
+   "items": [
+    "copper_sword",
+    "leather_armor",
+    "cinnamon_staff"
+   ]
+  },
+  {
+   "id": "shop_capital_food",
+   "map": "town_capital",
+   "items": [
+    "hopper",
+    "kottu",
+    "clove_fruit",
+    "cinnamon_pouch",
+    "return_kite"
+   ]
+  },
+  {
+   "id": "shop_port",
+   "map": "town_port",
+   "items": [
+    "croc_sword",
+    "scale_armor",
+    "silk_shawl",
+    "tusk_cap",
+    "hopper",
+    "kottu"
+   ]
+  },
+  {
+   "id": "shop_highland",
+   "map": "town_highland",
+   "openFlag": "f_highland_saved",
+   "items": [
+    "steel_sword",
+    "iron_tusk",
+    "kottu",
+    "cinnamon_pouch"
+   ]
+  },
+  {
+   "id": "shop_castle",
+   "map": "castle_gate",
+   "items": [
+    "hopper",
+    "kottu",
+    "clove_fruit",
+    "king_coconut"
+   ]
+  }
+ ]
 }

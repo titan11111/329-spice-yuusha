@@ -1,213 +1,213 @@
 {
-    "version": 1,
-    "list": [
-        {
-            "id": "stick",
-            "name": "きのぼう",
-            "slot": "weapon",
-            "atk": 2,
-            "who": [
-                "hero"
-            ],
-            "price": 10
-        },
-        {
-            "id": "copper_sword",
-            "name": "どうのつるぎ",
-            "slot": "weapon",
-            "atk": 8,
-            "who": [
-                "hero"
-            ],
-            "price": 60
-        },
-        {
-            "id": "croc_sword",
-            "name": "ワニきばのけん",
-            "slot": "weapon",
-            "atk": 14,
-            "who": [
-                "hero"
-            ],
-            "price": 180
-        },
-        {
-            "id": "steel_sword",
-            "name": "こうげんの はがねのけん",
-            "slot": "weapon",
-            "atk": 20,
-            "who": [
-                "hero"
-            ],
-            "price": 350
-        },
-        {
-            "id": "pepper_sword",
-            "name": "こしょうのけん",
-            "slot": "weapon",
-            "atk": 30,
-            "who": [
-                "hero"
-            ],
-            "price": null,
-            "source": "chest_r02",
-            "note": "こうげきすると たまに てきが くしゃみ（10%）"
-        },
-        {
-            "id": "palm_staff",
-            "name": "ヤシのつえ",
-            "slot": "weapon",
-            "atk": 3,
-            "who": [
-                "mina"
-            ],
-            "price": 10
-        },
-        {
-            "id": "cinnamon_staff",
-            "name": "シナモンのつえ",
-            "slot": "weapon",
-            "atk": 7,
-            "who": [
-                "mina"
-            ],
-            "price": 70
-        },
-        {
-            "id": "lotus_staff",
-            "name": "はすのつえ",
-            "slot": "weapon",
-            "atk": 12,
-            "who": [
-                "mina"
-            ],
-            "price": null,
-            "source": "chest_palace_01",
-            "note": "シナモ系の かいふく +20%"
-        },
-        {
-            "id": "tusk_cap",
-            "name": "きばカバー",
-            "slot": "weapon",
-            "atk": 5,
-            "who": [
-                "pearl"
-            ],
-            "price": 60
-        },
-        {
-            "id": "iron_tusk",
-            "name": "てつの きばかざり",
-            "slot": "weapon",
-            "atk": 12,
-            "who": [
-                "pearl"
-            ],
-            "price": 240
-        },
-        {
-            "id": "traveler_cloth",
-            "name": "たびびとのふく",
-            "slot": "armor",
-            "def": 2,
-            "who": [
-                "hero"
-            ],
-            "price": 10
-        },
-        {
-            "id": "leather_armor",
-            "name": "かわのよろい",
-            "slot": "armor",
-            "def": 6,
-            "who": [
-                "hero"
-            ],
-            "price": 50
-        },
-        {
-            "id": "scale_armor",
-            "name": "うろこのよろい",
-            "slot": "armor",
-            "def": 12,
-            "who": [
-                "hero"
-            ],
-            "price": 200
-        },
-        {
-            "id": "cotton_robe",
-            "name": "もめんのローブ",
-            "slot": "armor",
-            "def": 2,
-            "who": [
-                "mina"
-            ],
-            "price": 10
-        },
-        {
-            "id": "silk_shawl",
-            "name": "きぬのショール",
-            "slot": "armor",
-            "def": 6,
-            "who": [
-                "mina"
-            ],
-            "price": 120
-        },
-        {
-            "id": "festival_cloth",
-            "name": "まつりのぬの",
-            "slot": "armor",
-            "def": 4,
-            "who": [
-                "pearl"
-            ],
-            "price": null
-        },
-        {
-            "id": "chain_cloth",
-            "name": "くさりのかざりぬの",
-            "slot": "armor",
-            "def": 10,
-            "who": [
-                "pearl"
-            ],
-            "price": null,
-            "source": "chest_highland_01"
-        },
-        {
-            "id": "coconut_shield",
-            "name": "ヤシのみのたて",
-            "slot": "shield",
-            "def": 3,
-            "who": [
-                "hero"
-            ],
-            "price": 30
-        },
-        {
-            "id": "marble_shield",
-            "name": "だいりせきのたて",
-            "slot": "shield",
-            "def": 8,
-            "who": [
-                "hero"
-            ],
-            "price": null,
-            "source": "chest_palace_02"
-        },
-        {
-            "id": "elephant_shield",
-            "name": "ゾウのたて",
-            "slot": "shield",
-            "def": 12,
-            "who": [
-                "pearl"
-            ],
-            "price": null,
-            "source": "chest_r01",
-            "note": "かばう ときの ダメージ −30%"
-        }
-    ]
+ "version": 1,
+ "list": [
+  {
+   "id": "stick",
+   "name": "きのぼう",
+   "slot": "weapon",
+   "atk": 2,
+   "who": [
+    "hero"
+   ],
+   "price": 10
+  },
+  {
+   "id": "copper_sword",
+   "name": "どうのつるぎ",
+   "slot": "weapon",
+   "atk": 8,
+   "who": [
+    "hero"
+   ],
+   "price": 60
+  },
+  {
+   "id": "croc_sword",
+   "name": "ワニきばのけん",
+   "slot": "weapon",
+   "atk": 14,
+   "who": [
+    "hero"
+   ],
+   "price": 180
+  },
+  {
+   "id": "steel_sword",
+   "name": "こうげんの はがねのけん",
+   "slot": "weapon",
+   "atk": 20,
+   "who": [
+    "hero"
+   ],
+   "price": 350
+  },
+  {
+   "id": "pepper_sword",
+   "name": "こしょうのけん",
+   "slot": "weapon",
+   "atk": 30,
+   "who": [
+    "hero"
+   ],
+   "price": null,
+   "source": "chest_r02",
+   "note": "こうげきすると たまに てきが くしゃみ（10%）"
+  },
+  {
+   "id": "palm_staff",
+   "name": "ヤシのつえ",
+   "slot": "weapon",
+   "atk": 3,
+   "who": [
+    "mina"
+   ],
+   "price": 10
+  },
+  {
+   "id": "cinnamon_staff",
+   "name": "シナモンのつえ",
+   "slot": "weapon",
+   "atk": 7,
+   "who": [
+    "mina"
+   ],
+   "price": 70
+  },
+  {
+   "id": "lotus_staff",
+   "name": "はすのつえ",
+   "slot": "weapon",
+   "atk": 12,
+   "who": [
+    "mina"
+   ],
+   "price": null,
+   "source": "chest_palace_01",
+   "note": "シナモ系の かいふく +20%"
+  },
+  {
+   "id": "tusk_cap",
+   "name": "きばカバー",
+   "slot": "weapon",
+   "atk": 5,
+   "who": [
+    "pearl"
+   ],
+   "price": 60
+  },
+  {
+   "id": "iron_tusk",
+   "name": "てつの きばかざり",
+   "slot": "weapon",
+   "atk": 12,
+   "who": [
+    "pearl"
+   ],
+   "price": 240
+  },
+  {
+   "id": "traveler_cloth",
+   "name": "たびびとのふく",
+   "slot": "armor",
+   "def": 2,
+   "who": [
+    "hero"
+   ],
+   "price": 10
+  },
+  {
+   "id": "leather_armor",
+   "name": "かわのよろい",
+   "slot": "armor",
+   "def": 6,
+   "who": [
+    "hero"
+   ],
+   "price": 50
+  },
+  {
+   "id": "scale_armor",
+   "name": "うろこのよろい",
+   "slot": "armor",
+   "def": 12,
+   "who": [
+    "hero"
+   ],
+   "price": 200
+  },
+  {
+   "id": "cotton_robe",
+   "name": "もめんのローブ",
+   "slot": "armor",
+   "def": 2,
+   "who": [
+    "mina"
+   ],
+   "price": 10
+  },
+  {
+   "id": "silk_shawl",
+   "name": "きぬのショール",
+   "slot": "armor",
+   "def": 6,
+   "who": [
+    "mina"
+   ],
+   "price": 120
+  },
+  {
+   "id": "festival_cloth",
+   "name": "まつりのぬの",
+   "slot": "armor",
+   "def": 4,
+   "who": [
+    "pearl"
+   ],
+   "price": null
+  },
+  {
+   "id": "chain_cloth",
+   "name": "くさりのかざりぬの",
+   "slot": "armor",
+   "def": 10,
+   "who": [
+    "pearl"
+   ],
+   "price": null,
+   "source": "chest_highland_01"
+  },
+  {
+   "id": "coconut_shield",
+   "name": "ヤシのみのたて",
+   "slot": "shield",
+   "def": 3,
+   "who": [
+    "hero"
+   ],
+   "price": 30
+  },
+  {
+   "id": "marble_shield",
+   "name": "だいりせきのたて",
+   "slot": "shield",
+   "def": 8,
+   "who": [
+    "hero"
+   ],
+   "price": null,
+   "source": "chest_palace_02"
+  },
+  {
+   "id": "elephant_shield",
+   "name": "ゾウのたて",
+   "slot": "shield",
+   "def": 12,
+   "who": [
+    "pearl"
+   ],
+   "price": null,
+   "source": "chest_r01",
+   "note": "かばう ときの ダメージ −30%"
+  }
+ ]
 }

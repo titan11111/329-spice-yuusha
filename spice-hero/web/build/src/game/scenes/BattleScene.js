@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
-import { Battle } from "../../core/engine.js";
-import { isAlive, statsWithEquip } from "../../core/battle.js";
-import { enemyById, itemById, memberById, must, spellById, uiTheme } from "../../core/data.js";
-import { gainExp, knownSpells } from "../../core/state.js";
-import { rubyToHtml } from "../../core/ruby.js";
-import { mulberry32 } from "../art.js";
-import { G } from "../ctx.js";
+import { Battle } from '../../core/engine.js';
+import { isAlive, statsWithEquip } from '../../core/battle.js';
+import { enemyById, itemById, memberById, must, spellById, uiTheme } from '../../core/data.js';
+import { gainExp, knownSpells } from '../../core/state.js';
+import { rubyToHtml } from '../../core/ruby.js';
+import { mulberry32 } from '../art.js';
+import { G } from '../ctx.js';
 const L = uiTheme.layout.battle;
 export class BattleScene extends Phaser.Scene {
     battle;
@@ -94,7 +94,7 @@ export class BattleScene extends Phaser.Scene {
     say(text) {
         const g = G();
         if (!this.msgEl || !this.msgEl.isConnected)
-            this.msgEl = g.overlay.window(L.message, 'msg');
+            this.msgEl = g.overlay.window(L.message, 'msg battle-msg');
         this.msgEl.innerHTML = `<div class="msg-text text-line">${rubyToHtml(text)}</div><i class="corner-tr"></i><i class="corner-bl"></i>`;
         const dur = g.gs.settings.textSpeed === 'fast' ? 500 : 900 + text.length * 25;
         return g.overlay.modal((resolve) => {

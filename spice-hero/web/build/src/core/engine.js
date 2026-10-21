@@ -2,8 +2,8 @@
  * 戦闘エンジン: コマンドを受け取り、1ターンを解決して「出来事（イベント）」の列を返す。
  * 描画側（Phaser）はイベントを順番に演出するだけ。ロジックはここに全部ある。
  */
-import { applyPoisonTick, battleRewards, canAct, effAgi, healAmount, isAlive, isWiped, makeEnemyCombatant, makePartyCombatant, physicalDamage, pickEnemyAction, pickTarget, randInt, runChance, spellDamage, tickBuffs, turnOrder, wakeOnHit, } from "./battle.js";
-import { enemyById, equipById, itemById, must, spellById } from "./data.js";
+import { applyPoisonTick, battleRewards, canAct, effAgi, healAmount, isAlive, isWiped, makeEnemyCombatant, makePartyCombatant, physicalDamage, pickEnemyAction, pickTarget, randInt, runChance, spellDamage, tickBuffs, turnOrder, wakeOnHit, } from './battle.js';
+import { enemyById, equipById, itemById, must, spellById } from './data.js';
 export class Battle {
     opts;
     party;

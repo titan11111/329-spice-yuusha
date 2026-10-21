@@ -7,8 +7,8 @@
  "font": {
   "family": "DotGothic16",
   "size": 12,
-  "rubySize": 6,
-  "lineHeight": 18,
+  "rubySize": 5,
+  "lineHeight": 16,
   "maxCharsPerLine": 20,
   "maxLines": 3
  },
@@ -58,9 +58,9 @@
   "field": {
    "message": {
     "x": 8,
-    "y": 112,
+    "y": 104,
     "w": 304,
-    "h": 64
+    "h": 74
    },
    "menu": {
     "x": 216,
@@ -99,7 +99,7 @@
     "x": 220,
     "y": 4,
     "w": 96,
-    "h": 44
+    "h": 54
    },
    "enemyName": {
     "x": 4,
@@ -110,8 +110,8 @@
    "command": {
     "x": 4,
     "y": 124,
-    "w": 104,
-    "h": 52,
+    "w": 140,
+    "h": 54,
     "cols": 2,
     "items": [
      "attack",
@@ -122,10 +122,10 @@
     ]
    },
    "message": {
-    "x": 112,
+    "x": 148,
     "y": 124,
-    "w": 204,
-    "h": 52
+    "w": 168,
+    "h": 54
    },
    "list": {
     "x": 112,

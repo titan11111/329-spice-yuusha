@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
-import { loadGame } from "../../core/save.js";
-import { newGame } from "../../core/state.js";
-import { rubyToHtml } from "../../core/ruby.js";
-import { G } from "../ctx.js";
-import { nameEntry } from "../menus.js";
-import { mulberry32 } from "../art.js";
+import { loadGame } from '../../core/save.js';
+import { newGame } from '../../core/state.js';
+import { rubyToHtml } from '../../core/ruby.js';
+import { G } from '../ctx.js';
+import { nameEntry } from '../menus.js';
+import { mulberry32 } from '../art.js';
 export class TitleScene extends Phaser.Scene {
     flowId = 0;
     constructor() { super('Title'); }

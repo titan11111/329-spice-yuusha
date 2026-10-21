@@ -2,7 +2,7 @@
  * セーブ/ロード。保存先は localStorage（キー tg.329.save）。スロットは1つだけ。
  * version を持たせて、将来データが変わっても古いセーブを読めるようにする。
  */
-import { defaultSettings, newGame } from "./state.js";
+import { defaultSettings, newGame } from './state.js';
 export const SAVE_KEY = 'tg.329.save';
 export const PAD_KEY_PREFIX = 'tg.329.pad.';
 /** localStorage が使えない環境（プライベートモード等）でも落ちないメモリ保存 */

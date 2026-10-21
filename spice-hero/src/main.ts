@@ -39,6 +39,9 @@ const ctx = {
     return saveGame(ctx.gs);
   },
   startedAt: Date.now(),
+  toggleMute: () => toggleMute(),
+  isMuted: () => gs.settings.bgm === 0 && gs.settings.se === 0,
+  pause: () => setPaused(true),
 } as GameCtx;
 const overlay = new Overlay(input, () => ctx.gs.settings);
 const audio = new GameAudio(() => ctx.gs.settings);
@@ -63,11 +66,6 @@ function applyPause(): void {
   else loop.running = true;
 }
 
-function paintMute(): void {
-  const btn = document.getElementById('fc-btn-mute');
-  if (btn) btn.textContent = gs.settings.bgm === 0 && gs.settings.se === 0 ? '🔇' : '🔊';
-}
-
 function toggleMute(): void {
   const s = gs.settings;
   const muted = s.bgm === 0 && s.se === 0;
@@ -81,16 +79,17 @@ function toggleMute(): void {
   }
   writeStore(MUTE_KEY, s.bgm === 0 && s.se === 0 ? '1' : '0');
   audio.applyVolume();
-  paintMute();
 }
 
-function togglePause(): void {
-  userPaused = !userPaused;
-  if (userPaused) {
-    for (const a of ['up', 'down', 'left', 'right', 'confirm', 'cancel', 'menu', 'fast'] as const) input.setTouch(a, false);
-  }
+function setPaused(on: boolean): void {
+  if (userPaused === on) return;
+  userPaused = on;
+  // ポーズ中は update() が止まる。押しっぱなしの入力を捨てないと解除した瞬間に1回ぶん入る
+  input.clearTouch();
   applyPause();
 }
+
+function togglePause(): void { setPaused(!userPaused); }
 
 game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -103,7 +102,6 @@ game = new Phaser.Game({
   scene: [BootScene, TitleScene, FieldScene, BattleScene],
 });
 
-let startHeld = false;
 const DIRS = ['up', 'down', 'left', 'right'] as const;
 const fc = (window as unknown as {
   initFcIosController?: (opts: object) => void;
@@ -114,7 +112,6 @@ fc?.({
     'fc-btn-a': ['KeyZ'],
     'fc-btn-b': ['KeyX'],
     'fc-btn-select': ['KeyC'],
-    'fc-btn-start': ['KeyP'],
   },
   onInteract() { audio.se('cursor'); },
   onChange(keys: Record<string, boolean>) {
@@ -126,18 +123,21 @@ fc?.({
     input.setTouch('confirm', !!keys.KeyZ);
     input.setTouch('cancel', !!keys.KeyX);
     input.setTouch('menu', !!keys.KeyC);
-    const start = !!keys.KeyP;
-    if (start && !startHeld) togglePause();
-    startHeld = start;
   },
 });
-const muteBtn = document.getElementById('fc-btn-mute');
-if (readStore(MUTE_KEY) === '1' && muteBtn) muteBtn.textContent = '🔇';
-muteBtn?.addEventListener('pointerdown', (e) => {
+// ポーズ画面はタップで解除する（操作盤にポーズボタンを置かないため、ここが唯一の出口になる）
+const pauseLayer = document.getElementById('pause-layer');
+pauseLayer?.addEventListener('pointerdown', (e) => {
   e.preventDefault();
-  e.stopPropagation();
-  try { muteBtn.setPointerCapture(e.pointerId); } catch { /* 離れていれば無視 */ }
-  toggleMute();
+  setPaused(false);
+});
+
+// キーボードのポーズ。ポーズ中は Phaser のループが寝ているので DOM 側で受ける。
+// Esc は menus の「キャンセル」と重なるので割り当てない
+window.addEventListener('keydown', (e) => {
+  if (e.code !== 'KeyP' || e.repeat) return;
+  e.preventDefault();
+  togglePause();
 });
 
 game.events.on('step', (time: number) => {

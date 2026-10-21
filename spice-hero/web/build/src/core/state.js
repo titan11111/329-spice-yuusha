@@ -1,8 +1,8 @@
 /**
  * ゲーム全体の状態（パーティ・お金・道具・フラグ）と、その更新ルール。描画に依存しない。
  */
-import { levelForExp, statsWithEquip, spellsLearnedAt, } from "./battle.js";
-import { chestsData, equipById, itemById, memberById, must, partyData, shopsData, spellById, } from "./data.js";
+import { levelForExp, statsWithEquip, spellsLearnedAt, } from './battle.js';
+import { chestsData, equipById, itemById, memberById, must, partyData, shopsData, spellById, } from './data.js';
 export const defaultSettings = () => ({ textSpeed: 'normal', ruby: true, bgm: 0.7, se: 0.8, vibration: true });
 export function newMember(id, lv, name) {
     const def = must(memberById.get(id), id);

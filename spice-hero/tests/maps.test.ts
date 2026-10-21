@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MAPS, LEGEND, tileAt } from '../src/game/maps.ts';
+import { MAPS, LEGEND, tileAt, INN_ARRIVAL } from '../src/game/maps.ts';
 import { TILES } from '../src/game/art.ts';
 import { mapsData, chestsData, encounters } from '../src/core/data.ts';
 
@@ -43,4 +43,45 @@ test('maps.json にある村マップは MAPS に実装されている（ある�
 test('宿屋マップの出入口から、外のマップのドア前へ戻れる', () => {
   const door = tileAt(MAPS.town_beach, 13, 7);
   assert.equal(door && LEGEND.d.ground, 'door');
+});
+
+test('到着タイルが別の出入口と重なっていない（出入口ループを防ぐ）', () => {
+  for (const m of Object.values(MAPS)) {
+    for (const e of m.exits) {
+      const dest = MAPS[e.to];
+      const onTop = dest.exits.find((d) => d.x === e.tx && d.y === e.ty);
+      assert.ok(!onTop, `${m.id}→${e.to}: 到着先(${e.tx},${e.ty})が ${e.to} の出入口と重なっている`);
+    }
+  }
+});
+
+test('はまむらから すべてのマップへ 歩いて たどりつける', () => {
+  const seen = new Set<string>(['town_beach']);
+  const queue = ['town_beach'];
+  while (queue.length) {
+    const id = queue.shift()!;
+    for (const e of MAPS[id].exits) if (!seen.has(e.to)) { seen.add(e.to); queue.push(e.to); }
+  }
+  const missing = Object.keys(MAPS).filter((id) => !seen.has(id));
+  assert.deepEqual(missing, [], `たどりつけないマップ: ${missing.join(', ')}`);
+});
+
+test('出入口は行き来できる（行った先から 元のマップへ もどれる）', () => {
+  for (const m of Object.values(MAPS)) {
+    for (const e of m.exits) {
+      const back = MAPS[e.to].exits.some((d) => d.to === m.id);
+      assert.ok(back, `${m.id}→${e.to}: ${e.to} から ${m.id} へ もどる出入口がない`);
+    }
+  }
+});
+
+test('宿屋データの map が 実装済みなら INN_ARRIVAL に もどり先がある', () => {
+  for (const m of Object.values(MAPS)) {
+    for (const n of m.npcs) {
+      const t = n.talk;
+      if (typeof t === 'object' && !Array.isArray(t) && 'inn' in t) {
+        assert.ok(INN_ARRIVAL[t.inn], `${m.id}: 宿屋 ${t.inn} の もどり先がない`);
+      }
+    }
+  }
 });

@@ -1,195 +1,195 @@
 {
-    "version": 1,
-    "expShare": "full",
-    "joinLevel": "same_as_hero",
-    "members": [
-        {
-            "id": "hero",
-            "name": "ゆうしゃ",
-            "nameEditable": true,
-            "role": "剣と光のスパイス",
-            "growth": {
-                "hp": {
-                    "base": 22,
-                    "growth": 6
-                },
-                "sp": {
-                    "base": 0,
-                    "growth": 2.7
-                },
-                "str": {
-                    "base": 8,
-                    "growth": 2
-                },
-                "def": {
-                    "base": 4,
-                    "growth": 1
-                },
-                "agi": {
-                    "base": 6,
-                    "growth": 1
-                }
-            },
-            "initialEquip": {
-                "weapon": "stick",
-                "armor": "traveler_cloth",
-                "shield": null
-            },
-            "learn": [
-                {
-                    "lv": 3,
-                    "spell": "cinnamo"
-                },
-                {
-                    "lv": 5,
-                    "spell": "nutme"
-                },
-                {
-                    "lv": 6,
-                    "spell": "safra"
-                },
-                {
-                    "lv": 8,
-                    "spell": "leafle"
-                },
-                {
-                    "lv": 9,
-                    "spell": "jinga"
-                },
-                {
-                    "event": "f_god_wind",
-                    "spell": "safraon"
-                }
-            ]
-        },
-        {
-            "id": "mina",
-            "name": "ミーナ",
-            "role": "回復と炎",
-            "joinFlag": "f_mina",
-            "growth": {
-                "hp": {
-                    "base": 16,
-                    "growth": 5
-                },
-                "sp": {
-                    "base": 8,
-                    "growth": 3.5
-                },
-                "str": {
-                    "base": 5,
-                    "growth": 1.2
-                },
-                "def": {
-                    "base": 3,
-                    "growth": 0.9
-                },
-                "agi": {
-                    "base": 8,
-                    "growth": 1.5
-                }
-            },
-            "initialEquip": {
-                "weapon": "palm_staff",
-                "armor": "cotton_robe",
-                "shield": null
-            },
-            "skillNoSp": "pepper_powder",
-            "learn": [
-                {
-                    "lv": 1,
-                    "spell": "cinnamo"
-                },
-                {
-                    "lv": 2,
-                    "spell": "pepari"
-                },
-                {
-                    "lv": 4,
-                    "spell": "carda"
-                },
-                {
-                    "lv": 4,
-                    "spell": "clove"
-                },
-                {
-                    "lv": 6,
-                    "spell": "peparis"
-                },
-                {
-                    "lv": 7,
-                    "spell": "turmel"
-                },
-                {
-                    "lv": 8,
-                    "spell": "cinnamoris"
-                },
-                {
-                    "lv": 10,
-                    "spell": "paparion"
-                }
-            ]
-        },
-        {
-            "id": "pearl",
-            "name": "パール",
-            "role": "力と守り（子ゾウ）",
-            "joinFlag": "f_pearl",
-            "commandName": "わざ",
-            "fieldAbility": "push_rock",
-            "growth": {
-                "hp": {
-                    "base": 30,
-                    "growth": 8
-                },
-                "sp": {
-                    "base": 2,
-                    "growth": 1.5
-                },
-                "str": {
-                    "base": 10,
-                    "growth": 2.4
-                },
-                "def": {
-                    "base": 6,
-                    "growth": 1.5
-                },
-                "agi": {
-                    "base": 3,
-                    "growth": 0.8
-                }
-            },
-            "initialEquip": {
-                "weapon": null,
-                "armor": "festival_cloth",
-                "shield": null
-            },
-            "learn": [
-                {
-                    "lv": 1,
-                    "spell": "tackle"
-                },
-                {
-                    "lv": 3,
-                    "spell": "cover"
-                },
-                {
-                    "lv": 5,
-                    "spell": "trunk_shower"
-                },
-                {
-                    "lv": 7,
-                    "spell": "stomp"
-                },
-                {
-                    "lv": 10,
-                    "spell": "elephant_roar"
-                }
-            ]
-        }
-    ],
-    "startGold": 50,
-    "startItems": {
-        "hopper": 2
+ "version": 1,
+ "expShare": "full",
+ "joinLevel": "same_as_hero",
+ "members": [
+  {
+   "id": "hero",
+   "name": "ゆうしゃ",
+   "nameEditable": true,
+   "role": "剣と光のスパイス",
+   "growth": {
+    "hp": {
+     "base": 22,
+     "growth": 6
+    },
+    "sp": {
+     "base": 0,
+     "growth": 2.7
+    },
+    "str": {
+     "base": 8,
+     "growth": 2
+    },
+    "def": {
+     "base": 4,
+     "growth": 1
+    },
+    "agi": {
+     "base": 6,
+     "growth": 1
     }
+   },
+   "initialEquip": {
+    "weapon": "stick",
+    "armor": "traveler_cloth",
+    "shield": null
+   },
+   "learn": [
+    {
+     "lv": 3,
+     "spell": "cinnamo"
+    },
+    {
+     "lv": 5,
+     "spell": "nutme"
+    },
+    {
+     "lv": 6,
+     "spell": "safra"
+    },
+    {
+     "lv": 8,
+     "spell": "leafle"
+    },
+    {
+     "lv": 9,
+     "spell": "jinga"
+    },
+    {
+     "event": "f_god_wind",
+     "spell": "safraon"
+    }
+   ]
+  },
+  {
+   "id": "mina",
+   "name": "ミーナ",
+   "role": "回復と炎",
+   "joinFlag": "f_mina",
+   "growth": {
+    "hp": {
+     "base": 16,
+     "growth": 5
+    },
+    "sp": {
+     "base": 8,
+     "growth": 3.5
+    },
+    "str": {
+     "base": 5,
+     "growth": 1.2
+    },
+    "def": {
+     "base": 3,
+     "growth": 0.9
+    },
+    "agi": {
+     "base": 8,
+     "growth": 1.5
+    }
+   },
+   "initialEquip": {
+    "weapon": "palm_staff",
+    "armor": "cotton_robe",
+    "shield": null
+   },
+   "skillNoSp": "pepper_powder",
+   "learn": [
+    {
+     "lv": 1,
+     "spell": "cinnamo"
+    },
+    {
+     "lv": 2,
+     "spell": "pepari"
+    },
+    {
+     "lv": 4,
+     "spell": "carda"
+    },
+    {
+     "lv": 4,
+     "spell": "clove"
+    },
+    {
+     "lv": 6,
+     "spell": "peparis"
+    },
+    {
+     "lv": 7,
+     "spell": "turmel"
+    },
+    {
+     "lv": 8,
+     "spell": "cinnamoris"
+    },
+    {
+     "lv": 10,
+     "spell": "paparion"
+    }
+   ]
+  },
+  {
+   "id": "pearl",
+   "name": "パール",
+   "role": "力と守り（子ゾウ）",
+   "joinFlag": "f_pearl",
+   "commandName": "わざ",
+   "fieldAbility": "push_rock",
+   "growth": {
+    "hp": {
+     "base": 30,
+     "growth": 8
+    },
+    "sp": {
+     "base": 2,
+     "growth": 1.5
+    },
+    "str": {
+     "base": 10,
+     "growth": 2.4
+    },
+    "def": {
+     "base": 6,
+     "growth": 1.5
+    },
+    "agi": {
+     "base": 3,
+     "growth": 0.8
+    }
+   },
+   "initialEquip": {
+    "weapon": null,
+    "armor": "festival_cloth",
+    "shield": null
+   },
+   "learn": [
+    {
+     "lv": 1,
+     "spell": "tackle"
+    },
+    {
+     "lv": 3,
+     "spell": "cover"
+    },
+    {
+     "lv": 5,
+     "spell": "trunk_shower"
+    },
+    {
+     "lv": 7,
+     "spell": "stomp"
+    },
+    {
+     "lv": 10,
+     "spell": "elephant_roar"
+    }
+   ]
+  }
+ ],
+ "startGold": 50,
+ "startItems": {
+  "hopper": 2
+ }
 }

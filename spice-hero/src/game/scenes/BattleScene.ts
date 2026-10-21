@@ -102,7 +102,7 @@ export class BattleScene extends Phaser.Scene {
 
   private say(text: string): Promise<void> {
     const g = G();
-    if (!this.msgEl || !this.msgEl.isConnected) this.msgEl = g.overlay.window(L.message, 'msg');
+    if (!this.msgEl || !this.msgEl.isConnected) this.msgEl = g.overlay.window(L.message, 'msg battle-msg');
     this.msgEl.innerHTML = `<div class="msg-text text-line">${rubyToHtml(text)}</div><i class="corner-tr"></i><i class="corner-bl"></i>`;
     const dur = g.gs.settings.textSpeed === 'fast' ? 500 : 900 + text.length * 25;
     return g.overlay.modal<void>((resolve) => {

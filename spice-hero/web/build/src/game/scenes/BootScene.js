@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import { enemyList } from "../../core/data.js";
-import { LOOKS, TILES, canvas, drawBattleBack, drawChest, drawEnemy, drawPearl, drawPerson, mulberry32, hashStr, } from "../art.js";
+import { enemyList } from '../../core/data.js';
+import { LOOKS, TILES, canvas, drawBattleBack, drawChest, drawEnemy, drawPearl, drawPerson, mulberry32, hashStr, } from '../art.js';
 const DIRS = ['down', 'up', 'left', 'right'];
 const BGS = ['beach', 'jungle', 'cave', 'sea', 'highland', 'palace', 'castle', 'ship_storm'];
 /** 絵（タイル・キャラ・敵・背景）をコードで作って Phaser のテクスチャに登録する */

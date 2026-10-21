@@ -1,97 +1,97 @@
 {
-    "version": 1,
-    "list": [
-        {
-            "id": "hopper",
-            "name": "ホッパー",
-            "price": 8,
-            "type": "heal_hp",
-            "target": "ally_one",
-            "power": 30,
-            "desc": "パリパリの ココナッツの パンケーキ。HPを 30 かいふく"
-        },
-        {
-            "id": "kottu",
-            "name": "コットゥ・ロティ",
-            "price": 30,
-            "type": "heal_hp",
-            "target": "ally_one",
-            "power": 80,
-            "desc": "トントン いためた ごちそう。HPを 80 かいふく"
-        },
-        {
-            "id": "king_coconut",
-            "name": "キングココナッツ",
-            "price": 40,
-            "type": "heal_sp",
-            "target": "ally_one",
-            "power": 20,
-            "desc": "あまい ジュース。SPを 20 かいふく"
-        },
-        {
-            "id": "clove_fruit",
-            "name": "クローブのみ",
-            "price": 6,
-            "type": "cure",
-            "status": "poison",
-            "target": "ally_one",
-            "desc": "どくを なおす"
-        },
-        {
-            "id": "cinnamon_pouch",
-            "name": "シナモンのにおいぶくろ",
-            "price": 25,
-            "type": "repel",
-            "steps": 120,
-            "rate": 0.25,
-            "field": true,
-            "battle": false,
-            "desc": "しばらく てきが でにくくなる"
-        },
-        {
-            "id": "return_kite",
-            "name": "かえりみちのたこ",
-            "price": 20,
-            "type": "warp_inn",
-            "field": true,
-            "battle": false,
-            "desc": "さいごに とまった {宿屋|やどや}へ とんで かえる"
-        },
-        {
-            "id": "panacea",
-            "name": "ばんのうやく",
-            "price": null,
-            "type": "full_restore",
-            "target": "ally_all",
-            "desc": "みんなの HPと SPが ぜんぶ もどる"
-        }
-    ],
-    "keyItems": [
-        {
-            "id": "last_key",
-            "name": "さいごのカギ",
-            "flag": "f_last_key",
-            "desc": "あかい {宝箱|たからばこ}と ふういんの とびらが ひらく"
-        },
-        {
-            "id": "mother_letter",
-            "name": "かあさんの てがみ",
-            "desc": "「むりは しないでね。かならず かえってきてね」"
-        },
-        {
-            "id": "sun_gem",
-            "name": "たいようの ほうせき",
-            "flag": "f_god_sun"
-        },
-        {
-            "id": "sea_gem",
-            "name": "うみの ほうせき",
-            "flag": "f_god_sea"
-        },
-        {
-            "id": "wind_gem",
-            "name": "かぜの ほうせき",
-            "flag": "f_god_wind"
-        }
-    ]
+ "version": 1,
+ "list": [
+  {
+   "id": "hopper",
+   "name": "ホッパー",
+   "price": 8,
+   "type": "heal_hp",
+   "target": "ally_one",
+   "power": 30,
+   "desc": "パリパリの ココナッツの パンケーキ。HPを 30 かいふく"
+  },
+  {
+   "id": "kottu",
+   "name": "コットゥ・ロティ",
+   "price": 30,
+   "type": "heal_hp",
+   "target": "ally_one",
+   "power": 80,
+   "desc": "トントン いためた ごちそう。HPを 80 かいふく"
+  },
+  {
+   "id": "king_coconut",
+   "name": "キングココナッツ",
+   "price": 40,
+   "type": "heal_sp",
+   "target": "ally_one",
+   "power": 20,
+   "desc": "あまい ジュース。SPを 20 かいふく"
+  },
+  {
+   "id": "clove_fruit",
+   "name": "クローブのみ",
+   "price": 6,
+   "type": "cure",
+   "status": "poison",
+   "target": "ally_one",
+   "desc": "どくを なおす"
+  },
+  {
+   "id": "cinnamon_pouch",
+   "name": "シナモンのにおいぶくろ",
+   "price": 25,
+   "type": "repel",
+   "steps": 120,
+   "rate": 0.25,
+   "field": true,
+   "battle": false,
+   "desc": "しばらく てきが でにくくなる"
+  },
+  {
+   "id": "return_kite",
+   "name": "かえりみちのたこ",
+   "price": 20,
+   "type": "warp_inn",
+   "field": true,
+   "battle": false,
+   "desc": "さいごに とまった {宿屋|やどや}へ とんで かえる"
+  },
+  {
+   "id": "panacea",
+   "name": "ばんのうやく",
+   "price": null,
+   "type": "full_restore",
+   "target": "ally_all",
+   "desc": "みんなの HPと SPが ぜんぶ もどる"
+  }
+ ],
+ "keyItems": [
+  {
+   "id": "last_key",
+   "name": "さいごのカギ",
+   "flag": "f_last_key",
+   "desc": "あかい {宝箱|たからばこ}と ふういんの とびらが ひらく"
+  },
+  {
+   "id": "mother_letter",
+   "name": "かあさんの てがみ",
+   "desc": "「むりは しないでね。かならず かえってきてね」"
+  },
+  {
+   "id": "sun_gem",
+   "name": "たいようの ほうせき",
+   "flag": "f_god_sun"
+  },
+  {
+   "id": "sea_gem",
+   "name": "うみの ほうせき",
+   "flag": "f_god_sea"
+  },
+  {
+   "id": "wind_gem",
+   "name": "かぜの ほうせき",
+   "flag": "f_god_wind"
+  }
+ ]
 }

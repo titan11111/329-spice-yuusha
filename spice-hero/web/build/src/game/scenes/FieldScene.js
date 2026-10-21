@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
-import { encounterRate } from "../../core/battle.js";
-import { chestsData, encounters, equipById, itemById, must } from "../../core/data.js";
-import { addItem, innById, joinMember, onWipeout, openChest } from "../../core/state.js";
-import { G } from "../ctx.js";
-import { DIR_VEC, INN_ARRIVAL, OPPOSITE, getMap, tileAt, LEGEND, } from "../maps.js";
-import { equipMenu, innTalk, itemMenu, padSetup, settingsMenu, spellMenu, statusScreen } from "../menus.js";
+import { encounterRate } from '../../core/battle.js';
+import { chestsData, encounters, equipById, itemById, must } from '../../core/data.js';
+import { addItem, innById, joinMember, onWipeout, openChest } from '../../core/state.js';
+import { G } from '../ctx.js';
+import { DIR_VEC, INN_ARRIVAL, OPPOSITE, getMap, tileAt, LEGEND, } from '../maps.js';
+import { equipMenu, innTalk, itemMenu, padSetup, settingsMenu, spellMenu, statusScreen } from '../menus.js';
 const T = 16;
 const STEP_MS = 150;
 const BGM = { village: 'village', field: 'field', inn: 'inn', cave: 'field', castle: 'boss' };
@@ -374,6 +374,8 @@ export class FieldScene extends Phaser.Scene {
                 await this.say(t);
             if (npc.def.id === 'n_mother' && !g.gs.flags.f_departed)
                 g.gs.flags.f_departed = true;
+            if (npc.def.setsFlag)
+                g.gs.flags[npc.def.setsFlag] = true;
             return;
         }
         const chest = this.map.chests.find((c) => c.x === x && c.y === y);
@@ -429,16 +431,21 @@ export class FieldScene extends Phaser.Scene {
     // ───────── メニュー ─────────
     async fieldMenu() {
         const g = G();
-        const gold = g.overlay.window({ x: 216, y: 104, w: 96, h: 20 }, 'gold');
+        const gold = g.overlay.window({ x: 216, y: 118, w: 96, h: 20 }, 'gold');
         gold.textContent = `${g.gs.gold} G`;
         g.audio.se('confirm');
         let idx = 0;
         const padId = g.input.currentPadSnapshots()[0]?.id ?? null;
         for (;;) {
             gold.innerHTML = `${g.gs.gold} G<i class="corner-tr"></i><i class="corner-bl"></i>`;
-            idx = await g.overlay.choose(['つよさ', 'どうぐ', 'スパイス', 'そうび', 'せってい', 'とじる'].map((label) => ({ label })), { rect: { x: 216, y: 8, w: 96, h: 92 }, start: idx, menuCancels: true, keep: false });
-            if (idx < 0 || idx === 5)
+            idx = await g.overlay.choose(['つよさ', 'どうぐ', 'スパイス', 'そうび', 'せってい', 'ポーズ', 'とじる'].map((label) => ({ label })), { rect: { x: 216, y: 4, w: 96, h: 110 }, start: idx, menuCancels: true, keep: false });
+            if (idx < 0 || idx === 6)
                 break;
+            if (idx === 5) {
+                gold.remove();
+                g.pause();
+                return;
+            }
             if (idx === 0)
                 await statusScreen(g);
             if (idx === 1) {

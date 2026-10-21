@@ -181,6 +181,7 @@ export async function settingsMenu(g: GameCtx, padId: string | null): Promise<vo
   for (;;) {
     const s = gs.settings;
     const items = [
+      { label: 'おとを けす', right: g.isMuted() ? 'けしてる' : 'ならす' },
       { label: 'もじの はやさ', right: s.textSpeed === 'normal' ? 'ふつう' : 'はやい' },
       { label: 'ふりがな', right: s.ruby ? 'あり' : 'なし' },
       { label: 'BGM', right: `${Math.round(s.bgm * 10)}` },
@@ -189,15 +190,16 @@ export async function settingsMenu(g: GameCtx, padId: string | null): Promise<vo
       { label: 'ボタンせってい', right: padId ? '' : '（パッドなし）', disabled: !padId },
     ];
     idx = await overlay.choose(items, {
-      rect: R(8, 8, 304, 92), start: idx,
+      rect: R(8, 8, 304, 110), start: idx,
     });
     if (idx < 0) return;
-    if (idx === 0) s.textSpeed = s.textSpeed === 'normal' ? 'fast' : 'normal';
-    else if (idx === 1) { s.ruby = !s.ruby; overlay.applySettings(); }
-    else if (idx === 2) { s.bgm = ((Math.round(s.bgm * 10) + 1) % 11) / 10; audio.applyVolume(); }
-    else if (idx === 3) { s.se = ((Math.round(s.se * 10) + 1) % 11) / 10; audio.applyVolume(); audio.se('confirm'); }
-    else if (idx === 4) s.vibration = !s.vibration;
-    else if (idx === 5 && padId) await padSetup(g, padId);
+    if (idx === 0) g.toggleMute();
+    else if (idx === 1) s.textSpeed = s.textSpeed === 'normal' ? 'fast' : 'normal';
+    else if (idx === 2) { s.ruby = !s.ruby; overlay.applySettings(); }
+    else if (idx === 3) { s.bgm = ((Math.round(s.bgm * 10) + 1) % 11) / 10; audio.applyVolume(); }
+    else if (idx === 4) { s.se = ((Math.round(s.se * 10) + 1) % 11) / 10; audio.applyVolume(); audio.se('confirm'); }
+    else if (idx === 5) s.vibration = !s.vibration;
+    else if (idx === 6 && padId) await padSetup(g, padId);
     void input;
   }
 }

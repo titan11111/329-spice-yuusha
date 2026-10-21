@@ -2,8 +2,8 @@
  * 入力: キーボード / ゲームパッド（standard・Joy-Con1本など） / タッチ をまとめて「アクション」にする。
  * ゲームの中ではボタン番号を使わず、アクション名だけを使う。仕様: docs/02_UI.md 5章
  */
-import { inputConfig } from "./data.js";
-import { defaultStore, loadPadBinding, savePadBinding } from "./save.js";
+import { inputConfig } from './data.js';
+import { defaultStore, loadPadBinding, savePadBinding } from './save.js';
 export const ACTIONS = ['up', 'down', 'left', 'right', 'confirm', 'cancel', 'menu', 'fast'];
 const std = inputConfig.gamepadStandard;
 const DEADZONE = std.deadzone ?? 0.5;
@@ -75,6 +75,7 @@ export const LEARN_TIMEOUT_MS = inputConfig.gamepadCustom.learnTimeoutMs;
 export class InputManager {
     keys = new Set();
     touch = new Set();
+    /** タップが1フレームより短いときも、次の update で押したことにする */
     touchPulse = new Set();
     cur = new Set();
     prev = new Set();
@@ -135,6 +136,14 @@ export class InputManager {
         }
         else
             this.touch.delete(action);
+    }
+    /**
+     * タッチ入力を全部なかったことにする。
+     * ポーズ中は update() が止まるので touchPulse が残り、解除した瞬間に1回ぶん暴発していた。
+     */
+    clearTouch() {
+        this.touch.clear();
+        this.touchPulse.clear();
     }
     padSnapshot(g) {
         return { id: g.id, mapping: g.mapping, buttons: g.buttons.map((b) => b.pressed || b.value > 0.6), axes: [...g.axes] };

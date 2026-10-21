@@ -1,4 +1,4 @@
-import { mulberry32 } from "./art.js";
+import { mulberry32 } from './art.js';
 export const LEGEND = {
     D: { ground: 'deep', solid: true, terrain: 'shallow' },
     w: { ground: 'water', solid: true, terrain: 'shallow' },
@@ -34,6 +34,10 @@ export const LEGEND = {
     c: { ground: 'counter', solid: true, terrain: 'indoor' },
     p: { ground: 'pot', solid: true, terrain: 'indoor' },
     M: { ground: 'exit_mat', terrain: 'indoor' },
+    // 王都・王城・東の街道で使う
+    m: { ground: 'marble', terrain: 'road' },
+    S: { ground: 'castle_rock', solid: true, terrain: 'road' },
+    q: { ground: 'tea', terrain: 'grass' },
 };
 const FIX = (rows, w, id) => {
     rows.forEach((r, i) => { if (r.length !== w)
@@ -98,19 +102,93 @@ function buildWorld() {
         rows[8][x] = '.';
         rows[10][x] = '.';
     }
-    // 東は岩でふさぐ（つづきは今後の更新で）
+    // 東は岩山。道の高さだけ開けて「ひがしの かいどう」へ抜けられるようにする
     for (let y = 3; y < H - 2; y++) {
         rows[y][W - 3] = 'R';
         rows[y][W - 2] = 'R';
         rows[y][W - 1] = 'R';
     }
-    for (let x = W - 6; x < W - 3; x++)
+    for (let x = W - 6; x < W; x++)
         rows[9][x] = 'r';
-    rows[9][W - 3] = 'r'; // 立て札のところ
     rows[8][W - 4] = 'f';
     rows[10][W - 4] = 'f';
     return rows.map((r) => r.join(''));
 }
+// ───────── 東の街道（フィールド2）32×20 ─────────
+function buildWorldEast() {
+    const W = 32, H = 20;
+    const rng = mulberry32(20261021);
+    const rows = [];
+    for (let y = 0; y < H; y++) {
+        rows[y] = [];
+        for (let x = 0; x < W; x++) {
+            let ch;
+            if (y <= 1)
+                ch = 'J'; // 北はジャングルの壁
+            else if (y === H - 1)
+                ch = 'D';
+            else if (y === H - 2)
+                ch = 'w';
+            else if (y === H - 3)
+                ch = 's'; // 南は海ぞい
+            else if (y < 6)
+                ch = rng() < 0.26 ? 'J' : rng() < 0.12 ? 'b' : 'g';
+            else if (y > 12)
+                ch = rng() < 0.34 ? 'q' : rng() < 0.08 ? 'b' : 'g'; // 南は茶畑
+            else
+                ch = rng() < 0.10 ? 'b' : rng() < 0.12 ? 'f' : 'g';
+            rows[y][x] = ch;
+        }
+    }
+    for (let x = 0; x < W; x++)
+        rows[9][x] = 'r'; // 村から王都まで一本道
+    for (let x = 0; x < W; x++) {
+        if (rng() < 0.35)
+            rows[8][x] = 'f';
+        if (rng() < 0.35)
+            rows[10][x] = 'f';
+    }
+    rows[11][6] = 'b';
+    rows[7][20] = 'b';
+    return rows.map((r) => r.join(''));
+}
+const worldEastRows = FIX(buildWorldEast(), 32, 'world_east');
+// ───────── みなとの おうと 28×18 ─────────
+const townCapitalRows = FIX([
+    'SSSSSSSSSSSSSSSSSSSSSSSSSSSS',
+    'SSSSSSSSSSSSSdSSSSSSSSSSSSSS',
+    'mmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+    'mmbmmmmmmmmmmmmmmmmmmmmmmbmm',
+    'mmmmkkkkkmmmmmmmmkkkkkmmmmmm',
+    'mmmmeeeeemmmmmmmmeeeeemmmmmm',
+    'mmmmxoxdxmmmmmmmmxoxdxmmmmmm',
+    'mmmmmmmmmmmmmmmmmmmmmmmmmmhh',
+    'rrrrrrrrrrrrrrrrrrrrrrrrmmhh',
+    'rrrrrrrrrrrrrrrrrrrrrrrrmmhw',
+    'mmmmmmmmmmmmmmmmmmmmmmmmmmhh',
+    'mmmFFFmmmmmmFFFmmmmmFFFmmmmm',
+    'mmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+    'mmbmmmmmmmmmmmmmmmmmmmmmbmmm',
+    'mmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+    'bbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    'bbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    'bbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+], 28, 'town_capital');
+// ───────── おうじょう（屋内）16×12 ─────────
+const castleCapitalRows = FIX([
+    'WWWWWWWWWWWWWWWW',
+    'WmmmmmmuummmmmmW',
+    'WmmmmmmuummmmmmW',
+    'WmmvmmuuuummvmmW',
+    'WmmmmmuuuummmmmW',
+    'WmmmmmmuummmmmmW',
+    'WmmmmmmuummmmmmW',
+    'WmmpmmmuummmpmmW',
+    'WmmmmmmuummmmmmW',
+    'WmmmmmmuummmmmmW',
+    'WmmmmmmuummmmmmW',
+    'WWWWWWWMWWWWWWWW',
+], 16, 'castle_capital');
 const worldRows = FIX(buildWorld(), 32, 'world');
 // ───────── 屋内 ─────────
 const houseHeroRows = FIX([
@@ -159,6 +237,22 @@ const L = {
     boy: ['ココナッツ、いくつ みつけた？\nヤシの きを しらべると おちてくるよ！'],
     girl: ['あっちの すなはまで カニを みたの。\nちかづくと はさまれちゃうかも！'],
     old: ['むかし むかし、この しまには\nさんにんの かみさまが いたそうな。\nたいよう、うみ、そして かぜの かみさまじゃ。'],
+    // ───── みなとの おうと ─────
+    guardGate: (gs) => gs.flags.f_royal_order
+        ? ['{王|おう}さまの おふれは きいたな。\n{港|みなと}の ふねは まだ うごかん。\n{気|き}を つけて いけよ。']
+        : ['ようこそ、みなとの {王都|おうと}へ。\n{王|おう}さまが おまちだ。\nまっすぐ {北|きた}の {城|しろ}へ おいで。'],
+    guardHall: ['{王|おう}さまの まえでは\nぼうしを とるんだぞ。'],
+    capitalMerchant: ['いちばの しなものは\nまだ ならべて いないんだ。\nもうすこし まってておくれ！'],
+    capitalBoy: ['そらが くらいから、\nおひさまが こいしいよ。\nゆうしゃって きみのこと？'],
+    capitalGirl: ['{港|みなと}の ふねが ぜんぶ とまってるの。\n{海|うみ}が あれてて こわいんだって。'],
+    capitalOld: ['{日蝕|にっしょく}の {魔王|まおう}、とな。\nむかしの うたに あったわい。\n「スパイス {三|み}つで やみは はれる」とな。'],
+    king: (gs) => gs.flags.f_royal_order
+        ? ['たのんだぞ、ゆうしゃよ。\n{東|ひがし}の {岩窟|がんくつ}に\nてがかりが あるはずじゃ。']
+        : [
+            'よく きた、ゆうしゃよ。\nわしが この しまの {王|おう}じゃ。',
+            'みての とおり、{空|そら}は {日蝕|にっしょく}に\nのまれた。{魔王|まおう}の しわざじゃ。',
+            'しまに ちらばった {三|み}つの スパイスを\nあつめ、やみを はらって おくれ。\nこれは わしからの おふれじゃ！',
+        ],
 };
 // ───────── マップ一覧 ─────────
 export const MAPS = {
@@ -213,14 +307,85 @@ export const MAPS = {
         npcs: [],
         chests: [],
         searches: [
-            { id: 'sign_end', x: 28, y: 9, text: ['{立|た}て{札|ふだ}：\nこの さきは まだ とおれない。\n（つづきは これから つくるよ！）'] },
+            { id: 'sign_end', x: 28, y: 9, text: ['{立|た}て{札|ふだ}：\nここから ひがしは「ひがしの かいどう」。\nぬけると みなとの {王都|おうと}。'] },
         ],
-        exits: [{ x: 4, y: 9, to: 'town_beach', tx: 22, ty: 9, dir: 'left' }],
+        exits: [
+            { x: 4, y: 9, to: 'town_beach', tx: 22, ty: 9, dir: 'left' },
+            { x: 30, y: 9, to: 'world_east', tx: 1, ty: 9, dir: 'right' },
+        ],
+    },
+    world_east: {
+        id: 'world_east', name: 'ひがしの かいどう', bgm: 'field', rows: worldEastRows, area: 'jungle', battleBg: 'jungle', showName: true,
+        encounters: { grass: 'z_jungle', road: 'z_jungle', jungle: 'z_jungle', beach: 'z_beach', shallow: 'z_beach' },
+        npcs: [
+            { id: 'n_road_merchant', x: 14, y: 10, look: 'merchant', dir: 'down', talk: L.capitalMerchant },
+        ],
+        chests: [],
+        searches: [
+            { id: 'sign_east', x: 2, y: 10, text: ['{立|た}て{札|ふだ}：\nひがし → みなとの {王都|おうと}\nにし → ココナッツの はまむら'] },
+            { id: 'tea_field', x: 10, y: 14, text: '{茶畑|ちゃばたけ}だ。\nつみとられた あとが ある。\nここの ひとは どこへ いったのだろう。' },
+            { id: 'east_palm', x: 24, y: 12, once: 'east_palm', give: { item: 'king_coconut' }, text: 'ヤシの きを ゆらしてみた。\nコトン！ ココナッツが おちてきた！' },
+        ],
+        exits: [
+            { x: 0, y: 9, to: 'world', tx: 29, ty: 9, dir: 'left' },
+            { x: 31, y: 9, to: 'town_capital', tx: 1, ty: 9, dir: 'right' },
+        ],
+    },
+    town_capital: {
+        id: 'town_capital', name: 'みなとの おうと', bgm: 'village', rows: townCapitalRows, area: 'beach', battleBg: 'beach', showName: true,
+        npcs: [
+            { id: 'n_guard_gate', x: 12, y: 2, look: 'guard', dir: 'down', talk: L.guardGate },
+            { id: 'n_guard_gate2', x: 15, y: 2, look: 'guard', dir: 'down', talk: L.guardGate },
+            { id: 'n_cap_merchant', x: 6, y: 11, look: 'merchant', dir: 'down', talk: L.capitalMerchant },
+            { id: 'n_cap_boy', x: 10, y: 12, look: 'boy', dir: 'down', wander: true, talk: L.capitalBoy },
+            { id: 'n_cap_girl', x: 18, y: 12, look: 'girl', dir: 'down', wander: true, talk: L.capitalGirl },
+            { id: 'n_cap_old', x: 22, y: 13, look: 'old', dir: 'left', talk: L.capitalOld },
+        ],
+        chests: [{ id: 'chest_capital_01', x: 16, y: 11 }],
+        searches: [
+            { id: 'sign_capital', x: 2, y: 10, text: ['{立|た}て{札|ふだ}：\nみなとの {王都|おうと}\nきた → {王城|おうじょう}　にし → かいどう'] },
+            { id: 'capital_well', x: 25, y: 10, text: '{港|みなと}だ。ふねが ぎっしり とまっている。\nどれも {出|で}られずに いるようだ。' },
+            { id: 'capital_stall', x: 13, y: 11, once: 'capital_stall', give: { item: 'king_coconut' }, text: 'いちばの だいの したに\nころがった キングココナッツ。' },
+        ],
+        exits: [
+            { x: 0, y: 9, to: 'world_east', tx: 30, ty: 9, dir: 'left' },
+            { x: 13, y: 1, to: 'castle_capital', tx: 7, ty: 10, dir: 'up' },
+            { x: 7, y: 6, to: 'inn_capital_in', tx: 3, ty: 5, dir: 'up' },
+            { x: 20, y: 6, to: 'house_capital', tx: 3, ty: 5, dir: 'up' },
+        ],
+    },
+    inn_capital_in: {
+        id: 'inn_capital_in', name: 'やどや', bgm: 'inn', rows: innRows,
+        npcs: [{ id: 'n_okami_cap', x: 3, y: 2, look: 'okami', dir: 'down', talk: { inn: 'inn_capital' } }],
+        chests: [], searches: [],
+        exits: [{ x: 3, y: 6, to: 'town_capital', tx: 7, ty: 7, dir: 'down' }],
+    },
+    house_capital: {
+        id: 'house_capital', name: 'しょうにんの いえ', bgm: 'village', rows: houseHeroRows,
+        npcs: [{ id: 'n_house_merchant', x: 4, y: 3, look: 'merchant', dir: 'down', talk: L.capitalMerchant }],
+        chests: [],
+        searches: [{ id: 'cap_shelf', x: 1, y: 1, text: 'たなに スパイスの ふくろが つんである。\nうれる さきが なくて こまっているようだ。' }],
+        exits: [{ x: 3, y: 6, to: 'town_capital', tx: 20, ty: 7, dir: 'down' }],
+    },
+    castle_capital: {
+        id: 'castle_capital', name: 'おうじょう', bgm: 'castle', rows: castleCapitalRows, area: 'castle', battleBg: 'castle', showName: true,
+        npcs: [
+            { id: 'n_king', x: 7, y: 1, look: 'king', dir: 'down', talk: L.king, setsFlag: 'f_royal_order' },
+            { id: 'n_guard_l', x: 5, y: 5, look: 'guard', dir: 'right', talk: L.guardHall },
+            { id: 'n_guard_r', x: 10, y: 5, look: 'guard', dir: 'left', talk: L.guardHall },
+        ],
+        chests: [{ id: 'chest_capital_02', x: 3, y: 9 }],
+        searches: [
+            { id: 'castle_shelf', x: 3, y: 3, text: 'ふるい まきものが ならんでいる。\n「{三|み}つの スパイス」と よめた。' },
+            { id: 'castle_pot', x: 3, y: 7, text: 'おおきな つぼ。\nなかは からっぽだ。' },
+        ],
+        exits: [{ x: 7, y: 11, to: 'town_capital', tx: 13, ty: 2, dir: 'down' }],
     },
 };
 /** 全滅したとき・かえりみちのたこで戻る宿屋の中の位置 */
 export const INN_ARRIVAL = {
     inn_beach: { map: 'inn_beach_in', x: 3, y: 4, dir: 'up' },
+    inn_capital: { map: 'inn_capital_in', x: 3, y: 4, dir: 'up' },
 };
 export function getMap(id) {
     const m = MAPS[id];

@@ -1,181 +1,181 @@
 {
-    "version": 1,
-    "actions": [
-        "up",
-        "down",
-        "left",
-        "right",
-        "confirm",
-        "cancel",
-        "menu",
-        "fast"
-    ],
-    "repeat": {
-        "firstDelayMs": 250,
-        "intervalMs": 120
-    },
-    "keyboard": {
-        "up": [
-            "ArrowUp",
-            "KeyW"
-        ],
-        "down": [
-            "ArrowDown",
-            "KeyS"
-        ],
-        "left": [
-            "ArrowLeft",
-            "KeyA"
-        ],
-        "right": [
-            "ArrowRight",
-            "KeyD"
-        ],
-        "confirm": [
-            "Enter",
-            "Space",
-            "KeyZ"
-        ],
-        "cancel": [
-            "Escape",
-            "Backspace",
-            "KeyX"
-        ],
-        "menu": [
-            "KeyC",
-            "Tab"
-        ],
-        "fast": [
-            "ShiftLeft",
-            "ShiftRight"
-        ]
-    },
-    "gamepadStandard": {
-        "comment": "mapping === 'standard' のとき。番号はW3C標準レイアウト",
-        "up": {
-            "buttons": [
-                12
-            ],
-            "axis": {
-                "index": 1,
-                "dir": -1
-            }
-        },
-        "down": {
-            "buttons": [
-                13
-            ],
-            "axis": {
-                "index": 1,
-                "dir": 1
-            }
-        },
-        "left": {
-            "buttons": [
-                14
-            ],
-            "axis": {
-                "index": 0,
-                "dir": -1
-            }
-        },
-        "right": {
-            "buttons": [
-                15
-            ],
-            "axis": {
-                "index": 0,
-                "dir": 1
-            }
-        },
-        "confirm": {
-            "buttons": [
-                0
-            ]
-        },
-        "cancel": {
-            "buttons": [
-                1
-            ]
-        },
-        "menu": {
-            "buttons": [
-                3,
-                9
-            ]
-        },
-        "fast": {
-            "buttons": [
-                5,
-                7
-            ]
-        },
-        "deadzone": 0.5
-    },
-    "gamepadCustom": {
-        "comment": "mapping が standard でないとき（Joy-Con1本など）。ボタン設定画面で覚えた内容を保存する",
-        "storageKeyPrefix": "tg.329.pad.",
-        "learnOrder": [
-            "up",
-            "down",
-            "left",
-            "right",
-            "confirm",
-            "cancel",
-            "menu"
-        ],
-        "learnTimeoutMs": 5000,
-        "detectAxisAsDpad": true,
-        "deadzone": 0.5
-    },
-    "touch": {
-        "showOn": "pointerdown(pointerType=touch)",
-        "hideOn": [
-            "keyboard",
-            "gamepad"
-        ],
-        "dpad": {
-            "anchor": "bottom-left",
-            "offset": 24,
-            "size": 140
-        },
-        "buttonA": {
-            "anchor": "bottom-right",
-            "offset": 24,
-            "size": 72,
-            "action": "confirm"
-        },
-        "buttonB": {
-            "anchor": "bottom-right",
-            "offsetX": 108,
-            "offsetY": 12,
-            "size": 60,
-            "action": "cancel"
-        },
-        "buttonMenu": {
-            "anchor": "top-right",
-            "offset": 12,
-            "size": 48,
-            "action": "menu"
-        },
-        "buttonFast": {
-            "anchor": "top-right",
-            "offsetX": 68,
-            "offsetY": 12,
-            "size": 48,
-            "action": "fast"
-        },
-        "landscapeOpacity": 0.5,
-        "portraitPlacement": "below-canvas",
-        "battleHideDpad": true,
-        "useSafeArea": true
-    },
-    "vibration": {
-        "damage": 80,
-        "bossDefeat": 300
-    },
-    "disconnect": {
-        "pause": true,
-        "message": "コントローラーが はずれたよ"
-    }
+ "version": 1,
+ "actions": [
+  "up",
+  "down",
+  "left",
+  "right",
+  "confirm",
+  "cancel",
+  "menu",
+  "fast"
+ ],
+ "repeat": {
+  "firstDelayMs": 250,
+  "intervalMs": 120
+ },
+ "keyboard": {
+  "up": [
+   "ArrowUp",
+   "KeyW"
+  ],
+  "down": [
+   "ArrowDown",
+   "KeyS"
+  ],
+  "left": [
+   "ArrowLeft",
+   "KeyA"
+  ],
+  "right": [
+   "ArrowRight",
+   "KeyD"
+  ],
+  "confirm": [
+   "Enter",
+   "Space",
+   "KeyZ"
+  ],
+  "cancel": [
+   "Escape",
+   "Backspace",
+   "KeyX"
+  ],
+  "menu": [
+   "KeyC",
+   "Tab"
+  ],
+  "fast": [
+   "ShiftLeft",
+   "ShiftRight"
+  ]
+ },
+ "gamepadStandard": {
+  "comment": "mapping === 'standard' のとき。番号はW3C標準レイアウト",
+  "up": {
+   "buttons": [
+    12
+   ],
+   "axis": {
+    "index": 1,
+    "dir": -1
+   }
+  },
+  "down": {
+   "buttons": [
+    13
+   ],
+   "axis": {
+    "index": 1,
+    "dir": 1
+   }
+  },
+  "left": {
+   "buttons": [
+    14
+   ],
+   "axis": {
+    "index": 0,
+    "dir": -1
+   }
+  },
+  "right": {
+   "buttons": [
+    15
+   ],
+   "axis": {
+    "index": 0,
+    "dir": 1
+   }
+  },
+  "confirm": {
+   "buttons": [
+    0
+   ]
+  },
+  "cancel": {
+   "buttons": [
+    1
+   ]
+  },
+  "menu": {
+   "buttons": [
+    3,
+    9
+   ]
+  },
+  "fast": {
+   "buttons": [
+    5,
+    7
+   ]
+  },
+  "deadzone": 0.5
+ },
+ "gamepadCustom": {
+  "comment": "mapping が standard でないとき（Joy-Con1本など）。ボタン設定画面で覚えた内容を保存する",
+  "storageKeyPrefix": "tg.329.pad.",
+  "learnOrder": [
+   "up",
+   "down",
+   "left",
+   "right",
+   "confirm",
+   "cancel",
+   "menu"
+  ],
+  "learnTimeoutMs": 5000,
+  "detectAxisAsDpad": true,
+  "deadzone": 0.5
+ },
+ "touch": {
+  "showOn": "pointerdown(pointerType=touch)",
+  "hideOn": [
+   "keyboard",
+   "gamepad"
+  ],
+  "dpad": {
+   "anchor": "bottom-left",
+   "offset": 24,
+   "size": 140
+  },
+  "buttonA": {
+   "anchor": "bottom-right",
+   "offset": 24,
+   "size": 72,
+   "action": "confirm"
+  },
+  "buttonB": {
+   "anchor": "bottom-right",
+   "offsetX": 108,
+   "offsetY": 12,
+   "size": 60,
+   "action": "cancel"
+  },
+  "buttonMenu": {
+   "anchor": "top-right",
+   "offset": 12,
+   "size": 48,
+   "action": "menu"
+  },
+  "buttonFast": {
+   "anchor": "top-right",
+   "offsetX": 68,
+   "offsetY": 12,
+   "size": 48,
+   "action": "fast"
+  },
+  "landscapeOpacity": 0.5,
+  "portraitPlacement": "below-canvas",
+  "battleHideDpad": true,
+  "useSafeArea": true
+ },
+ "vibration": {
+  "damage": 80,
+  "bossDefeat": 300
+ },
+ "disconnect": {
+  "pause": true,
+  "message": "コントローラーが はずれたよ"
+ }
 }

@@ -2,9 +2,9 @@
  * HTMLオーバーレイ: 文字が出るものはすべてここ（メッセージ・メニュー・ステータス・ふりがな）。
  * Phaser の canvas とぴったり同じ位置・サイズに重ねる。座標はすべて320×180のドット座標。
  */
-import { ACTIONS } from "../core/input.js";
-import { paginate, rubyToHtml, tokenize, tokensToHtml } from "../core/ruby.js";
-import { uiTheme } from "../core/data.js";
+import { ACTIONS } from '../core/input.js';
+import { paginate, rubyToHtml, tokenize, tokensToHtml } from '../core/ruby.js';
+import { uiTheme } from '../core/data.js';
 export const W = 320;
 export const H = 180;
 const px = (n) => `calc(var(--px) * ${n}px)`;
@@ -26,7 +26,7 @@ export class Overlay {
         window.addEventListener('orientationchange', () => setTimeout(() => this.layout(), 100));
     }
     // ───────── 拡大 ─────────
-    /** scale = floor(min(幅/320, 高さ/180))。最小は1。小さい画面は小数倍率 */
+    /** 上75%のステージに 320×180 を縦横同じ倍率で収める */
     static computeScale(vw, vh, reserveBottom = 0) {
         const s = Math.min(vw / W, (vh - reserveBottom) / H);
         return Math.max(0.5, Math.round(s * 1000) / 1000);
@@ -249,7 +249,6 @@ export class Overlay {
             resolve(); });
     }
 }
-// ───────── タッチ操作 ─────────
 /** 下段の十字キー / A B / メニュー / 早送り / ミュート / ポーズ */
 export function mountTouchControls(input, el = document.getElementById('control-deck'), hooks = {}) {
     if (!el)
@@ -325,10 +324,14 @@ export function mountTouchControls(input, el = document.getElementById('control-
             hooks.vibrate?.();
             return;
         }
-        try { el.setPointerCapture?.(e.pointerId); } catch { /* 離れたポインタは掴み直さない */ }
+        try {
+            el.setPointerCapture?.(e.pointerId);
+        }
+        catch { /* 離れたポインタは掴み直さない */ }
         const isPad = !!t.closest('.pad-cluster');
         pads.set(e.pointerId, isPad);
-        set(e.pointerId, isPad ? (dirAt(e) || t.dataset.a) : t.dataset.a);
+        const fromPad = dirAt(e) ?? t.dataset.a;
+        set(e.pointerId, isPad ? fromPad : t.dataset.a);
         hooks.vibrate?.();
         hooks.tap?.();
     });
@@ -336,10 +339,7 @@ export function mountTouchControls(input, el = document.getElementById('control-
         if (pads.get(e.pointerId))
             set(e.pointerId, dirAt(e));
     });
-    const up = (e) => {
-        set(e.pointerId, null);
-        pads.delete(e.pointerId);
-    };
+    const up = (e) => { set(e.pointerId, null); pads.delete(e.pointerId); };
     el.addEventListener('pointerup', up);
     el.addEventListener('pointercancel', up);
     el.addEventListener('contextmenu', (e) => e.preventDefault());

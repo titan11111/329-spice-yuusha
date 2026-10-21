@@ -150,6 +150,15 @@ export class InputManager {
     else this.touch.delete(action);
   }
 
+  /**
+   * タッチ入力を全部なかったことにする。
+   * ポーズ中は update() が止まるので touchPulse が残り、解除した瞬間に1回ぶん暴発していた。
+   */
+  clearTouch(): void {
+    this.touch.clear();
+    this.touchPulse.clear();
+  }
+
   private padSnapshot(g: Gamepad): PadSnapshot {
     return { id: g.id, mapping: g.mapping, buttons: g.buttons.map((b) => b.pressed || b.value > 0.6), axes: [...g.axes] };
   }

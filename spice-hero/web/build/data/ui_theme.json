@@ -1,204 +1,204 @@
 {
-    "version": 1,
-    "baseResolution": {
-        "width": 320,
-        "height": 180
+ "version": 1,
+ "baseResolution": {
+  "width": 320,
+  "height": 180
+ },
+ "font": {
+  "family": "DotGothic16",
+  "size": 12,
+  "rubySize": 5,
+  "lineHeight": 16,
+  "maxCharsPerLine": 20,
+  "maxLines": 3
+ },
+ "colors": {
+  "windowBgTop": "#45291A",
+  "windowBgBottom": "#2E1A0E",
+  "windowBgOpacity": 0.94,
+  "frameOuter": "#D4A437",
+  "frameInner": "#8C6A1F",
+  "frameDeluxeDots": "#F2D16B",
+  "chiliRed": "#E2452B",
+  "chiliGreen": "#4E9A3A",
+  "text": "#FFF3D6",
+  "textDisabled": "#9C8460",
+  "hpHigh": "#5DBB4C",
+  "hpMid": "#E8C440",
+  "hpLow": "#E2452B",
+  "statUp": "#5DBB4C",
+  "statDown": "#E2452B"
+ },
+ "window": {
+  "nineSlice": "assets/ui/window_9slice.png",
+  "nineSliceDeluxe": "assets/ui/window_9slice_deluxe.png",
+  "sliceSize": 8,
+  "padding": {
+   "top": 6,
+   "right": 8,
+   "bottom": 4,
+   "left": 8
+  },
+  "deluxeScenes": [
+   "battle_boss",
+   "castle"
+  ]
+ },
+ "cursor": {
+  "sprite": "assets/ui/cursor_chili.png",
+  "size": 8,
+  "wiggle": 1,
+  "wiggleMs": 500
+ },
+ "textSpeedMs": {
+  "normal": 40,
+  "fast": 15
+ },
+ "layout": {
+  "field": {
+   "message": {
+    "x": 8,
+    "y": 104,
+    "w": 304,
+    "h": 74
+   },
+   "menu": {
+    "x": 216,
+    "y": 8,
+    "w": 96,
+    "h": 92,
+    "items": [
+     "items",
+     "spells",
+     "equip",
+     "status",
+     "settings",
+     "close"
+    ]
+   },
+   "gold": {
+    "x": 216,
+    "y": 104,
+    "w": 96,
+    "h": 20
+   },
+   "areaName": {
+    "y": 8,
+    "h": 20,
+    "showMs": 2000
+   }
+  },
+  "battle": {
+   "background": {
+    "x": 0,
+    "y": 0,
+    "w": 320,
+    "h": 120
+   },
+   "status": {
+    "x": 220,
+    "y": 4,
+    "w": 96,
+    "h": 54
+   },
+   "enemyName": {
+    "x": 4,
+    "y": 4,
+    "w": 120,
+    "h": 20
+   },
+   "command": {
+    "x": 4,
+    "y": 124,
+    "w": 140,
+    "h": 54,
+    "cols": 2,
+    "items": [
+     "attack",
+     "spell",
+     "item",
+     "auto",
+     "run"
+    ]
+   },
+   "message": {
+    "x": 148,
+    "y": 124,
+    "w": 168,
+    "h": 54
+   },
+   "list": {
+    "x": 112,
+    "y": 60,
+    "w": 204,
+    "h": 116
+   },
+   "enemyZone": {
+    "x": 24,
+    "y": 30,
+    "w": 126,
+    "h": 80
+   },
+   "partySlots": [
+    {
+     "id": "hero",
+     "x": 256,
+     "y": 64,
+     "scale": 0.95
     },
-    "font": {
-        "family": "DotGothic16",
-        "size": 12,
-        "rubySize": 6,
-        "lineHeight": 18,
-        "maxCharsPerLine": 20,
-        "maxLines": 3
+    {
+     "id": "mina",
+     "x": 276,
+     "y": 82,
+     "scale": 0.97
     },
-    "colors": {
-        "windowBgTop": "#45291A",
-        "windowBgBottom": "#2E1A0E",
-        "windowBgOpacity": 0.94,
-        "frameOuter": "#D4A437",
-        "frameInner": "#8C6A1F",
-        "frameDeluxeDots": "#F2D16B",
-        "chiliRed": "#E2452B",
-        "chiliGreen": "#4E9A3A",
-        "text": "#FFF3D6",
-        "textDisabled": "#9C8460",
-        "hpHigh": "#5DBB4C",
-        "hpMid": "#E8C440",
-        "hpLow": "#E2452B",
-        "statUp": "#5DBB4C",
-        "statDown": "#E2452B"
-    },
-    "window": {
-        "nineSlice": "assets/ui/window_9slice.png",
-        "nineSliceDeluxe": "assets/ui/window_9slice_deluxe.png",
-        "sliceSize": 8,
-        "padding": {
-            "top": 6,
-            "right": 8,
-            "bottom": 4,
-            "left": 8
-        },
-        "deluxeScenes": [
-            "battle_boss",
-            "castle"
-        ]
-    },
-    "cursor": {
-        "sprite": "assets/ui/cursor_chili.png",
-        "size": 8,
-        "wiggle": 1,
-        "wiggleMs": 500
-    },
-    "textSpeedMs": {
-        "normal": 40,
-        "fast": 15
-    },
-    "layout": {
-        "field": {
-            "message": {
-                "x": 8,
-                "y": 112,
-                "w": 304,
-                "h": 64
-            },
-            "menu": {
-                "x": 216,
-                "y": 8,
-                "w": 96,
-                "h": 92,
-                "items": [
-                    "items",
-                    "spells",
-                    "equip",
-                    "status",
-                    "settings",
-                    "close"
-                ]
-            },
-            "gold": {
-                "x": 216,
-                "y": 104,
-                "w": 96,
-                "h": 20
-            },
-            "areaName": {
-                "y": 8,
-                "h": 20,
-                "showMs": 2000
-            }
-        },
-        "battle": {
-            "background": {
-                "x": 0,
-                "y": 0,
-                "w": 320,
-                "h": 120
-            },
-            "status": {
-                "x": 220,
-                "y": 4,
-                "w": 96,
-                "h": 44
-            },
-            "enemyName": {
-                "x": 4,
-                "y": 4,
-                "w": 120,
-                "h": 20
-            },
-            "command": {
-                "x": 4,
-                "y": 124,
-                "w": 104,
-                "h": 52,
-                "cols": 2,
-                "items": [
-                    "attack",
-                    "spell",
-                    "item",
-                    "auto",
-                    "run"
-                ]
-            },
-            "message": {
-                "x": 112,
-                "y": 124,
-                "w": 204,
-                "h": 52
-            },
-            "list": {
-                "x": 112,
-                "y": 60,
-                "w": 204,
-                "h": 116
-            },
-            "enemyZone": {
-                "x": 24,
-                "y": 30,
-                "w": 126,
-                "h": 80
-            },
-            "partySlots": [
-                {
-                    "id": "hero",
-                    "x": 256,
-                    "y": 64,
-                    "scale": 0.95
-                },
-                {
-                    "id": "mina",
-                    "x": 276,
-                    "y": 82,
-                    "scale": 0.97
-                },
-                {
-                    "id": "pearl",
-                    "x": 238,
-                    "y": 100,
-                    "scale": 1.0
-                }
-            ],
-            "hpThresholds": {
-                "mid": 0.5,
-                "low": 0.25
-            },
-            "attackLunge": {
-                "dx": -16,
-                "zoom": 1.05,
-                "ms": 400
-            },
-            "spellDim": 0.4
-        },
-        "shop": {
-            "list": {
-                "x": 8,
-                "y": 8,
-                "w": 180,
-                "h": 100
-            },
-            "gold": {
-                "x": 196,
-                "y": 8,
-                "w": 116,
-                "h": 20
-            },
-            "compare": {
-                "x": 196,
-                "y": 32,
-                "w": 116,
-                "h": 76
-            },
-            "message": {
-                "x": 8,
-                "y": 112,
-                "w": 304,
-                "h": 64
-            }
-        },
-        "nameEntry": {
-            "maxLength": 4,
-            "default": "ゆうしゃ"
-        }
+    {
+     "id": "pearl",
+     "x": 238,
+     "y": 100,
+     "scale": 1.0
     }
+   ],
+   "hpThresholds": {
+    "mid": 0.5,
+    "low": 0.25
+   },
+   "attackLunge": {
+    "dx": -16,
+    "zoom": 1.05,
+    "ms": 400
+   },
+   "spellDim": 0.4
+  },
+  "shop": {
+   "list": {
+    "x": 8,
+    "y": 8,
+    "w": 180,
+    "h": 100
+   },
+   "gold": {
+    "x": 196,
+    "y": 8,
+    "w": 116,
+    "h": 20
+   },
+   "compare": {
+    "x": 196,
+    "y": 32,
+    "w": 116,
+    "h": 76
+   },
+   "message": {
+    "x": 8,
+    "y": 112,
+    "w": 304,
+    "h": 64
+   }
+  },
+  "nameEntry": {
+   "maxLength": 4,
+   "default": "ゆうしゃ"
+  }
+ }
 }

@@ -7,7 +7,15 @@
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
     "types": [],
-    "sourceMap": false
+    "sourceMap": false,
+    "paths": {
+      "phaser": [
+        "./scripts/phaser-shim.d.ts"
+      ]
+    }
   },
-  "include": ["src", "scripts/phaser-shim.d.ts"]
+  "include": [
+    "src",
+    "scripts/phaser-shim.d.ts"
+  ]
 }

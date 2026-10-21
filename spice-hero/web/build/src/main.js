@@ -1,14 +1,14 @@
 import Phaser from 'phaser';
-import { InputManager } from "./core/input.js";
-import { loadGame, saveGame, hasSave } from "./core/save.js";
-import { newGame } from "./core/state.js";
-import { Overlay } from "./ui/overlay.js";
-import { GameAudio } from "./game/audio.js";
-import { setCtx } from "./game/ctx.js";
-import { BootScene } from "./game/scenes/BootScene.js";
-import { TitleScene } from "./game/scenes/TitleScene.js";
-import { FieldScene } from "./game/scenes/FieldScene.js";
-import { BattleScene } from "./game/scenes/BattleScene.js";
+import { InputManager } from './core/input.js';
+import { loadGame, saveGame, hasSave } from './core/save.js';
+import { newGame } from './core/state.js';
+import { Overlay } from './ui/overlay.js';
+import { GameAudio } from './game/audio.js';
+import { setCtx } from './game/ctx.js';
+import { BootScene } from './game/scenes/BootScene.js';
+import { TitleScene } from './game/scenes/TitleScene.js';
+import { FieldScene } from './game/scenes/FieldScene.js';
+import { BattleScene } from './game/scenes/BattleScene.js';
 const MUTE_KEY = 'tg.329.mute';
 const VOL_KEY = 'tg.329.vol';
 function readStore(key) {
@@ -48,6 +48,9 @@ const ctx = {
         return saveGame(ctx.gs);
     },
     startedAt: Date.now(),
+    toggleMute: () => toggleMute(),
+    isMuted: () => gs.settings.bgm === 0 && gs.settings.se === 0,
+    pause: () => setPaused(true),
 };
 const overlay = new Overlay(input, () => ctx.gs.settings);
 const audio = new GameAudio(() => ctx.gs.settings);
@@ -91,18 +94,16 @@ function toggleMute() {
     }
     writeStore(MUTE_KEY, s.bgm === 0 && s.se === 0 ? '1' : '0');
     audio.applyVolume();
-    const btn = document.getElementById('fc-btn-mute');
-    if (btn)
-        btn.textContent = s.bgm === 0 && s.se === 0 ? '🔇' : '🔊';
 }
-function togglePause() {
-    userPaused = !userPaused;
-    if (userPaused) {
-        for (const a of ['up', 'down', 'left', 'right', 'confirm', 'cancel', 'menu', 'fast'])
-            input.setTouch(a, false);
-    }
+function setPaused(on) {
+    if (userPaused === on)
+        return;
+    userPaused = on;
+    // ポーズ中は update() が止まる。押しっぱなしの入力を捨てないと解除した瞬間に1回ぶん入る
+    input.clearTouch();
     applyPause();
 }
+function togglePause() { setPaused(!userPaused); }
 game = new Phaser.Game({
     type: Phaser.AUTO,
     parent: 'game-canvas',
@@ -113,15 +114,14 @@ game = new Phaser.Game({
     scale: { mode: Phaser.Scale.NONE },
     scene: [BootScene, TitleScene, FieldScene, BattleScene],
 });
-let startHeld = false;
 const DIRS = ['up', 'down', 'left', 'right'];
-window.initFcIosController({
+const fc = window.initFcIosController;
+fc?.({
     keyboard: false,
     buttons: {
         'fc-btn-a': ['KeyZ'],
         'fc-btn-b': ['KeyX'],
         'fc-btn-select': ['KeyC'],
-        'fc-btn-start': ['KeyP'],
     },
     onInteract() { audio.se('cursor'); },
     onChange(keys) {
@@ -135,20 +135,21 @@ window.initFcIosController({
         input.setTouch('confirm', !!keys.KeyZ);
         input.setTouch('cancel', !!keys.KeyX);
         input.setTouch('menu', !!keys.KeyC);
-        const start = !!keys.KeyP;
-        if (start && !startHeld)
-            togglePause();
-        startHeld = start;
     },
 });
-const muteBtn = document.getElementById('fc-btn-mute');
-if (readStore(MUTE_KEY) === '1' && muteBtn)
-    muteBtn.textContent = '🔇';
-muteBtn?.addEventListener('pointerdown', (e) => {
+// ポーズ画面はタップで解除する（操作盤にポーズボタンを置かないため、ここが唯一の出口になる）
+const pauseLayer = document.getElementById('pause-layer');
+pauseLayer?.addEventListener('pointerdown', (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    try { muteBtn.setPointerCapture(e.pointerId); } catch { /* 離れていれば無視 */ }
-    toggleMute();
+    setPaused(false);
+});
+// キーボードのポーズ。ポーズ中は Phaser のループが寝ているので DOM 側で受ける。
+// Esc は menus の「キャンセル」と重なるので割り当てない
+window.addEventListener('keydown', (e) => {
+    if (e.code !== 'KeyP' || e.repeat)
+        return;
+    e.preventDefault();
+    togglePause();
 });
 game.events.on('step', (time) => {
     if (userPaused || autoPaused)

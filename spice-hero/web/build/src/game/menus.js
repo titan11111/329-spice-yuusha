@@ -2,12 +2,12 @@
  * メニュー類（フィールド共通）: ステータス・どうぐ・スパイス・そうび・せってい・ボタン設定・名前入力・宿屋。
  * 画面は HTML オーバーレイ。ロジックは core/state.ts を呼ぶだけ。
  */
-import { LEARN_ORDER, LEARN_TIMEOUT_MS, applyLearn, detectLearn, emptyBinding } from "../core/input.js";
-import { statsWithEquip } from "../core/battle.js";
-import { equipById, itemById, must, spellById } from "../core/data.js";
-import { clampVitals, equip, equipDiff, fullHeal, innById, knownSpells, stayAtInn } from "../core/state.js";
-import { saveGame } from "../core/save.js";
-import { rubyToHtml } from "../core/ruby.js";
+import { LEARN_ORDER, LEARN_TIMEOUT_MS, applyLearn, detectLearn, emptyBinding } from '../core/input.js';
+import { statsWithEquip } from '../core/battle.js';
+import { equipById, itemById, must, spellById } from '../core/data.js';
+import { clampVitals, equip, equipDiff, fullHeal, innById, knownSpells, stayAtInn } from '../core/state.js';
+import { saveGame } from '../core/save.js';
+import { rubyToHtml } from '../core/ruby.js';
 const R = (x, y, w, h) => ({ x, y, w, h });
 export const SLOT_NAME = { weapon: 'ぶき', armor: 'よろい', shield: 'たて' };
 function memberLine(gs, i) {
@@ -217,6 +217,7 @@ export async function settingsMenu(g, padId) {
     for (;;) {
         const s = gs.settings;
         const items = [
+            { label: 'おとを けす', right: g.isMuted() ? 'けしてる' : 'ならす' },
             { label: 'もじの はやさ', right: s.textSpeed === 'normal' ? 'ふつう' : 'はやい' },
             { label: 'ふりがな', right: s.ruby ? 'あり' : 'なし' },
             { label: 'BGM', right: `${Math.round(s.bgm * 10)}` },
@@ -225,28 +226,30 @@ export async function settingsMenu(g, padId) {
             { label: 'ボタンせってい', right: padId ? '' : '（パッドなし）', disabled: !padId },
         ];
         idx = await overlay.choose(items, {
-            rect: R(8, 8, 304, 92), start: idx,
+            rect: R(8, 8, 304, 110), start: idx,
         });
         if (idx < 0)
             return;
         if (idx === 0)
+            g.toggleMute();
+        else if (idx === 1)
             s.textSpeed = s.textSpeed === 'normal' ? 'fast' : 'normal';
-        else if (idx === 1) {
+        else if (idx === 2) {
             s.ruby = !s.ruby;
             overlay.applySettings();
         }
-        else if (idx === 2) {
+        else if (idx === 3) {
             s.bgm = ((Math.round(s.bgm * 10) + 1) % 11) / 10;
             audio.applyVolume();
         }
-        else if (idx === 3) {
+        else if (idx === 4) {
             s.se = ((Math.round(s.se * 10) + 1) % 11) / 10;
             audio.applyVolume();
             audio.se('confirm');
         }
-        else if (idx === 4)
+        else if (idx === 5)
             s.vibration = !s.vibration;
-        else if (idx === 5 && padId)
+        else if (idx === 6 && padId)
             await padSetup(g, padId);
         void input;
     }

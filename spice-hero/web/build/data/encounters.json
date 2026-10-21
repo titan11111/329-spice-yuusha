@@ -1,299 +1,299 @@
 {
-    "version": 1,
-    "safeStepsAfterBattle": 8,
-    "overLevelMargin": 3,
-    "overLevelRateMultiplier": 0.5,
-    "terrainRate": {
-        "road": 40,
-        "grass": 20,
-        "beach": 20,
-        "jungle": 14,
-        "highland": 14,
-        "sea": 24
+ "version": 1,
+ "safeStepsAfterBattle": 8,
+ "overLevelMargin": 3,
+ "overLevelRateMultiplier": 0.5,
+ "terrainRate": {
+  "road": 40,
+  "grass": 20,
+  "beach": 20,
+  "jungle": 14,
+  "highland": 14,
+  "sea": 24
+ },
+ "zones": [
+  {
+   "id": "z_beach",
+   "expectedLv": 1,
+   "groups": [
+    {
+     "w": 40,
+     "enemies": [
+      "rolling_coconut"
+     ]
     },
-    "zones": [
-        {
-            "id": "z_beach",
-            "expectedLv": 1,
-            "groups": [
-                {
-                    "w": 40,
-                    "enemies": [
-                        "rolling_coconut"
-                    ]
-                },
-                {
-                    "w": 25,
-                    "enemies": [
-                        "rolling_coconut",
-                        "rolling_coconut"
-                    ]
-                },
-                {
-                    "w": 20,
-                    "enemies": [
-                        "beach_crab"
-                    ]
-                },
-                {
-                    "w": 15,
-                    "enemies": [
-                        "prank_monkey"
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "z_plains_west",
-            "expectedLv": 2,
-            "groups": [
-                {
-                    "w": 30,
-                    "enemies": [
-                        "floaty_jelly",
-                        "rolling_coconut"
-                    ]
-                },
-                {
-                    "w": 30,
-                    "enemies": [
-                        "beach_crab",
-                        "prank_monkey"
-                    ]
-                },
-                {
-                    "w": 40,
-                    "enemies": [
-                        "prank_monkey",
-                        "prank_monkey"
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "z_jungle",
-            "expectedLv": 4,
-            "groups": [
-                {
-                    "w": 35,
-                    "enemies": [
-                        "spice_bat",
-                        "spice_bat"
-                    ]
-                },
-                {
-                    "w": 35,
-                    "enemies": [
-                        "pepper_monk",
-                        "cobran"
-                    ]
-                },
-                {
-                    "w": 30,
-                    "enemies": [
-                        "spotted_mongoose"
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "z_sea",
-            "expectedLv": 6,
-            "groups": [
-                {
-                    "w": 30,
-                    "enemies": [
-                        "sea_eel"
-                    ]
-                },
-                {
-                    "w": 25,
-                    "enemies": [
-                        "ink_octopus",
-                        "ink_octopus"
-                    ]
-                },
-                {
-                    "w": 25,
-                    "enemies": [
-                        "pirate_skeleton",
-                        "sea_eel"
-                    ]
-                },
-                {
-                    "w": 20,
-                    "enemies": [
-                        "coral_armor"
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "z_highland",
-            "expectedLv": 8,
-            "groups": [
-                {
-                    "w": 30,
-                    "enemies": [
-                        "coffee_beetle",
-                        "coffee_beetle",
-                        "coffee_beetle"
-                    ]
-                },
-                {
-                    "w": 30,
-                    "enemies": [
-                        "tusk_boar",
-                        "coffee_beetle"
-                    ]
-                },
-                {
-                    "w": 20,
-                    "enemies": [
-                        "tea_golem"
-                    ]
-                },
-                {
-                    "w": 20,
-                    "enemies": [
-                        "sleepy_bear"
-                    ]
-                }
-            ]
-        }
-    ],
-    "symbols": {
-        "noticeTiles": 4,
-        "chaseSpeedRate": 0.8,
-        "preemptiveFromBehind": true,
-        "ambush": false,
-        "respawn": "on_floor_exit",
-        "placements": [
-            {
-                "map": "cave_croc_b1",
-                "count": 3,
-                "groups": [
-                    [
-                        "spice_bat",
-                        "spice_bat"
-                    ],
-                    [
-                        "pepper_monk"
-                    ],
-                    [
-                        "cobran"
-                    ]
-                ]
-            },
-            {
-                "map": "cave_croc_b2",
-                "count": 3,
-                "groups": [
-                    [
-                        "spice_bat",
-                        "cobran"
-                    ],
-                    [
-                        "spotted_mongoose"
-                    ],
-                    [
-                        "pepper_monk",
-                        "spice_bat"
-                    ]
-                ],
-                "eyesGlowInDark": true
-            },
-            {
-                "map": "cave_croc_b3",
-                "count": 2,
-                "groups": [
-                    [
-                        "spotted_mongoose",
-                        "cobran"
-                    ],
-                    [
-                        "pepper_monk",
-                        "pepper_monk"
-                    ]
-                ]
-            },
-            {
-                "map": "town_highland",
-                "count": 6,
-                "groups": [
-                    [
-                        "coffee_beetle",
-                        "coffee_beetle"
-                    ],
-                    [
-                        "tusk_boar"
-                    ],
-                    [
-                        "tea_golem"
-                    ]
-                ],
-                "untilFlag": "f_highland_saved"
-            },
-            {
-                "map": "palace_1f",
-                "count": 3,
-                "groups": [
-                    [
-                        "marble_knight"
-                    ],
-                    [
-                        "lamp_shadow",
-                        "lamp_shadow"
-                    ],
-                    [
-                        "marble_knight",
-                        "lamp_shadow"
-                    ]
-                ]
-            },
-            {
-                "map": "palace_2f",
-                "count": 2,
-                "groups": [
-                    [
-                        "lamp_shadow",
-                        "marble_knight"
-                    ],
-                    [
-                        "marble_knight"
-                    ]
-                ]
-            },
-            {
-                "map": "castle_stairs",
-                "count": 4,
-                "groups": [
-                    [
-                        "shadow_leopard"
-                    ],
-                    [
-                        "eclipse_knight"
-                    ],
-                    [
-                        "shadow_leopard",
-                        "lamp_shadow"
-                    ],
-                    [
-                        "eclipse_knight",
-                        "shadow_leopard"
-                    ]
-                ]
-            },
-            {
-                "map": "castle_top",
-                "count": 1,
-                "groups": [
-                    [
-                        "eclipse_knight",
-                        "eclipse_knight"
-                    ]
-                ]
-            }
-        ]
+    {
+     "w": 25,
+     "enemies": [
+      "rolling_coconut",
+      "rolling_coconut"
+     ]
+    },
+    {
+     "w": 20,
+     "enemies": [
+      "beach_crab"
+     ]
+    },
+    {
+     "w": 15,
+     "enemies": [
+      "prank_monkey"
+     ]
     }
+   ]
+  },
+  {
+   "id": "z_plains_west",
+   "expectedLv": 2,
+   "groups": [
+    {
+     "w": 30,
+     "enemies": [
+      "floaty_jelly",
+      "rolling_coconut"
+     ]
+    },
+    {
+     "w": 30,
+     "enemies": [
+      "beach_crab",
+      "prank_monkey"
+     ]
+    },
+    {
+     "w": 40,
+     "enemies": [
+      "prank_monkey",
+      "prank_monkey"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "z_jungle",
+   "expectedLv": 4,
+   "groups": [
+    {
+     "w": 35,
+     "enemies": [
+      "spice_bat",
+      "spice_bat"
+     ]
+    },
+    {
+     "w": 35,
+     "enemies": [
+      "pepper_monk",
+      "cobran"
+     ]
+    },
+    {
+     "w": 30,
+     "enemies": [
+      "spotted_mongoose"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "z_sea",
+   "expectedLv": 6,
+   "groups": [
+    {
+     "w": 30,
+     "enemies": [
+      "sea_eel"
+     ]
+    },
+    {
+     "w": 25,
+     "enemies": [
+      "ink_octopus",
+      "ink_octopus"
+     ]
+    },
+    {
+     "w": 25,
+     "enemies": [
+      "pirate_skeleton",
+      "sea_eel"
+     ]
+    },
+    {
+     "w": 20,
+     "enemies": [
+      "coral_armor"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "z_highland",
+   "expectedLv": 8,
+   "groups": [
+    {
+     "w": 30,
+     "enemies": [
+      "coffee_beetle",
+      "coffee_beetle",
+      "coffee_beetle"
+     ]
+    },
+    {
+     "w": 30,
+     "enemies": [
+      "tusk_boar",
+      "coffee_beetle"
+     ]
+    },
+    {
+     "w": 20,
+     "enemies": [
+      "tea_golem"
+     ]
+    },
+    {
+     "w": 20,
+     "enemies": [
+      "sleepy_bear"
+     ]
+    }
+   ]
+  }
+ ],
+ "symbols": {
+  "noticeTiles": 4,
+  "chaseSpeedRate": 0.8,
+  "preemptiveFromBehind": true,
+  "ambush": false,
+  "respawn": "on_floor_exit",
+  "placements": [
+   {
+    "map": "cave_croc_b1",
+    "count": 3,
+    "groups": [
+     [
+      "spice_bat",
+      "spice_bat"
+     ],
+     [
+      "pepper_monk"
+     ],
+     [
+      "cobran"
+     ]
+    ]
+   },
+   {
+    "map": "cave_croc_b2",
+    "count": 3,
+    "groups": [
+     [
+      "spice_bat",
+      "cobran"
+     ],
+     [
+      "spotted_mongoose"
+     ],
+     [
+      "pepper_monk",
+      "spice_bat"
+     ]
+    ],
+    "eyesGlowInDark": true
+   },
+   {
+    "map": "cave_croc_b3",
+    "count": 2,
+    "groups": [
+     [
+      "spotted_mongoose",
+      "cobran"
+     ],
+     [
+      "pepper_monk",
+      "pepper_monk"
+     ]
+    ]
+   },
+   {
+    "map": "town_highland",
+    "count": 6,
+    "groups": [
+     [
+      "coffee_beetle",
+      "coffee_beetle"
+     ],
+     [
+      "tusk_boar"
+     ],
+     [
+      "tea_golem"
+     ]
+    ],
+    "untilFlag": "f_highland_saved"
+   },
+   {
+    "map": "palace_1f",
+    "count": 3,
+    "groups": [
+     [
+      "marble_knight"
+     ],
+     [
+      "lamp_shadow",
+      "lamp_shadow"
+     ],
+     [
+      "marble_knight",
+      "lamp_shadow"
+     ]
+    ]
+   },
+   {
+    "map": "palace_2f",
+    "count": 2,
+    "groups": [
+     [
+      "lamp_shadow",
+      "marble_knight"
+     ],
+     [
+      "marble_knight"
+     ]
+    ]
+   },
+   {
+    "map": "castle_stairs",
+    "count": 4,
+    "groups": [
+     [
+      "shadow_leopard"
+     ],
+     [
+      "eclipse_knight"
+     ],
+     [
+      "shadow_leopard",
+      "lamp_shadow"
+     ],
+     [
+      "eclipse_knight",
+      "shadow_leopard"
+     ]
+    ]
+   },
+   {
+    "map": "castle_top",
+    "count": 1,
+    "groups": [
+     [
+      "eclipse_knight",
+      "eclipse_knight"
+     ]
+    ]
+   }
+  ]
+ }
 }
