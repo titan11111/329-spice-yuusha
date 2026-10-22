@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { InputManager } from './core/input.ts';
+import { inputConfig } from './core/data.ts';
 import { loadGame, saveGame, hasSave } from './core/save.ts';
 import { newGame } from './core/state.ts';
 import { Overlay } from './ui/overlay.ts';
@@ -81,12 +82,27 @@ function toggleMute(): void {
   audio.applyVolume();
 }
 
-function setPaused(on: boolean): void {
-  if (userPaused === on) return;
+function setPaused(on: boolean, note = ''): void {
+  if (userPaused === on) { if (on && note) showPauseNote(note); return; }
   userPaused = on;
+  showPauseNote(on ? note : '');
   // ポーズ中は update() が止まる。押しっぱなしの入力を捨てないと解除した瞬間に1回ぶん入る
   input.clearTouch();
   applyPause();
+}
+
+/** ポーズ画面の下に出す一言（パッドが抜けたときなど） */
+function showPauseNote(text: string): void {
+  const layer = document.getElementById('pause-layer');
+  if (!layer) return;
+  let note = layer.querySelector<HTMLElement>('.pause-note');
+  if (!text) { note?.remove(); return; }
+  if (!note) {
+    note = document.createElement('span');
+    note.className = 'pause-note';
+    layer.appendChild(note);
+  }
+  note.textContent = text;
 }
 
 function togglePause(): void { setPaused(!userPaused); }
@@ -131,6 +147,15 @@ pauseLayer?.addEventListener('pointerdown', (e) => {
   e.preventDefault();
   setPaused(false);
 });
+
+// パッドが抜けたらポーズして知らせる（data/input.json の disconnect）。
+// Phaser のループに関係なく受けたいので DOM 側で拾う
+const dc = inputConfig.disconnect as { pause?: boolean; message?: string };
+window.addEventListener('gamepaddisconnected', () => {
+  if (!dc?.pause) return;
+  setPaused(true, dc.message ?? 'コントローラーが はずれたよ');
+});
+window.addEventListener('gamepadconnected', () => { showPauseNote(''); });
 
 // キーボードのポーズ。ポーズ中は Phaser のループが寝ているので DOM 側で受ける。
 // Esc は menus の「キャンセル」と重なるので割り当てない

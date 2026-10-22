@@ -185,6 +185,22 @@ export function innById(id: string) {
   return must(shopsData.inns.find((i) => i.id === id), id);
 }
 
+export function shopById(id: string) {
+  return must(shopsData.shops.find((s) => s.id === id), id);
+}
+
+/** その店で今ならべている品（openFlag が立つまで出さない品は無い。店そのものが openFlag を持つ） */
+export function shopStock(gs: GameState, id: string): string[] {
+  const shop = shopById(id);
+  if (shop.openFlag && !gs.flags[shop.openFlag]) return [];
+  return shop.items;
+}
+
+/** 買える値段（道具と装備のどちらにもある） */
+export function priceOf(id: string): number | null {
+  return itemById.get(id)?.price ?? equipById.get(id)?.price ?? null;
+}
+
 export function stayAtInn(gs: GameState, innId: string): { ok: boolean } {
   const inn = innById(innId);
   if (gs.gold < inn.price) return { ok: false };

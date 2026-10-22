@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { InputManager } from './core/input.js';
+import { inputConfig } from './core/data.js';
 import { loadGame, saveGame, hasSave } from './core/save.js';
 import { newGame } from './core/state.js';
 import { Overlay } from './ui/overlay.js';
@@ -95,13 +96,34 @@ function toggleMute() {
     writeStore(MUTE_KEY, s.bgm === 0 && s.se === 0 ? '1' : '0');
     audio.applyVolume();
 }
-function setPaused(on) {
-    if (userPaused === on)
+function setPaused(on, note = '') {
+    if (userPaused === on) {
+        if (on && note)
+            showPauseNote(note);
         return;
+    }
     userPaused = on;
+    showPauseNote(on ? note : '');
     // ポーズ中は update() が止まる。押しっぱなしの入力を捨てないと解除した瞬間に1回ぶん入る
     input.clearTouch();
     applyPause();
+}
+/** ポーズ画面の下に出す一言（パッドが抜けたときなど） */
+function showPauseNote(text) {
+    const layer = document.getElementById('pause-layer');
+    if (!layer)
+        return;
+    let note = layer.querySelector('.pause-note');
+    if (!text) {
+        note?.remove();
+        return;
+    }
+    if (!note) {
+        note = document.createElement('span');
+        note.className = 'pause-note';
+        layer.appendChild(note);
+    }
+    note.textContent = text;
 }
 function togglePause() { setPaused(!userPaused); }
 game = new Phaser.Game({
@@ -143,6 +165,15 @@ pauseLayer?.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     setPaused(false);
 });
+// パッドが抜けたらポーズして知らせる（data/input.json の disconnect）。
+// Phaser のループに関係なく受けたいので DOM 側で拾う
+const dc = inputConfig.disconnect;
+window.addEventListener('gamepaddisconnected', () => {
+    if (!dc?.pause)
+        return;
+    setPaused(true, dc.message ?? 'コントローラーが はずれたよ');
+});
+window.addEventListener('gamepadconnected', () => { showPauseNote(''); });
 // キーボードのポーズ。ポーズ中は Phaser のループが寝ているので DOM 側で受ける。
 // Esc は menus の「キャンセル」と重なるので割り当てない
 window.addEventListener('keydown', (e) => {

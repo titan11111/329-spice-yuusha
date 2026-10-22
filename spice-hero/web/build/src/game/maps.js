@@ -39,6 +39,11 @@ export const LEGEND = {
     S: { ground: 'castle_rock', solid: true, terrain: 'road' },
     q: { ground: 'tea', terrain: 'grass' },
     C: { ground: 'grass', obj: 'rock', solid: true, terrain: 'grass' },
+    // ワニの がんくつ
+    A: { ground: 'cave_floor', terrain: 'cave' },
+    V: { ground: 'cave_wall', solid: true, terrain: 'cave' },
+    O: { ground: 'cave_pool', solid: true, terrain: 'cave' },
+    I: { ground: 'cave_stair', terrain: 'cave' },
 };
 const FIX = (rows, w, id) => {
     rows.forEach((r, i) => { if (r.length !== w)
@@ -170,6 +175,14 @@ function buildWorldEast() {
     }
     rows[11][6] = 'b';
     rows[7][20] = 'b';
+    // ワニの がんくつ へ: 街道(y=9)から北へ一本、ジャングルの壁に ほらあなの口を開ける
+    for (let y = 3; y <= 8; y++)
+        rows[y][22] = 'r';
+    rows[2][22] = 'I';
+    rows[2][21] = 'J';
+    rows[2][23] = 'J';
+    rows[3][21] = 'b';
+    rows[3][23] = 'b';
     return rows.map((r) => r.join(''));
 }
 const worldEastRows = FIX(buildWorldEast(), 32, 'world_east');
@@ -237,6 +250,53 @@ const hutRows = FIX([
     'W_____W',
     'WWWMWWW',
 ], 7, 'hut_fisher');
+// ───────── ワニの がんくつ（B1〜B3）20×14 / B3は20×12 ─────────
+const caveB1Rows = FIX([
+    'VVVVVVVVVVVVVVVVVVVV',
+    'VAAIAAAAVVVVVVVVVVVV',
+    'VAAAAAAAVVVVVVVVVVVV',
+    'VAAAAAAAAAAAAAAAAAAV',
+    'VAAAAAAAVVVVVVVVVAAV',
+    'VVVVVAAVVVVVVVVVVAAV',
+    'VVVVVAAVVVVVVVVVVAAV',
+    'VAAAAAAAAAAAAAAAAAAV',
+    'VAAVVVVVVVVVVVVVVVVV',
+    'VAAVVVVVVVVVVVVVVVVV',
+    'VAAAAAAAAAAAAAAVVVVV',
+    'VVVVVVVVVVVVVAAVVVVV',
+    'VVVVVVVVVVVVVAIVVVVV',
+    'VVVVVVVVVVVVVVVVVVVV',
+], 20, 'cave_croc_b1');
+const caveB2Rows = FIX([
+    'VVVVVVVVVVVVVVVVVVVV',
+    'VAIAAVVVVVVVVVVVVVVV',
+    'VAAAAAAAAAAAAAAAAVVV',
+    'VAAAAVVVVVVVVVVVAVVV',
+    'VVVAVVVVVVVVVVVVAVVV',
+    'VVVAAAAAAAAAAAVVAVVV',
+    'VVVVVVVVVVVVAVVVAVVV',
+    'VVVVVVVVVVVVAAAAAVVV',
+    'VAAAAAAAAVVVAVVVVVVV',
+    'VAAAAAAAAVVVAVVVVVVV',
+    'VAAIAAAAAAAAAVVVVVVV',
+    'VAAAAAAAAVVVVVVVVVVV',
+    'VVVVVVVVVVVVVVVVVVVV',
+    'VVVVVVVVVVVVVVVVVVVV',
+], 20, 'cave_croc_b2');
+const caveB3Rows = FIX([
+    'VVVVVVVVVVVVVVVVVVVV',
+    'VVVAIAAVVVVVVVVVVVVV',
+    'VVVAAAAVVVVVVVVVVVVV',
+    'VVVVVAVVVVVVVVVVVVVV',
+    'VVVAAAAAAAAAAAAAAVVV',
+    'VVVAAAAOOOOOOAAAAVVV',
+    'VVVAAAAOOOOOOAAAAVVV',
+    'VVVAAAAOOOOOOAAAAVVV',
+    'VVVAAAAAAAAAAAAAAVVV',
+    'VVVAAAAAAAAAAAAAAVVV',
+    'VVVVVVVVVVVVVVVVVVVV',
+    'VVVVVVVVVVVVVVVVVVVV',
+], 20, 'cave_croc_b3');
 // ───────── 台本（ふりがな: {漢字|よみ}） ─────────
 const L = {
     mother: (gs) => gs.flags.f_departed
@@ -270,10 +330,30 @@ const L = {
         ? ['{王|おう}さまの おふれは きいたな。\n{港|みなと}の ふねは まだ うごかん。\n{気|き}を つけて いけよ。']
         : ['ようこそ、みなとの {王都|おうと}へ。\n{王|おう}さまが おまちだ。\nまっすぐ {北|きた}の {城|しろ}へ おいで。'],
     guardHall: ['{王|おう}さまの まえでは\nぼうしを とるんだぞ。'],
-    capitalMerchant: ['いちばの しなものは\nまだ ならべて いないんだ。\nもうすこし まってておくれ！'],
+    capitalMerchant: ['{市場|いちば}の しなものは\nほかの {店|みせ}に まわして しまった。\nひろばの {屋台|やたい}を のぞいてみて！'],
+    shopBeachTalk: ['よろずやだよ。\nたびの したくは そろってるかい？'],
+    shopFoodTalk: ['{屋台|やたい}の ごはんと スパイス！\nたべものは おおめに もっていきな。'],
+    shopArmsTalk: ['ぶきやだ。\nいいものを そろえてる。\nみていってくれ。'],
+    roadMerchant: ['おれは {行商人|ぎょうしょうにん}。\nかうなら はまむらの よろずやか、\n{王都|おうと}の {屋台|やたい}と ぶきやへ！'],
     capitalBoy: ['そらが くらいから、\nおひさまが こいしいよ。\nゆうしゃって きみのこと？'],
     capitalGirl: ['{港|みなと}の ふねが ぜんぶ とまってるの。\n{海|うみ}が あれてて こわいんだって。'],
     capitalOld: ['{日蝕|にっしょく}の {魔王|まおう}、とな。\nむかしの うたに あったわい。\n「スパイス {三|み}つで やみは はれる」とな。'],
+    // ───── ワニの がんくつ ─────
+    caveSign: ['{立|た}て{札|ふだ}：\nワニの がんくつ\nおくに「ちていこ」あり。ひとり で いくな。'],
+    caveBones: ['おおきな ほねが ころがっている。\nワニの ものだろうか…。'],
+    cavePool: ['{地底湖|ちていこ}だ。\nまっくらな {水|みず}の おくで\nなにかが ゆっくり うごいている。'],
+    caveDrip: ['てんじょうから しずくが おちてくる。\nぴちょん、ぴちょん。'],
+    caveCrack: ['かべの ひびから つめたい かぜ。\nまだ おくが あるようだ。'],
+    bossCrocBefore: [
+        'ずず… ずずず…',
+        '{水面|すいめん}が もりあがり、\nおおきな かげが あらわれた！',
+        'かげワニおう：\nグオオオ…… ヤミ ガ…… イタイ……',
+    ],
+    bossCrocAfter: [
+        'かげワニおう：\nグ…… アア…… ありがとう。\nやみが はれて、めが さめた。',
+        'ワニおうは せいきに もどり、\n{太陽|たいよう}の ほうせきを さしだした。',
+        '{太陽|たいよう}の ほうせきを てにいれた！\n{三|み}つの スパイスの ひとつめだ！',
+    ],
     king: (gs) => gs.flags.f_royal_order
         ? ['たのんだぞ、ゆうしゃよ。\n{東|ひがし}の {岩窟|がんくつ}に\nてがかりが あるはずじゃ。']
         : [
@@ -290,6 +370,7 @@ export const MAPS = {
             { id: 'n_fisher', x: 6, y: 3, look: 'fisher', dir: 'down', talk: L.fisher },
             { id: 'n_boy', x: 9, y: 8, look: 'boy', dir: 'left', wander: true, talk: L.boy },
             { id: 'n_girl', x: 15, y: 11, look: 'girl', dir: 'down', wander: true, talk: L.girl },
+            { id: 'n_shop_beach', x: 10, y: 10, look: 'merchant', dir: 'down', talk: { shop: 'shop_beach' } },
         ],
         chests: [{ id: 'chest_beach_01', x: 22, y: 13 }],
         searches: [
@@ -349,18 +430,23 @@ export const MAPS = {
         id: 'world_east', name: 'ひがしの かいどう', bgm: 'field', rows: worldEastRows, area: 'jungle', battleBg: 'jungle', showName: true,
         encounters: { grass: 'z_jungle', road: 'z_jungle', jungle: 'z_jungle', beach: 'z_beach', shallow: 'z_beach' },
         npcs: [
-            { id: 'n_road_merchant', x: 14, y: 10, look: 'merchant', dir: 'down', talk: L.capitalMerchant },
+            { id: 'n_road_merchant', x: 14, y: 10, look: 'merchant', dir: 'down', talk: L.roadMerchant },
         ],
         chests: [],
         searches: [
             { id: 'sign_east', x: 3, y: 8, text: ['{立|た}て{札|ふだ}：\nひがし → みなとの {王都|おうと}\nにし → いわやまの {関所|せきしょ}、ココナッツの はまむら'] },
             { id: 'pass_rock_east', x: 1, y: 11, text: L.passRock },
+            { id: 'sign_cave', x: 21, y: 3, text: L.caveSign },
             { id: 'tea_field', x: 10, y: 14, text: '{茶畑|ちゃばたけ}だ。\nつみとられた あとが ある。\nここの ひとは どこへ いったのだろう。' },
             { id: 'east_palm', x: 24, y: 12, once: 'east_palm', give: { item: 'king_coconut' }, text: 'ヤシの きを ゆらしてみた。\nコトン！ ココナッツが おちてきた！' },
         ],
         exits: [
             { x: 0, y: 9, to: 'world', tx: 29, ty: 9, dir: 'left' },
             { x: 31, y: 9, to: 'town_capital', tx: 1, ty: 9, dir: 'right' },
+            {
+                x: 22, y: 2, to: 'cave_croc_b1', tx: 14, ty: 11, dir: 'up',
+                blocked: (gs) => (gs.flags.f_royal_order ? null : 'まっくらな ほらあなだ。\nいまは はいる りゆうが ない。\nまずは {王都|おうと}の {王|おう}さまに あおう。'),
+            },
         ],
     },
     town_capital: {
@@ -368,7 +454,8 @@ export const MAPS = {
         npcs: [
             { id: 'n_guard_gate', x: 12, y: 2, look: 'guard', dir: 'down', talk: L.guardGate },
             { id: 'n_guard_gate2', x: 15, y: 2, look: 'guard', dir: 'down', talk: L.guardGate },
-            { id: 'n_cap_merchant', x: 6, y: 11, look: 'merchant', dir: 'down', talk: L.capitalMerchant },
+            { id: 'n_cap_merchant', x: 6, y: 11, look: 'merchant', dir: 'down', talk: { shop: 'shop_capital_food' } },
+            { id: 'n_cap_crier', x: 18, y: 11, look: 'old', dir: 'down', talk: L.capitalMerchant },
             { id: 'n_cap_boy', x: 10, y: 12, look: 'boy', dir: 'down', wander: true, talk: L.capitalBoy },
             { id: 'n_cap_girl', x: 18, y: 12, look: 'girl', dir: 'down', wander: true, talk: L.capitalGirl },
             { id: 'n_cap_old', x: 22, y: 13, look: 'old', dir: 'left', talk: L.capitalOld },
@@ -393,11 +480,54 @@ export const MAPS = {
         exits: [{ x: 3, y: 6, to: 'town_capital', tx: 7, ty: 7, dir: 'down' }],
     },
     house_capital: {
-        id: 'house_capital', name: 'しょうにんの いえ', bgm: 'village', rows: houseHeroRows,
-        npcs: [{ id: 'n_house_merchant', x: 4, y: 3, look: 'merchant', dir: 'down', talk: L.capitalMerchant }],
+        id: 'house_capital', name: 'ぶきやの いえ', bgm: 'village', rows: houseHeroRows,
+        npcs: [{ id: 'n_house_merchant', x: 4, y: 3, look: 'merchant', dir: 'down', talk: { shop: 'shop_capital_arms' } }],
         chests: [],
-        searches: [{ id: 'cap_shelf', x: 1, y: 1, text: 'たなに スパイスの ふくろが つんである。\nうれる さきが なくて こまっているようだ。' }],
+        searches: [{ id: 'cap_shelf', x: 1, y: 1, text: 'たなに つるぎと よろいが ならんでいる。\nどれも ていねいに みがかれている。' }],
         exits: [{ x: 3, y: 6, to: 'town_capital', tx: 20, ty: 7, dir: 'down' }],
+    },
+    cave_croc_b1: {
+        id: 'cave_croc_b1', name: 'ワニの がんくつ B1', bgm: 'cave', rows: caveB1Rows, area: 'jungle', battleBg: 'cave', showName: true,
+        encounters: { cave: 'z_cave_croc' },
+        npcs: [],
+        chests: [{ id: 'chest_cave_01', x: 6, y: 1 }],
+        searches: [
+            { id: 'cave_bones_1', x: 2, y: 10, text: L.caveBones },
+            { id: 'cave_drip_1', x: 17, y: 5, text: L.caveDrip },
+        ],
+        exits: [
+            { x: 14, y: 12, to: 'world_east', tx: 22, ty: 3, dir: 'down' },
+            { x: 3, y: 1, to: 'cave_croc_b2', tx: 3, ty: 2, dir: 'down' },
+        ],
+    },
+    cave_croc_b2: {
+        id: 'cave_croc_b2', name: 'ワニの がんくつ B2', bgm: 'cave', rows: caveB2Rows, area: 'jungle', battleBg: 'cave', showName: true,
+        encounters: { cave: 'z_cave_croc' },
+        npcs: [],
+        chests: [{ id: 'chest_cave_02', x: 1, y: 11 }],
+        searches: [
+            { id: 'cave_crack', x: 16, y: 4, text: L.caveCrack },
+            { id: 'cave_drip_2', x: 8, y: 5, text: L.caveDrip },
+        ],
+        exits: [
+            { x: 2, y: 1, to: 'cave_croc_b1', tx: 4, ty: 1, dir: 'up' },
+            { x: 3, y: 10, to: 'cave_croc_b3', tx: 5, ty: 1, dir: 'down' },
+        ],
+    },
+    cave_croc_b3: {
+        id: 'cave_croc_b3', name: 'ちていこ', bgm: 'cave', rows: caveB3Rows, area: 'jungle', battleBg: 'cave', showName: true,
+        npcs: [],
+        chests: [],
+        searches: [
+            { id: 'cave_pool_1', x: 8, y: 5, text: L.cavePool },
+            { id: 'cave_bones_2', x: 15, y: 9, text: L.caveBones },
+        ],
+        exits: [{ x: 4, y: 1, to: 'cave_croc_b2', tx: 4, ty: 10, dir: 'up' }],
+        boss: {
+            enemy: 'boss_croc', x: 5, y: 3, flag: 'boss_croc_done',
+            before: L.bossCrocBefore, after: L.bossCrocAfter,
+            keyItem: 'sun_gem', setsFlag: 'f_god_sun',
+        },
     },
     castle_capital: {
         id: 'castle_capital', name: 'おうじょう', bgm: 'castle', rows: castleCapitalRows, area: 'castle', battleBg: 'castle', showName: true,

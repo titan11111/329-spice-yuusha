@@ -250,7 +250,9 @@ export class BattleScene extends Phaser.Scene {
                 this.pop(e.target, String(e.amount), e.weak ? 'weak' : isEnemy ? '' : 'hurt');
                 if (spr) {
                     this.tweens.add({ targets: spr, x: spr.x + 3, duration: 40, yoyo: true, repeat: 3 });
-                    spr.setTintFill(0xffffff);
+                    // Phaser 4 で setTintFill は廃止。TintModes は phaser-shim.d.ts に無いので実行時から読む
+                    const fillMode = Phaser.TintModes.FILL;
+                    spr.setTint(0xffffff).setTintMode(fillMode);
                     this.time.delayedCall(90, () => spr.clearTint());
                 }
                 if (!isEnemy) {

@@ -9,7 +9,8 @@
   "beach": 20,
   "jungle": 14,
   "highland": 14,
-  "sea": 24
+  "sea": 24,
+  "cave": 16
  },
  "zones": [
   {
@@ -157,6 +158,38 @@
      "w": 20,
      "enemies": [
       "sleepy_bear"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "z_cave_croc",
+   "expectedLv": 5,
+   "groups": [
+    {
+     "w": 30,
+     "enemies": [
+      "spice_bat",
+      "spice_bat"
+     ]
+    },
+    {
+     "w": 26,
+     "enemies": [
+      "cobran",
+      "pepper_monk"
+     ]
+    },
+    {
+     "w": 24,
+     "enemies": [
+      "spotted_mongoose"
+     ]
+    },
+    {
+     "w": 20,
+     "enemies": [
+      "ink_octopus"
      ]
     }
    ]

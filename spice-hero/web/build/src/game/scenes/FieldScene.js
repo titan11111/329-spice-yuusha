@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 import { encounterRate } from '../../core/battle.js';
-import { chestsData, encounters, equipById, itemById, must } from '../../core/data.js';
+import { chestsData, encounters, equipById, itemById, must, uiTheme } from '../../core/data.js';
 import { addItem, innById, joinMember, onWipeout, openChest } from '../../core/state.js';
 import { G } from '../ctx.js';
 import { DIR_VEC, INN_ARRIVAL, OPPOSITE, getMap, tileAt, LEGEND, } from '../maps.js';
-import { equipMenu, innTalk, itemMenu, padSetup, settingsMenu, spellMenu, statusScreen } from '../menus.js';
+import { equipMenu, innTalk, itemMenu, padSetup, settingsMenu, shopTalk, spellMenu, statusScreen } from '../menus.js';
 const T = 16;
 const STEP_MS = 150;
 const BGM = { village: 'village', field: 'field', inn: 'inn', cave: 'field', castle: 'boss' };
@@ -248,6 +248,11 @@ export class FieldScene extends Phaser.Scene {
             void this.runBusy(() => this.useExit(exit));
             return;
         }
+        const boss = this.map.boss;
+        if (boss && boss.x === h.x && boss.y === h.y && !g.gs.flags[boss.flag]) {
+            void this.runBusy(() => this.fightBoss(boss));
+            return;
+        }
         void this.checkEncounter();
     }
     async useExit(e) {
@@ -299,6 +304,22 @@ export class FieldScene extends Phaser.Scene {
             }
         }
         await this.runBusy(async () => { await this.battle({ enemies: pick.enemies, boss: false, bg: this.map.battleBg ?? 'beach' }); });
+    }
+    /** 決まった場所のボス。踏んだら始まり、勝つと flag が立って二度は出ない */
+    async fightBoss(b) {
+        const g = G();
+        g.audio.bgm(null);
+        await this.say(b.before);
+        const out = await this.battle({ enemies: [b.enemy], boss: true, bg: this.map.battleBg ?? 'cave' });
+        if (out.result !== 'win')
+            return;
+        g.gs.flags[b.flag] = true;
+        if (b.keyItem && !g.gs.keyItems.includes(b.keyItem))
+            g.gs.keyItems.push(b.keyItem);
+        if (b.setsFlag)
+            g.gs.flags[b.setsFlag] = true;
+        g.audio.se('unlock');
+        await this.say(b.after);
     }
     /** 戦闘シーンを起動して、終わるまで待つ */
     async battle(p) {
@@ -370,6 +391,8 @@ export class FieldScene extends Phaser.Scene {
             const t = npc.def.talk;
             if (typeof t === 'object' && !Array.isArray(t) && 'inn' in t)
                 await innTalk(g, t.inn);
+            else if (typeof t === 'object' && !Array.isArray(t) && 'shop' in t)
+                await shopTalk(g, t.shop);
             else
                 await this.say(t);
             if (npc.def.id === 'n_mother' && !g.gs.flags.f_departed)
@@ -431,7 +454,7 @@ export class FieldScene extends Phaser.Scene {
     // ───────── メニュー ─────────
     async fieldMenu() {
         const g = G();
-        const gold = g.overlay.window({ x: 216, y: 118, w: 96, h: 20 }, 'gold');
+        const gold = g.overlay.window(uiTheme.layout.field.gold, 'gold');
         gold.textContent = `${g.gs.gold} G`;
         g.audio.se('confirm');
         let idx = 0;

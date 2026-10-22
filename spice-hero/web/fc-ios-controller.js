@@ -97,7 +97,13 @@ function initFcIosController(opts = {}) {
     const nx = dx / (r.width * .38), ny = -dy / (r.height * .40);
     const length = Math.hypot(nx, ny), gain = Math.min(1, Math.max(0, length - .1) / .65) / (length || 1);
     K.AxisX = nx * gain; K.AxisY = ny * gain;
-    setDpad(dy < -thr, dy > thr, dx < -thr, dx > thr);
+    // 主軸寄せ: 縦棒・横棒の端を触ったときに弱いほうの向きまで入らないようにする。
+    // 十字の棒は半幅が17〜23pxあり、しきい値(s*0.17=16〜22px)を素で超えてしまうため、
+    // 「もう一方の軸の1.6倍以上あるときだけ有効」にして斜めだけ両方を通す
+    const ax = Math.abs(dx), ay = Math.abs(dy);
+    const useX = ax > thr && ax * 1.6 >= ay;
+    const useY = ay > thr && ay * 1.6 >= ax;
+    setDpad(useY && dy < 0, useY && dy > 0, useX && dx < 0, useX && dx > 0);
   }
 
   if (dpadWrap) {

@@ -4,8 +4,8 @@
  */
 import { type PadSnapshot, LEARN_ORDER, LEARN_TIMEOUT_MS, applyLearn, detectLearn, emptyBinding } from '../core/input.ts';
 import { statsWithEquip } from '../core/battle.ts';
-import { equipById, itemById, must, spellById, uiTheme } from '../core/data.ts';
-import { clampVitals, equip, equipDiff, fullHeal, innById, knownSpells, stayAtInn, type GameState } from '../core/state.ts';
+import { equipById, items, itemById, must, spellById, uiTheme } from '../core/data.ts';
+import { buy, clampVitals, equip, equipDiff, fullHeal, innById, knownSpells, priceOf, shopStock, stayAtInn, type GameState } from '../core/state.ts';
 import { saveGame } from '../core/save.ts';
 import { rubyToHtml } from '../core/ruby.ts';
 import type { Action } from '../core/input.ts';
@@ -37,15 +37,20 @@ export async function statusScreen(g: GameCtx): Promise<void> {
     const s = statsWithEquip(m);
     const eq = (slot: 'weapon' | 'armor' | 'shield') => (m.equip[slot] ? must(equipById.get(m.equip[slot]!), 'e').name : 'なし');
     const spells = knownSpells(gs, m.id).map((id) => must(spellById.get(id), id).name).join(' ') || 'なし';
-    win.innerHTML = `
-      <div class="text-line" style="font-size:calc(var(--px)*10px);line-height:calc(var(--px)*13px)">
-        ◀ ${m.name}  Lv${m.lv} ▶    ${idx + 1}/${gs.party.length}<br>
-        HP ${m.hp}/${s.maxHp}   SP ${m.sp}/${s.maxSp}   けいけんち ${m.exp}<br>
-        こうげき ${s.atk}   しゅび ${s.def}   すばやさ ${s.agi}<br>
-        ぶき：${eq('weapon')}<br>よろい：${eq('armor')}<br>たて：${eq('shield')}<br>
-        スパイス：${spells}<br>
-        おかね：${gs.gold}G
-      </div><i class="corner-tr"></i><i class="corner-bl"></i>`;
+    const keyNames = gs.keyItems.map((id) => items.keyItems.find((k) => k.id === id)?.name ?? id);
+    const lines = [
+      `◀ ${m.name}  Lv${m.lv} ▶    ${idx + 1}/${gs.party.length}`,
+      `HP ${m.hp}/${s.maxHp}   SP ${m.sp}/${s.maxSp}   けいけんち ${m.exp}`,
+      `こうげき ${s.atk}   しゅび ${s.def}   すばやさ ${s.agi}`,
+      `ぶき：${eq('weapon')}`,
+      `よろい：${eq('armor')}`,
+      `たて：${eq('shield')}`,
+      `スパイス：${spells}`,
+      `おかね：${gs.gold}G`,
+      ...(keyNames.length ? [`だいじな もの：${keyNames.join(' ')}`] : []),
+    ];
+    // 改行は <br> だけで作る（テンプレートの改行は pre-wrap で空行になる）
+    win.innerHTML = `<div class="text-line status-body">${lines.join('<br>')}</div><i class="corner-tr"></i><i class="corner-bl"></i>`;
   };
   paint();
   await overlay.modal<void>((resolve) => () => {
@@ -244,6 +249,96 @@ export async function padSetup(g: GameCtx, padId: string): Promise<boolean> {
   win.remove();
   if (ok) input.saveBinding(padId, binding);
   return ok;
+}
+
+// ───────── みせ（どうぐや・ぶきや） ─────────
+
+/** 装備のとき、持ち主になれる仲間ごとの こうげき/しゅび の変化を1行で */
+function equipHint(g: GameCtx, id: string): string {
+  const e = equipById.get(id);
+  if (!e) return rubyToHtml(itemById.get(id)?.desc ?? '');
+  const lines: string[] = [];
+  for (const m of g.gs.party) {
+    const d = equipDiff(m, id);
+    if (!d) continue;
+    const nm = d.stat === 'atk' ? 'こうげき' : 'しゅび';
+    const arrow = d.to > d.from ? '<span class="up">↑</span>' : d.to < d.from ? '<span class="down">↓</span>' : '';
+    lines.push(`${m.name} ${nm} ${d.from}→${d.to} ${arrow}`);
+  }
+  if (!lines.length) lines.push('いまの なかまには そうびできない');
+  if (e.note) lines.push(rubyToHtml(e.note));
+  return lines.join('\n');
+}
+
+/**
+ * お店。買うだけ（売るのは入れていない）。
+ * 品ぞろえは data/shops.json。値段は items.json / equipment.json の price が正本。
+ * 窓は ui_theme.json の shop（list・gold）とフィールドのメッセージ窓を使う。
+ */
+export async function shopTalk(g: GameCtx, shopId: string): Promise<void> {
+  const { overlay, gs, audio } = g;
+  const stock = shopStock(gs, shopId).filter((id) => priceOf(id) != null);
+  const shopUi = uiTheme.layout.shop;
+  const msg = overlay.window(overlay.messageRect, 'msg');
+  const say = (t: string) => { msg.innerHTML = `<div class="msg-text text-line">${t}</div>`; };
+  if (!stock.length) {
+    msg.remove();
+    await overlay.message('ごめんね、いまは なにも\nならべて いないんだ。');
+    return;
+  }
+  const gold = overlay.window(shopUi.gold, 'gold');
+  const paintGold = () => { gold.innerHTML = `${gs.gold} G<i class="corner-tr"></i><i class="corner-bl"></i>`; };
+  paintGold();
+  // あいさつは先に1回だけ。リストを出すと説明文で上書きされるので、ここで見せきる
+  await overlay.message('いらっしゃい！\nなにに する？', { el: msg });
+  let cur = 0;
+  let quiet = false; // 直前に出した「かった！」を、カーソルを動かすまで消さない
+  for (;;) {
+    const labels = stock.map((id) => {
+      const price = priceOf(id)!;
+      const name = itemById.get(id)?.name ?? must(equipById.get(id), id).name;
+      return { label: name, right: `${price}G`, disabled: gs.gold < price };
+    });
+    cur = await overlay.choose(labels, {
+      rect: shopUi.list, start: Math.min(cur, stock.length - 1), keep: false,
+      quietStart: quiet,
+      onMove: (i) => say(equipHint(g, stock[i])),
+    });
+    quiet = false;
+    if (cur < 0) break;
+    const id = stock[cur];
+    const name = labels[cur].label;
+    const r = buy(gs, id);
+    if (!r.ok) {
+      audio.se('cancel');
+      say(rubyToHtml(r.reason === 'gold' ? 'おかねが たりないようだね。' : 'もう いっぱい もっているよ。'));
+      quiet = true;
+      continue;
+    }
+    audio.se('coconut');
+    paintGold();
+    say(rubyToHtml(`${name}を かった！\nありがとう！`));
+    quiet = true;
+    // 買った装備は、その場でつけられるようにする（子どもが装備画面を探さなくていい）
+    const eq = equipById.get(id);
+    if (eq) {
+      const who = gs.party.filter((m) => eq.who.includes(m.id));
+      if (who.length) {
+        const pick = who.length === 1
+          ? (await overlay.confirm(`${who[0].name}に いま そうびする？`) ? 0 : -1)
+          : await overlay.choose(who.map((m) => ({ label: m.name })), { rect: R(8, 8, 180, 56) });
+        if (pick >= 0 && equip(gs, who[pick].id, id).ok) {
+          audio.se('confirm');
+          clampVitals(who[pick]);
+          say(rubyToHtml(`${who[pick].name}は ${name}を そうびした！`));
+          quiet = true;
+        }
+      }
+    }
+  }
+  gold.remove();
+  msg.remove();
+  await overlay.message('また きてね！');
 }
 
 // ───────── 名前入力 ─────────

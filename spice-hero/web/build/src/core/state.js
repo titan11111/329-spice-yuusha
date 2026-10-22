@@ -146,6 +146,20 @@ export function fullHeal(gs) {
 export function innById(id) {
     return must(shopsData.inns.find((i) => i.id === id), id);
 }
+export function shopById(id) {
+    return must(shopsData.shops.find((s) => s.id === id), id);
+}
+/** その店で今ならべている品（openFlag が立つまで出さない品は無い。店そのものが openFlag を持つ） */
+export function shopStock(gs, id) {
+    const shop = shopById(id);
+    if (shop.openFlag && !gs.flags[shop.openFlag])
+        return [];
+    return shop.items;
+}
+/** 買える値段（道具と装備のどちらにもある） */
+export function priceOf(id) {
+    return itemById.get(id)?.price ?? equipById.get(id)?.price ?? null;
+}
 export function stayAtInn(gs, innId) {
     const inn = innById(innId);
     if (gs.gold < inn.price)

@@ -2,7 +2,7 @@
  * HTMLオーバーレイ: 文字が出るものはすべてここ（メッセージ・メニュー・ステータス・ふりがな）。
  * Phaser の canvas とぴったり同じ位置・サイズに重ねる。座標はすべて320×180のドット座標。
  */
-import { type Action, type InputManager, ACTIONS } from '../core/input.ts';
+import { type InputManager } from '../core/input.ts';
 import { paginate, rubyToHtml, tokenize, tokensToHtml } from '../core/ruby.ts';
 import { uiTheme } from '../core/data.ts';
 import type { Settings } from '../core/state.ts';
@@ -188,7 +188,14 @@ export class Overlay {
     const cols = opts.cols ?? 1;
     return this.run<number>((resolve) => {
       const done = (v: number) => { if (!opts.keep && !opts.el) win.remove(); rows.forEach((r) => r.classList.remove('sel')); resolve(v); };
-      const paint = () => { rows.forEach((r, i) => r.classList.toggle('sel', i === sel)); opts.onMove?.(sel); };
+      let first = true;
+      const paint = () => {
+        rows.forEach((r, i) => r.classList.toggle('sel', i === sel));
+        // quietStart: 直前に出したメッセージ（「かった！」など）を最初の描画で消さない
+        if (first && opts.quietStart) { first = false; return; }
+        first = false;
+        opts.onMove?.(sel);
+      };
       rows.forEach((row, i) => {
         row.addEventListener('pointerdown', (e) => {
           e.preventDefault();
@@ -258,101 +265,7 @@ export interface ChooseOptions {
   menuCancels?: boolean;
   keep?: boolean;
   deluxe?: boolean;
+  /** 最初の描画では onMove を呼ばない（前のメッセージを残したいとき） */
+  quietStart?: boolean;
   onMove?: (i: number) => void;
-}
-
-// ───────── タッチ操作 ─────────
-
-export interface TouchHooks {
-  onMute?: () => void;
-  onPause?: () => void;
-  vibrate?: () => void;
-  tap?: () => void;
-  muted?: () => boolean;
-}
-
-/** 下段の十字キー / A B / メニュー / 早送り / ミュート / ポーズ */
-export function mountTouchControls(
-  input: InputManager,
-  el: HTMLElement | null = document.getElementById('control-deck'),
-  hooks: TouchHooks = {},
-): { show(on: boolean): void } {
-  if (!el) return { show() {} };
-  el.replaceChildren();
-  const pad = document.createElement('div');
-  pad.className = 'pad-cluster';
-  pad.setAttribute('aria-label', '十字キー');
-  const ud = document.createElement('span');
-  ud.className = 'ud';
-  const mk = (id: string, label: string, action: Action | '', aria: string) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.id = id;
-    b.className = 'tc';
-    b.textContent = label;
-    b.setAttribute('aria-label', aria);
-    if (action) b.dataset.a = action;
-    return b;
-  };
-  pad.append(mk('btn-left', '◀', 'left', 'ひだり'), ud, mk('btn-right', '▶', 'right', 'みぎ'));
-  ud.append(mk('btn-up', '▲', 'up', 'うえ'), mk('btn-down', '▼', 'down', 'した'));
-  const act = document.createElement('div');
-  act.className = 'act-cluster';
-  act.append(
-    mk('btn-menu', '≡', 'menu', 'メニュー'),
-    mk('btn-fast', '≫', 'fast', 'はやく'),
-    mk('btn-b', 'B', 'cancel', 'キャンセル'),
-    mk('btn-mute', '🔊', '', 'ミュート'),
-    mk('btn-pause', '‖', '', 'ポーズ'),
-    mk('btn-a', 'A', 'confirm', 'けってい'),
-  );
-  el.append(pad, act);
-  if (hooks.muted?.()) {
-    const mute = el.querySelector<HTMLElement>('#btn-mute');
-    if (mute) mute.textContent = '🔇';
-  }
-  const owners = new Map<number, Action>();
-  const dirAt = (e: PointerEvent): Action | null => {
-    const r = pad.getBoundingClientRect();
-    const x = e.clientX - (r.left + r.width / 2);
-    const y = e.clientY - (r.top + r.height / 2);
-    if (Math.hypot(x, y) < r.width * 0.12) return null;
-    return Math.abs(x) > Math.abs(y) ? (x < 0 ? 'left' : 'right') : (y < 0 ? 'up' : 'down');
-  };
-  const paint = () => {
-    const down = new Set(owners.values());
-    el.querySelectorAll<HTMLElement>('[data-a]').forEach((n) => n.classList.toggle('on', down.has(n.dataset.a as Action)));
-  };
-  const set = (id: number, a: Action | null) => {
-    const prev = owners.get(id);
-    if (prev === a) return;
-    if (prev) input.setTouch(prev, false);
-    if (a) { owners.set(id, a); input.setTouch(a, true); } else owners.delete(id);
-    paint();
-  };
-  const pads = new Map<number, boolean>();
-  el.addEventListener('pointerdown', (e) => {
-    const t = (e.target as HTMLElement).closest('button');
-    if (!t || !el.contains(t)) return;
-    e.preventDefault();
-    if (t.id === 'btn-mute') { hooks.onMute?.(); hooks.vibrate?.(); return; }
-    if (t.id === 'btn-pause') { hooks.onPause?.(); hooks.vibrate?.(); return; }
-    try { el.setPointerCapture?.(e.pointerId); } catch { /* 離れたポインタは掴み直さない */ }
-    const isPad = !!t.closest('.pad-cluster');
-    pads.set(e.pointerId, isPad);
-    const fromPad = dirAt(e) ?? (t.dataset.a as Action);
-    set(e.pointerId, isPad ? fromPad : (t.dataset.a as Action));
-    hooks.vibrate?.();
-    hooks.tap?.();
-  });
-  el.addEventListener('pointermove', (e) => {
-    if (pads.get(e.pointerId)) set(e.pointerId, dirAt(e));
-  });
-  const up = (e: PointerEvent) => { set(e.pointerId, null); pads.delete(e.pointerId); };
-  el.addEventListener('pointerup', up);
-  el.addEventListener('pointercancel', up);
-  el.addEventListener('contextmenu', (e) => e.preventDefault());
-  input.lastKind = 'touch';
-  void ACTIONS;
-  return { show(on) { el.hidden = !on; } };
 }

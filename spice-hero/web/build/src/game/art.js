@@ -111,6 +111,28 @@ export const TILES = {
     jungle: (c, g) => { r(c, 0, 0, 16, 16, '#2f6f2a'); noise(c, g, ['#1f5a1c', '#478a3a', '#6cae52'], 26); r(c, 6, 2, 4, 6, '#1b4d19'); },
     marble: (c) => { r(c, 0, 0, 16, 16, '#f2f2f5'); r(c, 0, 0, 16, 1, '#d5d5de'); r(c, 0, 8, 16, 1, '#d5d5de'); r(c, 8, 0, 1, 16, '#d5d5de'); },
     castle_rock: (c, g) => { r(c, 0, 0, 16, 16, '#6a4a3a'); noise(c, g, ['#7e5a46', '#523626', '#8e6a52'], 20); },
+    // ワニの がんくつ
+    cave_floor: (c, g) => { r(c, 0, 0, 16, 16, '#4a3a5a'); noise(c, g, ['#584666', '#3a2c48', '#655074'], 18); },
+    cave_wall: (c, g) => {
+        r(c, 0, 0, 16, 16, '#2a2036');
+        noise(c, g, ['#3a2e4a', '#1e1628'], 14);
+        r(c, 0, 0, 16, 2, '#4a3a5a');
+        r(c, 0, 14, 16, 2, '#160f1e');
+    },
+    cave_pool: (c, g) => {
+        r(c, 0, 0, 16, 16, '#1f4a6e');
+        for (let i = 0; i < 5; i++)
+            r(c, Math.floor(g() * 12), Math.floor(g() * 16), 4, 1, '#2f6f9e');
+        r(c, 3, 4, 3, 1, '#7fd0f0');
+        r(c, 9, 11, 4, 1, '#7fd0f0');
+    },
+    cave_stair: (c) => {
+        r(c, 0, 0, 16, 16, '#3a2c48');
+        for (let i = 0; i < 4; i++) {
+            r(c, 1 + i, 2 + i * 4, 14 - i * 2, 3, '#6a5a7a');
+            r(c, 1 + i, 5 + i * 4, 14 - i * 2, 1, '#241a30');
+        }
+    },
 };
 export const TILE_NAMES = Object.keys(TILES);
 export function drawPerson(c, look, dir, frame) {
